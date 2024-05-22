@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutboundSetupRest_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// The datacountract for setting out a rest integration
+/// </summary>
+[DataContract('Outbound_Rest')]
+public class IntegrationOutboundSetupRest_INT
+{
+
+    private str contentType;
+    private str method;
+    private str url;
+    private str timeout;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmTimeOut</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The timeout for the restcall
+    /// </summary>
+    /// <param name = "_timeOut">The timeout</param>
+    /// <returns>the timeout</returns>
+    [IntegrationOutboundSetupAttribute_INT('Timeout','0')]
+    public str parmTimeOut(str _timeOut = _timeOut)
+    {
+        timeOut = _timeOut;
+        return timeout;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmContentType</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Type of the content to be send with the rest call
+    /// </summary>
+    /// <param name = "_contentType">The content type</param>
+    /// <returns>The content type</returns>
+    [IntegrationOutboundSetupAttribute_INT('ContentType','application/json')]
+    public str parmContentType(str _contentType = contentType)
+    {
+        contentType = _contentType;
+        return contentType;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmMethod</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The method POST/GET/PUT etc
+    /// </summary>
+    /// <param name = "_method">The method</param>
+    /// <returns>The method</returns>
+    [IntegrationOutboundSetupAttribute_INT('Method','POST')]
+    public str parmMethod(str _method = method)
+    {
+        method = _method;
+        return method;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmUrl</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The endpoint for the request
+    /// </summary>
+    /// <param name = "_url">The url</param>
+    /// <returns>The url</returns>
+    [IntegrationOutboundSetupAttribute_INT('URL')]
+    public str parmUrl(str _url = url)
+    {
+        url = _url;
+        return url;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getUri</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Builds a URI from the url
+    /// </summary>
+    /// <returns>an URI</returns>
+    public System.Uri getUri()
+    {
+        return new System.Uri(url);
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTimeOut</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Converts the timeout str to an int
+    /// </summary>
+    /// <returns>The timeout value</returns>
+    public int getTimeOut()
+    {
+        return str2Int(timeout);
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

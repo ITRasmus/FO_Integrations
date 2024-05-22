@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetup_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Helper methods for translation the setup to classes
+/// </summary>
+public class IntegrationSetup_INT extends common
+{
+    
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Common findmethod for IntegrationSetup_INT
+    /// </summary>
+    /// <param name = "_integrationName">The integrationSetup to find</param>
+    /// <param name = "_forupdate">ForUpdate ?</param>
+    /// <returns>the setup if found</returns>
+    public static IntegrationSetup_INT find(IntegrationName_Int _integrationName, boolean _forupdate = false)
+    {
+        IntegrationSetup_INT integration;
+
+        if (_integrationName)
+        {
+            if (_forUpdate)
+            {
+                integration.selectForUpdate(_forUpdate);
+            }
+
+            select firstonly integration               
+                where integration.Name == _integrationName;
+        }
+
+        return integration;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createIntegration</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Creates an integrationobject based on the setup
+    /// </summary>
+    /// <param name = "_company">The company to pass along</param>
+    /// <param name = "_payload">The payload to pass along</param>
+    /// <returns>An integration class</returns>
+    public Integration_INT createIntegration(str _company, str _payload)
+    {
+        Integration_INT o = IntegrationSetup_INT::createInstanceOfIntegrationClass(this);
+        
+        o.parmCompany(_company);
+        o.parmPayload(_payload);
+        o.parmIntegrationSetup(this);
+        return o;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createInstanceOfIntegrationClass</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Helper method for creating instanes
+    /// </summary>
+    /// <param name = "_setup">The integration setup</param>
+    /// <returns>the integration</returns>
+    private static Integration_INT createInstanceOfIntegrationClass(IntegrationSetup_INT _setup)
+    {
+        if(_setup.ClassName == '')
+        {
+            throw error(strFmt("@Integrations_INT:NoClassAssigned",_setup.Name));
+        }
+        int classId = className2Id(_setup.ClassName);
+        if(classId == 0)
+        {
+            throw error(strFmt("@Integrations_INT:ClassNotConverted",_setup.ClassName));
+        }
+        
+        DictClass c = new DictClass(classId);
+        Integration_INT o  = c.makeObject();
+        return o;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getAsyncPullType</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Get the async pull type to return when a integration request a result
+    /// </summary>
+    /// <param name = "_name">The name of integration</param>
+    /// <returns>The ClassId of the contract to use</returns>
+    public static ClassId getAsyncPullType(str _name)
+    {
+
+        IntegrationSetup_INT integrationSetup;
+        IntegrationInboundAsyncPull_INT asyncPull;
+
+        select firstonly integrationSetup
+            where integrationSetup.Name;
+        if(!integrationSetup)
+        {
+            Throw  error(strFmt("@Integrations_INT:IntegrationNotFound",_name));
+        }
+        
+        Integration_INT integration = IntegrationSetup_INT::createInstanceOfIntegrationClass(integrationSetup);
+        
+        if(integration is IntegrationInboundAsyncPull_INT)
+        {
+            asyncPull = integration as IntegrationInboundAsyncPull_INT;
+        }
+        else
+        {
+            throw error(strfmt("@Integrations_INT:NoSupportForAsyncPull",_name));
+        }
+        
+        return asyncPull.getReturnClassId();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createSetup</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Creates setup data used for the integration
+    /// </summary>
+    public  static void createSetup()
+    {
+
+        IntegrationSetup_INT integrationSetup;
+
+        DictClass integrationClasses = new DictClass(className2Id('Integration_INT'));
+
+        List integrationClassExtends = integrationClasses.extendedBy(true);
+
+        ListEnumerator listEnum = integrationClassExtends.getEnumerator();
+
+        while(listEnum.moveNext())
+        {
+            DictClass inteClass = new DictClass(listEnum.current());
+            if(!inteClass.isAbstract())
+            {
+
+                select firstonly integrationSetup
+                    where integrationSetup.ClassName == inteClass.name();
+
+                if(!integrationSetup)
+                {
+                    Integration_INT instance = inteClass.makeObject();
+                    integrationSetup.Direction = instance.Direction();
+                    integrationSetup.ClassName = inteClass.name();
+                    integrationSetup.Name = instance.DefaultName();
+                    if(inteClass.getExtensionClassName(1) == 'IntegrationInboundAsyncPull_INT')
+                    {
+                        integrationSetup.SupportsAsync = true;
+                    }
+                    integrationSetup.insert();
+                }
+            }
+
+        }
+
+
+
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<DeveloperDocumentation>@Integrations_INT:IntegrationSetupDevDoc</DeveloperDocumentation>
+	<Label>@Integrations_INT:IntegrationSetup</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TitleField1>Name</TitleField1>
+	<TitleField2>ClassName</TitleField2>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<ReplacementKey>NameIdx</ReplacementKey>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>IntegrationRequest_INT</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation></Relation>
+			<Table>IntegrationRequest_INT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>ClassName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>SupportsAsync</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>OutBoundIntegrationName</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IntegrationType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ClassName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ClassName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Name</Name>
+			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ClassName</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>ClassName</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>Direction</Name>
+			<AllowEdit>No</AllowEdit>
+			<AllowEditOnCreate>No</AllowEditOnCreate>
+			<EnumType>IntegrationDirection_INT</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>IntegrationType</Name>
+			<EnumType>IntegrationType_INT</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>SupportsAsync</Name>
+			<AllowEdit>No</AllowEdit>
+			<AllowEditOnCreate>No</AllowEditOnCreate>
+			<ExtendedDataType>IntegrationSupportsAsync_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>OutBoundIntegrationName</Name>
+			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:OutBoundIntegration</Label>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>IntegrationIdx</Name>
+			<AllowDuplicates>Yes</AllowDuplicates>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>ClassName</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+		<AxTableIndex>
+			<Name>NameIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>Name</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations>
+		<AxTableRelation>
+			<Name>OutBoundIntegration</Name>
+			<Cardinality>ZeroMore</Cardinality>
+			<RelatedTable>IntegrationSetup_INT</RelatedTable>
+			<RelatedTableCardinality>ZeroOne</RelatedTableCardinality>
+			<RelationshipType>Association</RelationshipType>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>ClassName</Name>
+					<Field>ClassName</Field>
+					<RelatedField>OutBoundIntegrationName</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationAsyncService_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Service class for async processing
+/// </summary>
+public class IntegrationAsyncService_INT extends SysOperationServiceBase
+{
+    private IntegrationRequest_INT request;
+    private IntegrationRequestData_INT requestData;
+    private IntegrationSetup_INT setup;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for processing an async integration
+    /// </summary>
+    /// <param name = "_contract">the parameters for the processing</param>
+    public void process(IntegrationAsyncContract_INT _contract)
+    {
+        
+        select firstonly request
+            where request.Identifier == _contract.parmIdentifier()
+            outer join setup
+            where setup.Name == request.Name
+            outer join requestData
+            where requestData.Identifier == _contract.parmIdentifier()
+            && requestData.RunIdentifier == _contract.parmRunIdentifier();
+
+
+
+        if(!request)
+        {
+            throw error(strFmt("@Integrations_INT:UnknownIdentifier",_contract.parmIdentifier()));
+        }
+        
+        if(!setup)
+        {
+            throw error(strFmt("@Integrations_INT:MissingSetup",request.Name,_contract.parmIdentifier()));
+        }
+        
+        if(!requestData)
+        {
+            throw error(strFmt("@Integrations_INT:MissingData",setup.Name,_contract.parmIdentifier(),_contract.parmRunIdentifier()));
+        }
+        IntegrationSetup_INT outboundSetup;
+
+        
+        if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
+        {
+            outboundSetup = IntegrationSetup_INT::find(setup.OutBoundIntegrationName);
+            if(!outboundSetup)
+            {
+                throw error("skdflksdfl");
+            }
+        }
+
+
+        Integration_INT  integration = setup.createIntegration(request.company,requestData.Input);
+
+        IntegrationReturnable_INT result = IntegrationHandler_INT::HandleAsyncEvent(integration);
+        if(result.parmException() != '')
+        {
+            throw error(result.parmException());
+        }
+
+        if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
+        {
+            Integration_INT outboundIntegration = outboundSetup.createIntegration(request.company,result.Serialize());
+            IntegrationHandler_INT::HandleEvent(outboundIntegration);
+        }
+
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

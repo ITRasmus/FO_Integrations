@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationInboundAsyncPull_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// For supporting a async pull the integration class must specifi with datacontract it should return
+/// </summary>
+public abstract class IntegrationInboundAsyncPull_INT extends IntegrationInbound_INT
+{
+    
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>getReturnClassId</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Must return the ClassId to return to the pull request
+    /// </summary>
+    /// <returns>A ClassId of an object of type IntegrationReturnable_INT </returns>
+    public abstract int getReturnClassId()
+    {
+
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

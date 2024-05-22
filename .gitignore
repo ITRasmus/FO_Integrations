@@ -21,4 +21,4 @@
 /Metadata/FO_Integrations_Test/BuildProjectResult.xml
 /Projects/FO_Integrations/*/obj/Debug
 /Projects/*/obj/Debug
-/Projects/.vs/FO_Integrations
+/Projects/**/.vs

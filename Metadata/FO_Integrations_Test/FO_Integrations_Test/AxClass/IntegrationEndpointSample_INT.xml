@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpointSample_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Testing class for testing integration
+/// </summary>
+internal final class IntegrationEndpointSample_INT extends IntegrationInbound_INT
+{
+    #IntegrationTests
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests integration
+    /// </summary>
+    /// <param name = "_input">the input recieved</param>
+    /// <returns>the result of the integration</returns>
+    public IntegrationReturnable_INT process(IntegrationParseable_INT _input)
+    {
+
+        IntegrationEndpointSampleOut_INT returnValue = new IntegrationEndpointSampleOut_INT();
+
+
+        returnValue.parmCompany(this.parmCompany());
+        returnValue.parmIndentifier(this.parmIdentifier());
+        returnValue.parmIntegrationName(this.parmIntegrationSetup().Name);
+        returnValue.parmPayload(this.parmPayload());
+
+        return returnValue;
+
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DataContractIdentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The datacontract that is needed
+    /// </summary>
+    /// <returns>the classid</returns>
+    public ClassId DataContractIdentifier()
+    {
+        return className2Id('IntegrationEndpointSampleIn_INT');
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DefaultName</Name>
+				<Source><![CDATA[
+    public str DefaultName()
+    {
+        return #IntegrationSampleName;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

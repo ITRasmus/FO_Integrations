@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>Integration_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Primary class for running an Integration
+/// Creating a default integration, If the integration needs to be used with the generic endpoint, then this must be exteneded
+/// </summary>
+public abstract class Integration_INT
+{
+    private DataAreaId company;
+    private str payload;
+    private guid identifier;
+    private IntegrationSetup_INT integrationSetup;
+    private guid relatedRequest;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    protected void New()
+    {
+        identifier = newGuid();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmIdentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The identifier assigned to the instance during execution
+    /// </summary>
+    /// <param name = "_identifier">The identifier</param>
+    /// <returns>The identifier</returns>
+    public guid parmIdentifier(guid _identifier = identifier)
+    {
+        identifier = _identifier;
+        return identifier;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCompany</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The company the instnance needs to run under
+    /// The framework does not handle the company change, this must been done manual if there is a need for this
+    /// </summary>
+    /// <param name = "_company">The Company</param>
+    /// <returns>The Company</returns>
+    public DataAreaId parmCompany(DataAreaId _company = company)
+    {
+        company = _company;
+        return company;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmIntegrationSetup</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The integration setup identifier for the execution
+    /// </summary>
+    /// <param name = "_integrationSetup">The setup</param>
+    /// <returns>The setup</returns>
+    public IntegrationSetup_INT parmIntegrationSetup(IntegrationSetup_INT _integrationSetup = integrationSetup)
+    {
+        integrationSetup = _integrationSetup;
+        return integrationSetup;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmPayload</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The payload there was recieved for the execution
+    /// </summary>
+    /// <param name = "_payload">The payload</param>
+    /// <returns>The payload</returns>
+    public str parmPayload(str _payload = payload)
+    {
+        payload = _payload;
+        return payload;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The method that does the acutal processing.
+    /// </summary>
+    /// <param name = "_input">The datacontract</param>
+    /// <returns>The result of the processing</returns>
+    public abstract IntegrationReturnable_INT process(IntegrationParseable_INT _input) {}
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DataContractIdentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Must return the ClassID for the datacontract needed for the integration
+    /// </summary>
+    /// <returns>A ClassID</returns>
+    public abstract ClassId DataContractIdentifier()
+    {
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>Direction</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// What direction is the integration
+    /// </summary>
+    /// <returns>The direction</returns>
+    public abstract IntegrationDirection_INT Direction()
+    {
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DefaultName</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Override if integration should be created with another name than default
+    /// </summary>
+    /// <returns>The defaultName the integration will be created with</returns>
+    public str DefaultName()
+    {
+        return this.GetType().Name;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getRelatedRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets the identifier for a related request
+    /// </summary>
+    /// <returns>The related request identifier</returns>
+    public guid getRelatedRequest()
+    {
+        return relatedRequest;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

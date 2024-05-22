@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetupValue_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// 
+/// </summary>
+public class IntegrationSetupValue_INT extends common
+{
+
+    #Define.IntegrationAttributeName('IntegrationOutboundSetupAttribute_INT')
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>removeOldValues</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Removes all previus setup values for the integration
+    /// </summary>
+    /// <param name = "_className">The integrationTo remove setup for</param>
+    public static void removeOldValues(ClassName _className)
+    {
+        IntegrationSetupValue_INT value;
+
+        delete_from value
+            where value.ClassName == _className;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createValuesFromContract</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Creates the default setup values for the type
+    /// </summary>
+    /// <param name = "_className">The integration to create the records for</param>
+    /// <param name = "_values">The setup to create them for</param>
+    public static void createValuesFromContract(ClassName _className, IntegrationOutboundSetup_INT _values)
+    {
+        DictClass theClass;
+        DictMethod theMethod;
+        IntegrationSetupValue_INT value;
+
+        int classId = classIdGet(_values);
+        theClass = new DictClass(classId);
+        int methodCount = theClass.objectMethodCnt();
+        int counter = 1;
+        while(counter < methodCount)
+        {
+            theMethod = theClass.objectMethodObject(counter);
+            IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
+                
+            if(integrationAttribute)
+            {
+                value.clear();
+                value.ClassName = _className;
+                value.Id = integrationAttribute.Name();
+                value.Value = integrationAttribute.DefaultValue();
+                value.insert();
+            }
+            counter ++;
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createContractWithValues</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Creates a object to used for outbound integration based on values in the setup.
+    /// </summary>
+    /// <param name = "_classId">The classid the object should be type of</param>
+    /// <param name = "_className">The name of the integration to get the values from</param>
+    /// <returns>A created object with the values from the setup</returns>
+    public Object createContractWithValues(int _classId, ClassName _className)
+    {
+        
+        DictClass theClass;
+        DictMethod theMethod;
+        IntegrationSetupValue_INT value;
+        Object contract;
+        
+        theClass = new DictClass(_classId);
+        contract = theClass.makeObject();
+        int methodCount = theClass.objectMethodCnt();
+        int counter = 1;
+        while(counter <= methodCount)
+        {
+            theMethod = theClass.objectMethodObject(counter);
+            IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
+                
+            if(integrationAttribute)
+            {
+                select firstonly value
+                    where value.ClassName == _className
+                    && value.Id == integrationAttribute.Name();
+                if(value)
+                {
+                    if(theMethod.parameterCnt() == 1)
+                    {
+                        if(theMethod.parameterType(1) == Types::String)
+                        {
+                            theClass.callObject(theMethod.name(),contract,value.Value);
+                        }
+                    }
+                }
+                    
+            }
+            counter ++;
+        }
+        return contract;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<DeveloperDocumentation>@Integrations_INT:IntegrationSetupValueDevDoc</DeveloperDocumentation>
+	<Label>@Integrations_INT:IntegrationSetupValue</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TitleField1>ClassName</TitleField1>
+	<TitleField2>Id</TitleField2>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<ReplacementKey>IntegrationAndIdIdx</ReplacementKey>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Value</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Value</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ClassName</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Value</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Value</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IsSecret</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Id</Name>
+			<ExtendedDataType>IntegrationSetupValueId_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Value</Name>
+			<ExtendedDataType>IntegrationSetupValueValue_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>IsSecret</Name>
+			<ExtendedDataType>IntegrationIsSecret_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ClassName</Name>
+			<ExtendedDataType>ClassName</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>IntegrationAndIdIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>ClassName</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>Id</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

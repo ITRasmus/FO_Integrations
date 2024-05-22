@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtUtcDateTime">
+	<Name>IntegrationDateTimeStamp_INT</Name>
+	<HelpText>@Integrations_INT:TimestampHelp</HelpText>
+	<Label>@Integrations_INT:Timestamp</Label>
+	<ArrayElements />
+	<Relations />
+	<TableReferences />
+</AxEdt>

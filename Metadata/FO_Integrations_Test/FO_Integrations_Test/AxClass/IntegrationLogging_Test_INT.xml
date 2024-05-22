@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationLogging_Test_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for the logging framework
+/// </summary>
+internal final class IntegrationLogging_Test_INT extends SysTestCase
+{
+    #IntegrationTests
+    
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TestLoggingCreate</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Test the creation of a log
+    /// </summary>
+    [SysTestMethod, Hookable(false)]
+    public void TestLoggingCreate()
+    {
+        IntegrationRequest_INT request;
+        IntegrationSetup_INT setup;
+        select firstonly setup
+            where setup.Name == #IntegrationSampleName;
+        this.assertNotNull(setup);
+        
+        guid id = newGuid();
+        guid runid = newGuid();
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#JustACompany,emptyGuid());
+
+        log.initLog(#Payload);
+
+        select firstonly request
+            where request.Identifier == id;
+        this.assertNotNull(request);
+        this.assertEquals(#JustACompany,request.Company);
+        this.assertEquals(#IntegrationSampleName,setup.Name);
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestLoggingData</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Test logging of data
+    /// </summary>
+    public void TestLoggingData()
+    {
+        IntegrationRequestData_INT requestData;
+        IntegrationSetup_INT setup;
+        select firstonly setup
+            where setup.Name == #IntegrationSampleName;
+        this.assertNotNull(setup);
+
+        guid id = newGuid();
+        guid runid = newGuid();
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#JustACompany);
+
+        log.initLog(#Payload);
+
+
+        select firstonly requestData
+            where requestData.Identifier == id 
+            && requestData.RunIdentifier == runid;
+
+        this.assertNotNull(requestData);
+        this.assertEquals(#Payload,requestData.Input);
+            
+        runid = newGuid();
+
+        select firstonly requestData
+            where requestData.Identifier == id  
+            && requestData.RunIdentifier == runid;
+        this.assertNull(requestData);
+
+        log = IntegrationLogging_INT::constructFromValues(setup.name,id,runid,#JustACompany);
+        log.initLog(#payload2);
+
+        select firstonly requestData
+            where requestData.Identifier == id
+            && requestData.RunIdentifier == runid;
+        this.assertNotNull(requestData);
+        this.assertEquals(#Payload2,requestData.Input);
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setupTestCase</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Uses default test data
+    /// </summary>
+    public void setupTestCase()
+    {
+        IntegrationSetup_INT::createSetup();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Extends>IntegrationParseable_INT</Extends>
+	<IsPublic>true</IsPublic>
+	<Members>
+		<AxClassMemberVariable>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>demoKeyword1</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>demoKeyword2</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>parmDemoKeyword1</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>DataMember</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'Keyword1'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+				<AxAttribute>
+					<Name>IntegrationKeywordAttribute_INT</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<Type>Int32</Type>
+							<TypeValue>1</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<DefaultValue>demoKeyword1</DefaultValue>
+					<Name>_demoKeyword1</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>parmDemoKeyword2</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>DataMember</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'Keyword2'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+				<AxAttribute>
+					<Name>IntegrationKeywordAttribute_INT</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<Type>Int32</Type>
+							<TypeValue>2</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<DefaultValue>demoKeyword2</DefaultValue>
+					<Name>_demoKeyword2</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

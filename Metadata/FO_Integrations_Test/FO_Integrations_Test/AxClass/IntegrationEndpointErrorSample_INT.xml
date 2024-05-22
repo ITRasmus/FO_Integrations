@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpointErrorSample_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Class for testing errors done while processing a request 
+/// </summary>
+internal final class IntegrationEndpointErrorSample_INT extends IntegrationInbound_INT
+{
+
+    #Integrationtests
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The method to do the actual work
+    /// </summary>
+    /// <param name = "_input">The input to process</param>
+    /// <returns>Nothing due to the error</returns>
+    public IntegrationReturnable_INT process(IntegrationParseable_INT _input)
+    {
+        if(true) //To avoid bp error
+        {
+            throw Global::error(#IntegrationErrorMessage);
+        }
+        return new IntegrationReturnable_INT();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DataContractIdentifier</Name>
+				<Source><![CDATA[
+    public ClassId DataContractIdentifier()
+    {
+        return className2Id('IntegrationEndpointErrorIn_INT');
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DefaultName</Name>
+				<Source><![CDATA[
+    public str DefaultName()
+    {
+        return #IntegrationNameError;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

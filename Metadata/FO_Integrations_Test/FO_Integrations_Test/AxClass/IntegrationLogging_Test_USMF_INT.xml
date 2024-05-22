@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationLogging_Test_USMF_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for testing userconnections used in logging
+/// </summary>
+[SysTestCaseDataDependencyAttribute('USMF'),SysTestTransaction(TestTransactionMode::None)]
+internal final class IntegrationLogging_Test_USMF_INT extends SysTestCase
+{
+    #IntegrationTests
+
+    IntegrationSetup_INT setup;
+ 
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>testTransactionScopeAbort</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests logging in a transaction scope
+    /// </summary>
+    public void testTransactionScopeAbort()
+    {
+        ttsbegin;
+        IntegrationRequest_INT request;
+                
+        guid id = newGuid();
+        guid runid = newGuid();
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#USMF);
+
+        log.initLog(#Payload);
+        ttsabort;
+        select firstonly request
+            where request.Identifier == id;
+        this.assertNotNull(request);
+ 
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>testTransactionScopeException</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests logging in a transaction scope
+    /// </summary>
+    public void testTransactionScopeException()
+    {
+        guid id = newGuid();
+        guid runid = newGuid();
+        IntegrationLogging_INT log;
+        IntegrationRequest_INT request;
+        try
+        {
+            ttsbegin;
+       
+            log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#USMF);
+
+            log.initLog(#Payload);
+            if(true) //To avoid BP Error
+            {
+                throw Global::error('Unexpected Error');
+            }
+            ttscommit;
+            
+        }
+        catch (Exception::Error)
+        {
+            select firstonly request
+            where request.Identifier == id;
+            this.assertNotNull(request);
+
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setupTestCase</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Uses default test setup
+    /// </summary>
+    public void setupTestCase()
+    {
+        IntegrationSetup_INT::createSetup();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

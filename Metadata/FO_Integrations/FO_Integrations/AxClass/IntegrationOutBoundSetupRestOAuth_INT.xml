@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutBoundSetupRestOAuth_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Datacontract for createing an outbound rest Oauth call
+/// </summary>
+[DataContract('Outbound_RestOAuth')]
+public class IntegrationOutBoundSetupRestOAuth_INT extends IntegrationOutBoundSetupRest_INT
+{
+
+    private str clientId;
+    private str resource;
+    private str secret;
+    private str authUrl;
+    private str scope;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmClientId</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The clientId for the Oauth token
+    /// </summary>
+    /// <param name = "_clientId">The clientId</param>
+    /// <returns>The clientId</returns>
+    [IntegrationOutboundSetupAttribute_INT('ClientId','')]
+    public str parmClientId(str _clientId = clientId)
+    {
+        clientId = _clientId;
+        return clientId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmScope</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The scope for the OauthToken
+    /// </summary>
+    /// <param name = "_scope">The resource</param>
+    /// <returns>The resource</returns>
+    [IntegrationOutboundSetupAttribute_INT('Scope','')]
+    public str parmScope(str _scope = scope)
+    {
+        scope = _scope;
+        return scope;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmResource</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The resoruce for the OAuth token
+    /// </summary>
+    /// <param name = "_resource">The resource</param>
+    /// <returns>The resource</returns>
+    [IntegrationOutboundSetupAttribute_INT('Resource','')]
+    public str parmResource(str _resource = resource)
+    {
+        resource = _resource;
+        return resource;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSecret</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The secret for the OAuth token
+    /// </summary>
+    /// <param name = "_secret">The secret</param>
+    /// <returns>The secret</returns>
+    [IntegrationOutboundSetupAttribute_INT('Secret','',true)]
+    public str parmSecret(str _secret = secret)
+    {
+        secret = _secret;
+        return secret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmAuthUrl</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The auth url for the request token
+    /// </summary>
+    /// <param name = "_authUrl">The auth url</param>
+    /// <returns>The auth url</returns>
+    [IntegrationOutboundSetupAttribute_INT('AuthUrl','https://login.microsoftonline.com/????/oauth2/token')]
+    public str parmAuthUrl(str _authUrl = authUrl)
+    {
+        authUrl = _authUrl;
+        return authUrl;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getAuthValue</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets the Auth value needed for for creating a oauth token
+    /// </summary>
+    /// <returns>the payload needed</returns>
+    public str getAuthValue()
+    {
+
+        str grant_type= 'grant_type=client_credentials';
+        str client_secret = strFmt('client_secret=%1',this.parmSecret());
+        str local_resource = strFmt('resource=%1',System.Web.HttpUtility::UrlEncode(this.parmResource()));
+        str client_id = strFmt('client_id=%1',this.parmClientId());
+        str local_scope = strFmt('scope=%1',this.parmScope());
+
+
+        str payload = grant_type + '&' + client_id + '&' + client_secret;
+
+        if(this.parmScope() != '')
+        {
+            payload += '&' + local_scope;
+        }
+        if(this.parmResource() != '')
+        {
+            payload += '&' + local_resource;
+        }
+        return payload;
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

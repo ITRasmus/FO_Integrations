@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationReturnable_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// The result from everyIntegration, extend it for an integration implementation that needs more values
+/// </summary>
+[DataContract]
+public class IntegrationReturnable_INT
+{
+    private str exception;
+    private str stacktrace;
+    protected guid identifier;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmException</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The Exception if any
+    /// </summary>
+    /// <param name = "_exception">the exception</param>
+    /// <returns>the exception</returns>
+    [DataMember('Exception')]
+    public  str parmException(str _exception = exception)
+    {
+        exception = _exception;
+        return exception;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmStacktrace</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The stack trace if there was an error
+    /// </summary>
+    /// <param name = "_stacktrace">The stacktrace</param>
+    /// <returns>The stacktrace</returns>
+    [DataMember('Stacktrace')]
+    public str parmStacktrace(str _stacktrace = stacktrace)
+    {
+        stacktrace = _stacktrace;
+        return stacktrace;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmIndentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The identifier assigned to integration
+    /// </summary>
+    /// <param name = "_identifier">the identifier</param>
+    /// <returns>the identifier</returns>
+    [DataMember('Identifier')]
+    public guid parmIndentifier(guid _identifier = identifier)
+    {
+        identifier = _identifier;
+        return identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>deSerialize</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// deserializes a value into an object
+    /// </summary>
+    /// <param name = "_value">The value</param>
+    /// <returns>An object of the same type with the values</returns>
+    public IntegrationReturnable_INT deSerialize(str _value)
+    {
+        int classid = classIdGet(this);
+
+        return FormJsonSerializer::deserializeObject(classid,_value);
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>Serialize</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// SerializesIntoJson
+    /// </summary>
+    /// <returns>the object as json</returns>
+    public str Serialize()
+    {
+        return FormJsonSerializer::serializeClass(this);
+
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createFromException</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Create an return object from an exception
+    /// </summary>
+    /// <param name = "_ex">The exception</param>
+    /// <param name = "_identifier">The identifier for the request</param>
+    /// <returns>a returnable object</returns>
+    public static IntegrationReturnable_INT createFromException(System.Exception _ex,guid _identifier)
+    {
+        IntegrationReturnable_INT result = new IntegrationReturnable_INT();
+
+        result.parmException(_ex.Message);
+        System.Exception innerException;
+        if(_ex.InnerException != null)
+        {
+            innerException = _ex.InnerException;
+            result.parmException(result.parmException()+ '...InnerException : ' + innerException.Message);
+        }
+        result.parmStacktrace(_ex.StackTrace.ToString());
+        result.parmIndentifier(_identifier);
+        return result;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

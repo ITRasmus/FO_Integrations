@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<IsAbstract>true</IsAbstract>
+	<IsPublic>true</IsPublic>
+	<Attributes>
+		<AxAttribute>
+			<Name>DataContract</Name>
+			<Parameters />
+		</AxAttribute>
+	</Attributes>
+	<Members>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>keyword1</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>keyword2</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>keyword3</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>getKeyword1</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>getKeyword2</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>getKeyword3</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>setKeywords</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

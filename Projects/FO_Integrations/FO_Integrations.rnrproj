@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>FO_Integrations</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{216d8d23-82bb-434b-855b-6addce04cb90}</ProjectGuid>
+    <Name>FO_Integrations</Name>
+    <RootNamespace>FO_Integrations</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>False</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="AxClass\IntegrationAsyncContract_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncContract_INT</Name>
+      <Link>Batch\IntegrationAsyncContract_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationAsyncScheduletDC_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncScheduletDC_INT</Name>
+      <Link>Batch\IntegrationAsyncScheduletDC_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationAsyncServiceController_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncServiceController_INT</Name>
+      <Link>Batch\IntegrationAsyncServiceController_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationAsyncService_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncService_INT</Name>
+      <Link>Batch\IntegrationAsyncService_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpoint_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpoint_INT</Name>
+      <Link>Service\IntegrationEndpoint_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationHandler_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationHandler_INT</Name>
+      <Link>Controller\IntegrationHandler_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInboundAsyncPull_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInboundAsyncPull_INT</Name>
+      <Link>Abstracts\IntegrationInboundAsyncPull_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInbound_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInbound_INT</Name>
+      <Link>Abstracts\IntegrationInbound_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationKeywordAttribute_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationKeywordAttribute_INT</Name>
+      <Link>Attributes\IntegrationKeywordAttribute_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationLogging_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationLogging_INT</Name>
+      <Link>Controller\IntegrationLogging_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutBoundRest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutBoundRest_INT</Name>
+      <Link>Outbound\IntegrationOutBoundRest_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundSetupAttribute_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundSetupAttribute_INT</Name>
+      <Link>Attributes\IntegrationOutboundSetupAttribute_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundSetupRestBasic_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundSetupRestBasic_INT</Name>
+      <Link>Outbound\IntegrationOutboundSetupRestBasic_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutBoundSetupRestOAuth_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutBoundSetupRestOAuth_INT</Name>
+      <Link>Outbound\IntegrationOutBoundSetupRestOAuth_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundSetupRest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundSetupRest_INT</Name>
+      <Link>Outbound\IntegrationOutboundSetupRest_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundSetup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundSetup_INT</Name>
+      <Link>Abstracts\IntegrationOutboundSetup_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutbound_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutbound_INT</Name>
+      <Link>Abstracts\IntegrationOutbound_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationParseable_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationParseable_INT</Name>
+      <Link>Common\IntegrationParseable_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationReturnable_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationReturnable_INT</Name>
+      <Link>Common\IntegrationReturnable_INT</Link>
+    </Content>
+    <Content Include="AxClass\Integration_INT">
+      <SubType>Content</SubType>
+      <Name>Integration_INT</Name>
+      <Link>Abstracts\Integration_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationCompany_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationCompany_INT</Name>
+      <Link>DataTypes\IntegrationCompany_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationDateTimeStamp_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationDateTimeStamp_INT</Name>
+      <Link>DataTypes\IntegrationDateTimeStamp_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationError_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationError_INT</Name>
+      <Link>DataTypes\IntegrationError_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationException_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationException_INT</Name>
+      <Link>DataTypes\IntegrationException_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationExecutionCount_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationExecutionCount_INT</Name>
+      <Link>DataTypes\IntegrationExecutionCount_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationIdentifier_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationIdentifier_INT</Name>
+      <Link>DataTypes\IntegrationIdentifier_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationInput_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInput_INT</Name>
+      <Link>DataTypes\IntegrationInput_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationIsSecret_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationIsSecret_INT</Name>
+      <Link>DataTypes\IntegrationIsSecret_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationKeyword_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationKeyword_INT</Name>
+      <Link>DataTypes\IntegrationKeyword_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationName_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationName_INT</Name>
+      <Link>DataTypes\IntegrationName_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationOutput_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutput_INT</Name>
+      <Link>DataTypes\IntegrationOutput_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationRunIdentifier_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRunIdentifier_INT</Name>
+      <Link>DataTypes\IntegrationRunIdentifier_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSetupValueId_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupValueId_INT</Name>
+      <Link>DataTypes\IntegrationSetupValueId_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSetupValueValue_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupValueValue_INT</Name>
+      <Link>DataTypes\IntegrationSetupValueValue_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationStacktrace_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationStacktrace_INT</Name>
+      <Link>DataTypes\IntegrationStacktrace_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSupportsAsync_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSupportsAsync_INT</Name>
+      <Link>DataTypes\IntegrationSupportsAsync_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationDirection_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationDirection_INT</Name>
+      <Link>Base Enums\IntegrationDirection_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationState_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationState_INT</Name>
+      <Link>Base Enums\IntegrationState_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationType_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationType_INT</Name>
+      <Link>Base Enums\IntegrationType_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationRequest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequest_INT</Name>
+      <Link>UI\Forms\IntegrationRequest_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationSetup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetup_INT</Name>
+      <Link>UI\Forms\IntegrationSetup_INT</Link>
+    </Content>
+    <Content Include="AxLabelFile\Integrations_INT_en-US">
+      <SubType>Content</SubType>
+      <Name>Integrations_INT_en-US</Name>
+      <Link>Integrations_INT_en-US</Link>
+    </Content>
+    <Content Include="AxMenuExtension\MainMenu.FO_Integrations">
+      <SubType>Content</SubType>
+      <Name>MainMenu.FO_Integrations</Name>
+      <Link>MainMenu.FO_Integrations</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\IntegrationAsyncProcessing_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncProcessing_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationAsyncProcessing_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationParametersMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationParametersMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationParametersMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationRequestMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationRequestMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationsSetupMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationsSetupMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationsSetupMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenu\IntegrationsMenu_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationsMenu_INT</Name>
+      <Link>UI\Menu\IntegrationsMenu_INT</Link>
+    </Content>
+    <Content Include="AxServiceGroup\IntegrationServiceGroup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceGroup_INT</Name>
+      <Link>Service\IntegrationServiceGroup_INT</Link>
+    </Content>
+    <Content Include="AxService\IntegrationService_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationService_INT</Name>
+      <Link>Service\IntegrationService_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationParameters_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationParameters_INT</Name>
+      <Link>DataStructure\IntegrationParameters_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequestData_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestData_INT</Name>
+      <Link>DataStructure\IntegrationRequestData_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequestException_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestException_INT</Name>
+      <Link>DataStructure\IntegrationRequestException_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequest_INT</Name>
+      <Link>DataStructure\IntegrationRequest_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupValue_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupValue_INT</Name>
+      <Link>DataStructure\IntegrationSetupValue_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetup_INT</Name>
+      <Link>DataStructure\IntegrationSetup_INT</Link>
+    </Content>
+    <Content Include="Integrations_INT.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>Integrations_INT.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\Integrations_INT_en-US</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Base Enums\" />
+    <Folder Include="DataTypes" />
+    <Folder Include="DataStructure" />
+    <Folder Include="Abstracts" />
+    <Folder Include="Enums" />
+    <Folder Include="Controller" />
+    <Folder Include="Batch" />
+    <Folder Include="Attributes" />
+    <Folder Include="Common" />
+    <Folder Include="UI" />
+    <Folder Include="Outbound" />
+    <Folder Include="UI\Menu" />
+    <Folder Include="UI\Forms" />
+    <Folder Include="UI\Menu\MenuItems" />
+    <Folder Include="Service" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
+</Project>

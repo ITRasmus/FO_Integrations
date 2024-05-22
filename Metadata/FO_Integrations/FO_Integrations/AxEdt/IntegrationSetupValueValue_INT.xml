@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtString">
+	<Name>IntegrationSetupValueValue_INT</Name>
+	<HelpText>@Integrations_INT:ValueHelp</HelpText>
+	<Label>@Integrations_INT:Value</Label>
+	<ArrayElements />
+	<Relations />
+	<TableReferences />
+</AxEdt>

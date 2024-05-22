@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IgnoreDiagnostics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--
+	*************************************************************************************************************************
+	*** START OF XML SCHEMA
+	*************************************************************************************************************************
+	-->
+  <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" id="defaultSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <xsd:element name="Name" type="xsd:string" />
+    <xsd:element name="Items">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Diagnostic">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="DiagnosticType" type="xsd:string" />
+                <xsd:element name="Severity" type="xsd:string" />
+                <xsd:element name="Path" type="xsd:string" />
+                <xsd:element name="Moniker" type="xsd:string" />
+                <xsd:element name="Message" type="xsd:string" />
+                <xsd:element name="Justification" type="xsd:string" />
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+  </xs:schema>
+  <!--
+	*************************************************************************************************************************
+	*** START OF XML BODY
+	*************************************************************************************************************************
+	-->
+  <Name>FO_Integrations</Name>
+  <Items>
+    <!-- Diagnostic item template
+		<Diagnostic>
+			<DiagnosticType>BestPractices</DiagnosticType>
+			<Severity>Warning</Severity>
+			<Path>(path given in warning messsage)</Path>
+			<Moniker>(moniker given in error message)</Moniker>
+			<Message>(message displayed by the best practices)</Message>
+			<Justification>(a justification for why you are ignoring this message)</Justification>
+		</Diagnostic>
+		-->
+    <Diagnostic>
+      <DiagnosticType>BestPractices</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Class/AxClass_IntegrationLogging_Test_USMF_INT</Path>
+      <Moniker>BPWarningFormDesignOrControlsWithCustomPattern</Moniker>
+      <Message>The statement is unreachable</Message>
+      <Justification>Used for Testing</Justification>
+    </Diagnostic>
+     
+
+  </Items>
+</IgnoreDiagnostics>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutBoundRest_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using System.Net;
+/// <summary>
+/// Integration class for outbound restCalls
+/// </summary>
+public class IntegrationOutBoundRest_INT
+{
+    protected IntegrationOutBoundSetupRest_INT  setup;
+    protected HttpWebRequest webRequest;
+    protected System.Text.Encoding encoding;
+    private HttpStatusCode statusCode;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    /// <param name = "_setup">The setup to use in the request</param>
+    protected void New(IntegrationOutBoundSetupRest_INT _setup)
+    {
+
+        setup = _setup;
+        encoding = System.Text.Encoding::UTF8;
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getStatusCode</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets the status call for the last call
+    /// </summary>
+    /// <returns>The statuscode</returns>
+    public HttpStatusCode getStatusCode()
+    {
+        return statusCode;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Inits the request
+    /// </summary>
+    protected void initRequest()
+    {
+        webRequest =  System.Net.WebRequest::Create(setup.getUri());
+        webRequest.Method = setup.parmMethod();
+        webRequest.ContentType = setup.parmContentType();
+
+        if(setup.getTimeOut() > 0)
+        {
+            webRequest.timeout = setup.getTimeOut();
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setHeaders</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Sets the headers on the integration
+    /// </summary>
+    protected void setHeaders()
+    {
+
+        System.Net.WebHeaderCollection headerCollection = webRequest.Headers;
+        if(setup is IntegrationOutboundSetupRestBasic_INT)
+        {
+            IntegrationOutboundSetupRestBasic_INT basic = setup as IntegrationOutboundSetupRestBasic_INT;
+
+            headerCollection.Set('Authorization',basic.getAuthValue());
+        }
+        else if( setup is IntegrationOutBoundSetupRestOAuth_INT)
+        {
+            IntegrationOutBoundSetupRestOAuth_INT oauth = setup as IntegrationOutBoundSetupRestOAuth_INT;
+            str token = this.GetAuthenticationHeader(oauth);
+
+            headerCollection.Set('Authorization','Bearer ' + token);
+
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>GetAuthenticationHeader</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets an Authenticationheader for oauth Integration
+    /// Creates a new Outbound rest call of same instance for getting the oauth token
+    /// </summary>
+    /// <param name = "_oauth">The setup</param>
+    /// <returns>the access_token</returns>
+
+    private str GetAuthenticationHeader(IntegrationOutBoundSetupRestOAuth_INT _oauth)
+    {
+        IntegrationOutboundSetupRest_INT OauthSetup = new IntegrationOutboundSetupRest_INT();
+
+        OauthSetup.parmUrl(_oauth.parmAuthUrl());
+        OauthSetup.parmMethod('Post');
+        OauthSetup.parmContentType('application/x-www-form-urlencoded');
+
+        IntegrationOutBoundRest_INT outBoundRest = IntegrationOutBoundRest_INT::constructor(OauthSetup);
+        str payload = _oauth.getAuthValue();
+
+        str response = outBoundRest.process(payload);
+        Newtonsoft.Json.Linq.JObject JObject = Newtonsoft.Json.Linq.JObject::Parse(response);
+        if(!JObject)
+        {
+            throw Error("@Integrations_INT:ParseError",response);
+        }
+        Newtonsoft.Json.Linq.JToken access_token =  JObject.GetValue('access_token');
+
+        if(!access_token)
+        {
+            throw Error("@Integrations_INT:NoToken",response);
+        }
+        return  access_token.ToString();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>writeRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Writes the data to requestSteam
+    /// </summary>
+    /// <param name = "_payload">The payload to write</param>
+    protected void writeRequest(str _payload)
+    {
+        if(setup.parmMethod() != 'GET' && _payload != '')
+        {
+            System.IO.Stream requestStream;
+            System.Byte[] requestData = encoding.GetBytes(_payload);
+            webRequest.ContentLength = requestData.get_Length();
+            requestStream = webRequest.GetRequestStream();
+            requestStream.Write(requestData, 0, requestData.Length);
+        }
+        else
+        {
+            webRequest.ContentLength = 0;
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getResponse</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets the response from the request
+    /// </summary>
+    /// <returns>The response</returns>
+    protected str getResponse()
+    {
+        HttpWebResponse      webResponse;
+        System.IO.Stream				responseStream;
+        System.IO.StreamReader			responseReader;
+        str response;
+        System.Exception ex;
+        try
+        {
+            webResponse = webRequest.GetResponse();
+
+            statusCode = webResponse.StatusCode;
+
+            if(webResponse.ContentLength != 0)
+            {
+                responseStream = webResponse.getResponseStream();
+                responseReader = new System.IO.StreamReader(responseStream,encoding);
+                response = responseReader.ReadToEnd();
+            }
+        }
+        catch(ex)
+        {
+            if(ex is System.Net.WebException)
+            {
+                WebException webException = ex as WebException;
+                webResponse = webException.Response;
+                statusCode = webResponse.StatusCode;
+                responseStream = webResponse.getResponseStream();
+                responseReader = new System.IO.StreamReader(responseStream,encoding);
+                response = responseReader.ReadToEnd();
+            }
+            else
+            {
+                statusCode = HttpStatusCode::BadGateway;
+            }
+
+
+        }
+        return response;
+
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for doing the rest call
+    /// </summary>
+    /// <param name = "_payload">The payload</param>
+    /// <returns>the result</returns>
+    public str process(str _payload)
+    {
+        
+       
+        this.initRequest();
+        this.setHeaders();        
+        this.writeRequest(_payload);
+        str response = this.getResponse();
+
+        return response;
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>constructor</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Constructor for a outbound rest call
+    /// </summary>
+    /// <param name = "_setup">The setup parameters</param>
+    /// <returns>the instance</returns>
+    public static IntegrationOutBoundRest_INT constructor(IntegrationOutBoundSetupRest_INT _setup)
+    {
+        return new IntegrationOutBoundRest_INT(_setup);
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

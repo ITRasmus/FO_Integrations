@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationService_Test_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for testing scheduling a job
+/// </summary>
+[SysTestCaseDataDependencyAttribute('USMF'),SysTestTransaction(TestTransactionMode::None)]
+internal final class IntegrationService_Test_INT extends SysTestCase
+{
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TestServiceSchedule</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Simple test
+    /// </summary>
+    public void TestServiceSchedule ()
+    {
+        IntegrationAsyncServiceController_INT::scheduleJob(newGuid(),newGuid());
+
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

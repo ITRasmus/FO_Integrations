@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutboundRest_Test_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for testing outbound rest
+/// </summary>
+internal final class IntegrationOutboundRest_Test_INT extends SysTestCase
+{
+    #IntegrationTests
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TestPostPlainText</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Test using httpbin.org
+    /// </summary>
+    public void TestPostPlainText()
+    {
+        IntegrationOutboundSetupRest_INT setup = new IntegrationOutboundSetupRest_INT();
+
+        setup.parmUrl('http://httpbin.org/post');
+        setup.parmMethod('Post');
+        setup.parmContentType('text/plain');
+        
+            
+        str payload = 'Testing posting plain';            
+
+
+        IntegrationOutBoundRest_INT outboundRest = IntegrationOutBoundRest_INT::constructor(setup);
+        str response = outboundRest.process(payload);
+
+
+        this.assertNotEqual('',response);
+
+        Newtonsoft.Json.Linq.JObject JObject = Newtonsoft.Json.Linq.JObject::Parse(response);
+        
+        this.assertNotNull(JObject);
+
+        str data = JObject.GetValue('data').ToString();
+
+        this.assertEquals(payload,data);
+
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestBasicAuth</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Test of basic auth using httpbin.org
+    /// </summary>
+    public void TestBasicAuth()
+    {
+        IntegrationOutboundSetupRestBasic_INT setup = new IntegrationOutboundSetupRestBasic_INT();
+
+        setup.parmUrl('http://httpbin.org/basic-auth/foIntegrations/mysecreT');
+        setup.parmMethod('Get');
+        setup.parmContentType('text/plain');
+        setup.parmPassword('mysecreT');
+        setup.parmUser('foIntegrations');
+        
+
+        str payload = '';
+
+        IntegrationOutBoundRest_INT outboundRest = IntegrationOutBoundRest_INT::constructor(setup);
+        str response = outboundRest.process(payload);
+
+
+        this.assertNotEqual('',response);
+
+        Newtonsoft.Json.Linq.JObject JObject = Newtonsoft.Json.Linq.JObject::Parse(response);
+        
+        this.assertNotNull(JObject);
+
+        str data = JObject.GetValue('authenticated').ToString();
+
+        this.assertEquals('true',data);
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setupTestCase</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Uses default test setup
+    /// </summary>
+    public void setupTestCase()
+    {
+        IntegrationSetup_INT::createSetup();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

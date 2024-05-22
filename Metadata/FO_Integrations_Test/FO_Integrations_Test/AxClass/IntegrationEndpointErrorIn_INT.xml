@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpointErrorIn_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Data contract needed for testing integration
+/// </summary>
+public class IntegrationEndpointErrorIn_INT extends IntegrationParseable_INT
+{
+    private str reasonForFailure;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmReasonForFailure</Name>
+				<Source><![CDATA[
+    public str parmReasonForFailure(str _reasonForFailure= reasonForFailure)
+    {
+        reasonForFailure = _reasonForFailure;
+        return reasonForFailure;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

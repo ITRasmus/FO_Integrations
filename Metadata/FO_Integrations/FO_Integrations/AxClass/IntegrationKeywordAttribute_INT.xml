@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationKeywordAttribute_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Keyword attribute
+/// </summary>
+public class IntegrationKeywordAttribute_INT extends SysAttribute
+{
+    private int keywordNumber;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>keyWordNumber</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The keywordnumber
+    /// </summary>
+    /// <returns>the number of the keyword</returns>
+    public int keyWordNumber()
+    {
+        return keywordNumber;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    /// <param name = "_keywordNumber">The keyword number</param>
+    public void New(int _keywordNumber)
+    {
+        keywordNumber = _keywordNumber;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutboundSetupRestBasic_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Contract for using basic Auth
+/// </summary>
+[DataContract('Outbound_RestBasicAuth')]
+public class IntegrationOutboundSetupRestBasic_INT extends IntegrationOutBoundSetupRest_INT
+{
+    private str user;
+    private str password;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmUser</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The user for the basic Auth
+    /// </summary>
+    /// <param name = "_user">the user</param>
+    /// <returns>the user</returns>
+    [IntegrationOutboundSetupAttribute_INT('user')]
+    public str parmUser(str _user = user)
+    {
+        user = _user;
+        return user;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmPassword</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The password used for the basic auth
+    /// </summary>
+    /// <param name = "_password">The password</param>
+    /// <returns>The password</returns>
+    [IntegrationOutboundSetupAttribute_INT('password','',true)]
+    public str parmPassword(str _password = password)
+    {
+        password = _password;
+        return password;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getAuthValue</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The basic auth value used in the rest call
+    /// </summary>
+    /// <returns>The value for the header</returns>
+    public str getAuthValue()
+    {
+        System.Byte[] authBytes = System.Text.Encoding::UTF8.GetBytes(user + ':' + password);
+        System.String base64 = System.Convert::ToBase64String(authBytes);
+        return 'Basic ' + base64;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutbound_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Default class for an outbound integration
+/// </summary>
+public abstract class IntegrationOutbound_INT extends Integration_INT
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>Direction</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Outbound value
+    /// </summary>
+    /// <returns>Out</returns>
+    public IntegrationDirection_INT Direction()
+    {
+        return IntegrationDirection_INT::Out;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

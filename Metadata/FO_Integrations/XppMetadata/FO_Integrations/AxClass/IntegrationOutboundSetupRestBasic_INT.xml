@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Extends>IntegrationOutBoundSetupRest_INT</Extends>
+	<IsPublic>true</IsPublic>
+	<Attributes>
+		<AxAttribute>
+			<Name>DataContract</Name>
+			<Parameters>
+				<AxAttributeParameter>
+					<TypeValue>'Outbound_RestBasicAuth'</TypeValue>
+					<AdditionalData />
+				</AxAttributeParameter>
+			</Parameters>
+		</AxAttribute>
+	</Attributes>
+	<Members>
+		<AxClassMemberVariable>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>user</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Type>String</Type>
+			<TypeName></TypeName>
+			<Name>password</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>parmUser</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>IntegrationOutboundSetupAttribute_INT</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'user'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<DefaultValue>user</DefaultValue>
+					<Name>_user</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>parmPassword</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>IntegrationOutboundSetupAttribute_INT</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'password'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+						<AxAttributeParameter>
+							<TypeValue>''</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+						<AxAttributeParameter>
+							<Type>Boolean</Type>
+							<TypeValue>True</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<DefaultValue>password</DefaultValue>
+					<Name>_password</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>getAuthValue</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Type>String</Type>
+				<TypeName></TypeName>
+			</ReturnType>
+			<Variables>
+				<AxMethodVariable>
+					<Type>ClrType</Type>
+					<TypeName>System.Byte[]</TypeName>
+					<Name>authBytes</Name>
+				</AxMethodVariable>
+				<AxMethodVariable>
+					<Type>ClrType</Type>
+					<TypeName>System.String</TypeName>
+					<Name>base64</Name>
+				</AxMethodVariable>
+			</Variables>
+		</Method>
+	</Methods>
+</z:anyType>

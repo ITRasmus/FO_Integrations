@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpoint_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Generic endpoint for integrations
+/// </summary>
+public class IntegrationEndpoint_INT
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>GenericEndpoint</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The generic endpoint for integrations
+    /// </summary>
+    /// <param name = "_integrationName">The integration to process</param>
+    /// <param name = "_company">The company to process it in, use blank if clientid deciedes</param>
+    /// <param name = "_payload">The payload to process</param>
+    /// <returns>The result of the processing</returns>
+    public IntegrationReturnable_INT GenericEndpoint(str _integrationName,DataAreaId _company, str _payload)
+    {
+     
+        IntegrationSetup_Int integrationSetup;
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+        IntegrationReturnable_INT result;
+        
+        integrationSetup = IntegrationSetup_Int::find(_integrationName);
+
+        try
+        {
+
+            if(!integrationSetup)
+            {
+                Throw  Global::error(strFmt("@Integrations_INT:IntegrationNotFound",_integrationName));
+            }
+            Integration_INT integration = integrationSetup.createIntegration(_company,_payload);
+            result = IntegrationHandler_INT::HandleEvent(integration);
+        }
+        catch (xppEx)
+        {
+            result = IntegrationHandler_INT::handleEarlyException(xppEx,_integrationName,_company,_payload);
+        }
+        catch (Exception::CLRError)
+        {
+            result = IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_integrationName,_company,_payload);
+        }
+        return result;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getResult</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Endpoint for getting the result of an async processed request.
+    /// Does not use the runidentifier but returns the latets processed run on the request
+    /// </summary>
+    /// <param name = "_identifier">The request to get the result from</param>
+    /// <returns>The result</returns>
+    public IntegrationReturnable_INT getResult(guid _identifier)
+    {
+     
+        IntegrationRequest_INT request;
+        
+        
+        select firstonly request
+            where request.Identifier == _identifier;
+            
+        if(!request)
+        {
+            throw error(strFmt("@Integrations_INT:UnknownIdentifier",_identifier));
+        }
+
+        //request.name
+
+        if(request.State == IntegrationState_INT::Failed)
+        {
+            IntegrationRequestException_INT exception;
+            select firstonly exception 
+                order by DateTimeStamp desc
+                where exception.Identifier == _identifier;
+            if(!exception)
+            {
+                throw error(strFmt("@Integrations_INT:MissingException",request.State));
+            }
+            throw error(strFmt("@Integrations_INT:ExceptionFormat",exception.Exception,exception.Error,exception.Stacktrace));
+
+        }
+        if(!(request.State == IntegrationState_INT::AwaitingAsyncPull ||
+            request.State == IntegrationState_INT::Completed))
+        {
+            throw error(strFmt("@Integrations_INT:IncorrectState",_identifier,request.State));
+        }
+        IntegrationRequestData_INT data;
+
+        select firstonly data
+            order by Begin desc
+            where data.Identifier == _identifier;
+        if(!data)
+        {
+            throw error(strFmt("@Integrations_INT:MissingData",request.Name,_identifier,emptyGuid()));
+        }
+        if(data.Output == '')
+        {
+            
+            throw error(strfmt("@Integrations_INT:EmptyData",data.Identifier,data.RunIdentifier));
+
+        }
+
+        return null;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

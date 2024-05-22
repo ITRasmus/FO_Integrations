@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationParseable_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Default type used for a datacontract, to support keyword 1 ,2 and 3.
+/// </summary>
+[DataContract]
+public abstract class IntegrationParseable_INT
+{
+    #Define.IntegrationKeywordAttribute('IntegrationKeywordAttribute_INT')
+    private str keyword1;
+    private str keyword2;
+    private str keyword3;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>getKeyword1</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The 1. keyword
+    /// </summary>
+    /// <returns>The keyword</returns>
+    public str getKeyword1()
+    {
+        return keyword1;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getKeyword2</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The 2. keyword
+    /// </summary>
+    /// <returns>The keyword</returns>
+    public str getKeyword2()
+    {
+        return keyword2;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getKeyword3</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// the 3. keyword
+    /// </summary>
+    /// <returns>the Keyword</returns>
+    public str getKeyword3()
+    {
+        return keyword3;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setKeywords</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Sets the keywords.
+    /// </summary>
+    public void setKeywords()
+    {
+        DictClass theClass;
+        DictMethod theMethod;
+
+        
+        theClass = new DictClass(classIdGet(this));
+        int methodCount = theClass.objectMethodCnt();
+        int counter = 1;
+        while(counter <= methodCount)
+        {
+            theMethod = theClass.objectMethodObject(counter);
+            IntegrationKeywordAttribute_INT keywordAttribute = theMethod.getAttribute(#IntegrationKeywordAttribute);
+                
+            if(keywordAttribute)
+            {
+                switch(keywordAttribute.keyWordNumber())
+                {
+                    case 1:
+                        this.keyword1 = theClass.callObject(theMethod.name(),this);
+                        break;
+                    case 2:
+                        this.keyword2 = theClass.callObject(theMethod.name(),this);
+                        break;
+                    case 3:
+                        this.keyword3 = theClass.callObject(theMethod.name(),this);
+                        break;
+                    default:
+                        break;
+                } 
+            }
+            counter ++;
+        }
+
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

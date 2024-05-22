@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxMacroDictionary xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationTests</Name>
+	<Source>#Define.IntegrationSampleName('Sample')&#xD;
+#Define.IntegrationNameNotFound('SampleNotFound')&#xD;
+#Define.IntegrationNameError('ErrorSample')&#xD;
+#Define.JustACompany('TT')&#xD;
+#Define.USMF('USMF')&#xD;
+#Define.Payload('demoPayload')&#xD;
+#Define.PayloadObject('{"keyword1":"att1","keyword2":"att2"}')&#xD;
+#Define.PayloadObjectEscapes('{\\"keyword1\\":\\"att1\\",\\"keyword2\\":\\"att2\\"}')&#xD;
+#Define.Payload2('demoPayload2')&#xD;
+#Define.IntegrationClassNameSample('IntegrationEndpointSample_INT')&#xD;
+#Define.IntegrationClassNameSampleError('IntegrationEndpointErrorSample_INT')&#xD;
+#Define.IntegrationErrorMessage('Error while processing Integration, just by design')&#xD;
+#Define.IntegrationClassNameUnknownError('XXXXXX')&#xD;
+&#xD;
+#Define.Url('https://usnconeboxax1aos.cloud.onebox.dynamics.com/api/services/IntegrationServiceGroup_INT/IntegrationService/genericendpoint')&#xD;
+#Define.Post('Post')&#xD;
+#Define.ContentType('application/json')&#xD;
+#Define.Secret('xxxxx')&#xD;
+#Define.AuthUrl('https://login.microsoftonline.com/xxxx/oauth2/token')&#xD;
+#Define.Resource('https://usnconeboxax1aos.cloud.onebox.dynamics.com')&#xD;
+#Define.ClientId('xxxx')&#xD;
+</Source>
+	<Macros />
+</AxMacroDictionary>

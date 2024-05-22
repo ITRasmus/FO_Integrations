@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxService xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationService_INT</Name>
+	<Class>IntegrationEndpoint_INT</Class>
+	<ExternalName>GenericService</ExternalName>
+	<ServiceOperations>
+		<AxServiceOperation>
+			<Name>GenericEndpoint</Name>
+			<Method>GenericEndpoint</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+		<AxServiceOperation>
+			<Name>GetResult</Name>
+			<Method>getResult</Method>
+			<SubscriberAccessLevel>
+				<Read>Allow</Read>
+			</SubscriberAccessLevel>
+		</AxServiceOperation>
+	</ServiceOperations>
+</AxService>

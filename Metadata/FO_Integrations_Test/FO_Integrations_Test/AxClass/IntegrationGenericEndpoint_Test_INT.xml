@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationGenericEndpoint_Test_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for testing the endpoint
+/// Integration test from endpoint until processing
+/// </summary>
+internal final class IntegrationGenericEndpoint_Test_INT extends SysTestCase
+{
+
+    #IntegrationTests
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TestNotFound</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests a missing setup of an integration
+    /// </summary>
+    public void TestNotFound()
+    {
+        
+        IntegrationEndpoint_INT endpoint = new IntegrationEndpoint_INT();
+        IntegrationReturnable_INT result = endpoint.GenericEndpoint(#IntegrationNameNotFound,#JustACompany,#PayloadObject);
+        this.assertNotNull(result);
+
+        this.assertEquals('Integration \'SampleNotFound\' not found',result.parmException());
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestErrorIntegration</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests the integration that fails
+    /// </summary>
+    public void TestErrorIntegration()
+    {
+        
+        IntegrationEndpoint_INT endpoint = new IntegrationEndpoint_INT();
+        IntegrationReturnable_INT result = endpoint.GenericEndpoint(#IntegrationNameError,#JustACompany,#PayloadObject);
+        this.assertNotNull(result);
+        this.assertEquals(#IntegrationErrorMessage,result.parmException());
+
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestSample</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests the sample integration
+    /// </summary>
+    public void TestSample()
+    {
+        IntegrationRequest_INT request;
+        IntegrationSetup_INT setup;
+        IntegrationRequestData_Int requestData;
+        IntegrationEndpoint_INT endpoint = new IntegrationEndpoint_INT();
+        IntegrationReturnable_INT result = endpoint.GenericEndpoint(#IntegrationSampleName,#JustACompany,#PayloadObject);
+        this.assertNotNull(result);
+
+        if(result is IntegrationEndpointSampleOut_INT)
+        {
+            IntegrationEndpointSampleOut_INT sample = result as IntegrationEndpointSampleOut_INT;
+            this.assertEquals(#IntegrationSampleName,sample.parmIntegrationName());
+            select firstonly request
+                join setup where setup.Name == request.Name;
+
+            this.assertNotNull(setup);
+            this.assertNotNull(request);
+            this.assertEquals(#JustACompany, request.Company);
+            this.assertEquals(#IntegrationSampleName,setup.Name);
+            this.assertEquals(IntegrationState_INT::Completed,request.State);
+            select firstonly requestData
+            where requestData.Identifier == request.Identifier;
+            this.assertNotNull(requestData);
+            this.assertEquals(#PayloadObject,requestData.Input);
+
+        }
+        else 
+        {
+            this.fail('Wrong type returned');
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setupTestCase</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Uses default testsetup
+    /// </summary>
+    public void setupTestCase()
+    {
+        IntegrationSetup_INT::createSetup();
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

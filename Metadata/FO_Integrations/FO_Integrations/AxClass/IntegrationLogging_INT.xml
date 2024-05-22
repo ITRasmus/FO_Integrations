@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationLogging_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Logging class for fo_integration
+/// </summary>
+public class IntegrationLogging_INT
+{
+    protected guid identifier;
+    protected guid runIdentifier;
+    protected guid relatedRequest;
+    protected IntegrationName_INT integrationName;
+    protected DataAreaId company;
+    protected utcdatetime beginDatetime;
+    
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    /// <param name = "_integrationName">Name of the integration</param>
+    /// <param name = "_identifier">The identifier of the request</param>
+    /// <param name = "_runIdentifier">the runidentifier of the request</param>
+    /// <param name = "_company">the company requests to process the integration</param>
+    /// <param name = "_relatedRequest">Related request</param>
+    protected void New(IntegrationName_INT _integrationName,guid _identifier, guid _runIdentifier,dataareaId _company, guid _relatedRequest)
+    {
+        
+        identifier = _identifier;
+        relatedRequest = _relatedRequest;
+        integrationName = _integrationName;
+        company = _company;
+        runIdentifier = _runIdentifier;
+        
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>LogComplete</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Registeres a complete event
+    /// </summary>
+    /// <param name = "_response">The response to log</param>
+    public void LogComplete(IntegrationReturnable_INT _response)
+    {
+        UserConnection userCon = new UserConnection();
+        IntegrationRequestData_INT requestData;
+        IntegrationRequest_INT request;
+        requestData.setConnection(userCon);
+        request.setConnection(userCon);
+
+        update_recordset requestData
+            setting Output = _response.Serialize(), Ended = DateTimeUtil::utcNow()
+            where requestData.RunIdentifier == RunIdentifier;
+        update_recordset request
+            setting State = IntegrationState_INT::Completed
+            where request.Identifier == identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logError</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Registeres an error event
+    /// </summary>
+    /// <param name = "_ex">The exception to reqister</param>
+    public void logError(System.Exception _ex)
+    {
+        UserConnection userCon = new UserConnection();
+        IntegrationRequestException_INT requestException;
+        IntegrationRequest_INT request;
+        IntegrationRequestData_INT requestData;
+        requestException.setConnection(userCon);
+        request.setConnection(userCon);
+        requestData.setConnection(userCon);
+                
+        requestException.DateTimeStamp = DateTimeUtil::utcNow();
+        requestException.Identifier = identifier;
+        requestException.RunIdentifier = runIdentifier;
+        requestException.setValuesFromException(_ex);
+        requestException.insert();
+            
+        update_recordset request
+            setting State = IntegrationState_INT::Failed
+            where request.Identifier == identifier;
+
+        update_recordset requestData
+            setting Ended = DateTimeUtil::utcNow()
+            where requestData.RunIdentifier == runIdentifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initLog</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Inits a log with the payload
+    /// </summary>
+    /// <param name = "_payload">The payload to register</param>
+    public void initLog(str _payload)
+    {       
+        beginDatetime = DateTimeUtil::utcNow();
+       
+        IntegrationRequest_INT request;
+        UserConnection userCon = new UserConnection();
+        request.setConnection(userCon);
+        userCon.ttsbegin();
+        select firstonly forupdate request
+            where request.identifier == identifier;
+        if(!request)
+        {
+            request.Identifier = identifier;
+            request.DateTimeStamp = beginDatetime;
+            request.Company = company;
+            request.Name = integrationName;
+            request.State = IntegrationState_INT::New;
+            request.RelatedRequest = relatedRequest;
+            request.insert();
+        }
+        else
+        {
+            request.ExecutionCount++;
+            request.update();
+
+        }
+        userCon.ttscommit();
+        IntegrationRequestData_INT requestData;
+        requestData.setConnection(userCon);
+        requestData.Identifier = identifier;
+        requestData.Begin = beginDatetime;
+        requestData.RunIdentifier = runIdentifier;
+        requestData.Input = _payload;
+        requestData.insert();
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logAsyncSchedule</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Logs an AsyncSheduleEvent
+    /// </summary>
+    public void logAsyncSchedule()
+    {
+        UserConnection userCon = new UserConnection();
+ 
+        IntegrationRequest_INT request;
+        IntegrationRequestData_INT requestData;
+        request.setConnection(userCon);
+        requestData.setConnection(userCon);
+ 
+        update_recordset request
+            setting State = IntegrationState_INT::AwaitingAsyncProcessing
+            where request.Identifier == identifier;
+        update_recordset requestData
+            setting Schedulet = DateTimeUtil::utcNow()
+            where requestData.RunIdentifier == this.runIdentifier;
+
+                
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logProcessing</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Logs that the integration has begun processing
+    /// </summary>
+    public void logProcessing()
+    {
+        UserConnection userCon = new UserConnection();
+ 
+        IntegrationRequest_INT request;
+        IntegrationRequestData_INT requestData;
+        request.setConnection(userCon);
+        requestData.setConnection(userCon);
+ 
+        update_recordset request
+            setting State = IntegrationState_INT::AwaitingAsyncProcessing
+            where request.Identifier == identifier;
+        
+        update_recordset requestData
+            setting Processing = DateTimeUtil::utcNow()
+            where requestData.RunIdentifier == this.runIdentifier;
+    
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logKeywords</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Updates the requets with the keywords
+    /// </summary>
+    /// <param name = "_keyword1">Keyword1</param>
+    /// <param name = "_keyword2">Keyword2</param>
+    /// <param name = "_keyword3">Keyword3</param>
+    public void logKeywords(str _keyword1,str _keyword2,str _keyword3)
+    {
+        UserConnection userCon = new UserConnection();
+ 
+        IntegrationRequest_INT request;
+ 
+        request.setConnection(userCon);
+ 
+        update_recordset request
+            setting Keyword1 = _keyword1,Keyword2 = _keyword2,Keyword3 = _keyword3
+            where request.Identifier == identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Contructor for logging
+    /// </summary>
+    /// <param name = "_integration">The integration to handle logging for</param>
+    /// <param name = "_runIdentifier">The runIdentifier for the request</param>
+    /// <returns>The logging instance</returns>
+    public static IntegrationLogging_INT construct(Integration_INT _integration, guid _runIdentifier)
+    {
+        return new IntegrationLogging_INT(_integration.parmIntegrationSetup().Name,_integration.parmIdentifier(),_runIdentifier,_integration.parmCompany(),_integration.getRelatedRequest());
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>constructFromValues</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Logging without an integration
+    /// The IntegrationSetup does not need to be written to the database for the logging to work
+    /// </summary>
+    /// <param name = "_integrationName">Name of the integration</param>
+    /// <param name = "_identifier">The identifier for the request</param>
+    /// <param name = "_runIdentifier">The run identifier</param>
+    /// <param name = "_company">The company from the integration</param>
+    /// <param name = "_relatedIdentifier">related to a request</param>
+    /// <returns>the logging instance</returns>
+    public static IntegrationLogging_INT constructFromValues(IntegrationName_INT _integrationName,guid _identifier, guid _runIdentifier,dataareaId _company, guid _relatedIdentifier = emptyGuid())
+    {
+        return new IntegrationLogging_INT(_integrationName,_identifier,_runIdentifier,_company,_relatedIdentifier);
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

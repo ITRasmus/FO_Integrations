@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpointSampleOut_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Data contract for sampleIntegration
+/// </summary>
+[DataContract]
+public class IntegrationEndpointSampleOut_INT extends IntegrationReturnable_INT
+{
+    private str integrationName;
+    private str company;
+    private str payload;
+    
+}
+
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmIntegrationName</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The name of the integration
+    /// </summary>
+    /// <param name = "_integrationName">The integrationName</param>
+    /// <returns>The integrationName</returns>
+    [DataMember('IntegrationName')]
+    public str parmIntegrationName(str _integrationName = IntegrationName)
+    {
+        integrationName = _integrationName;
+        return integrationName;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCompany</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The company sendt for processing
+    /// </summary>
+    /// <param name = "_company">The value</param>
+    /// <returns>The value</returns>
+    [DataMember('Company')]
+    public str parmCompany(str _company = company)
+    {
+        company = _company;
+        return company;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmPayload</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The payload requested to be processed
+    /// </summary>
+    /// <param name = "_payload">The payload</param>
+    /// <returns>the payload</returns>
+    [DataMember('Payload')]
+    public str parmPayload(str _payload = payload)
+    {
+        payload = _payload;
+        return payload;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

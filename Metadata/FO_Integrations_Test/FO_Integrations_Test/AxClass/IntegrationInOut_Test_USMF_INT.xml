@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationInOut_Test_USMF_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Test class for testing Outbound Outh
+/// The classes is also an integration test since the inbound integration is used for testing the outbound
+/// </summary>
+[SysTestCaseDataDependencyAttribute('USMF'),SysTestTransaction(TestTransactionMode::None)]
+internal final class IntegrationInOut_Test_USMF_INT extends SysTestCase
+{
+
+    #IntegrationTests
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TestOAuth</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests Oauth against the generic endpoint and the sample integration
+    /// </summary>
+    public void TestOAuth()
+    {
+        IntegrationOutBoundSetupRestOAuth_INT setupRest = new IntegrationOutBoundSetupRestOAuth_INT();
+
+        setupRest.parmUrl(#Url);
+        setupRest.parmMethod(#Post);
+        setupRest.parmContentType(#ContentType);
+        setupRest.parmSecret(#Secret);
+        setupRest.parmAuthUrl(#AuthUrl);
+        setupRest.parmResource(#Resource);
+        setupRest.parmClientId(#ClientId);
+
+
+        str payload = strFmt('{"_integrationName" : "%1","_company" : "usmf","_payload":"%2"}',#IntegrationSampleName,#PayloadObjectEscapes);
+
+        IntegrationOutBoundRest_INT outboundRest = IntegrationOutBoundRest_INT::constructor(setupRest);
+        str response = outboundRest.process(payload);
+
+        this.assertNotEqual('',response);
+        IntegrationEndpointSampleOut_INT responseDc;
+
+        responseDc = FormJsonSerializer::deserializeObject(className2Id('IntegrationEndpointSampleOut_INT') ,response);
+
+        this.assertNotNull(responseDc);
+        this.assertEquals('usmf',responseDc.parmCompany());
+        this.assertEquals(#PayloadObject,responseDc.parmPayload());
+        this.assertEquals(#IntegrationSampleName,responseDc.parmIntegrationName());
+        IntegrationRequest_INT request;
+
+
+        select firstonly request
+            where request.Identifier == responseDc.parmIndentifier();
+        this.assertNotNull(request);
+  
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestFailure</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests aganist an endpoint that fails
+    /// </summary>
+    public void TestFailure()
+    {
+        IntegrationOutBoundSetupRestOAuth_INT setupRest = new IntegrationOutBoundSetupRestOAuth_INT();
+
+        setupRest.parmUrl(#Url);
+        setupRest.parmMethod(#Post);
+        setupRest.parmContentType(#ContentType);
+        setupRest.parmSecret(#Secret);
+        setupRest.parmAuthUrl(#AuthUrl);
+        setupRest.parmResource(#Resource);
+        setupRest.parmClientId(#ClientId);
+
+
+        str payload = strFmt('{"_integrationName" : "%1","_company" : "usmf","_payload":"%2"}',#IntegrationNameError,#PayloadObjectEscapes);
+
+        IntegrationOutBoundRest_INT outboundRest = IntegrationOutBoundRest_INT::constructor(setupRest);
+        str response = outboundRest.process(payload);
+
+        this.assertNotEqual('',response);
+        IntegrationReturnable_INT responseDc;
+
+        responseDc = FormJsonSerializer::deserializeObject(className2Id('IntegrationReturnable_INT') ,response);
+
+        this.assertNotNull(responseDc);
+        this.assertEquals(#IntegrationErrorMessage,responseDc.parmException());
+        IntegrationRequest_INT request;
+        select firstonly request
+            where request.Identifier == responseDc.parmIndentifier();
+        this.assertNotNull(request);
+  
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setupTestCase</Name>
+				<Source><![CDATA[
+    //Uses default setupdata
+    public void setupTestCase()
+    {
+        IntegrationSetup_INT::createSetup();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

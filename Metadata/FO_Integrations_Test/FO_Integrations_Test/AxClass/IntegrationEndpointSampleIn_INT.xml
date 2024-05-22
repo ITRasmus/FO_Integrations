@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationEndpointSampleIn_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Sample contract, also used for testing
+/// </summary>
+public class IntegrationEndpointSampleIn_INT extends IntegrationParseable_INT
+{
+
+
+    private str demoKeyword1;
+    private str demoKeyword2;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmDemoKeyword1</Name>
+				<Source><![CDATA[
+    [DataMember('Keyword1'),IntegrationKeywordAttribute_INT(1)]
+    public str parmDemoKeyword1(str _demoKeyword1 = demoKeyword1)
+    {
+        demokeyword1 = _demoKeyword1;
+        return demokeyword1;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmDemoKeyword2</Name>
+				<Source><![CDATA[
+    [DataMember('Keyword2'),IntegrationKeywordAttribute_INT(2)]
+    public str parmDemoKeyword2(str _demoKeyword2 = demoKeyword2)
+    {
+        demokeyword2 = _demoKeyword2;
+        return demokeyword2;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationAsyncServiceController_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Service class for processing a Async integration job
+/// </summary>
+public class IntegrationAsyncServiceController_INT extends SysOperationServiceController
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    protected void new()
+    {
+        super(classStr(IntegrationAsyncService_INT), methodStr(IntegrationAsyncService_INT, process), SysOperationExecutionMode::Synchronous);
+       
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>defaultCaption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default caption
+    /// </summary>
+    /// <returns>The caption</returns>
+    public ClassDescription defaultCaption()
+    {
+        return "@Integrations_INT:AsyncJobDescription";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default implementation of a constructor for a service controller
+    /// </summary>
+    /// <param name = "_executionMode">The exectionMode</param>
+    /// <returns>The service controller</returns>
+    public static IntegrationAsyncServiceController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
+    {
+        IntegrationAsyncServiceController_INT controller;
+        controller = new IntegrationAsyncServiceController_INT();
+        controller.parmExecutionMode(_executionMode);
+        
+        return controller;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Main for menu item
+    /// </summary>
+    /// <param name = "_args">The args from the menuitem</param>
+    public static void main(Args _args)
+    {
+        IntegrationAsyncServiceController_INT controller;
+        controller = IntegrationAsyncServiceController_INT::construct();
+        controller.parmArgs(_args);
+      
+        controller.startOperation();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>scheduleJob</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Helper method for scheduling an async batch job
+    /// </summary>
+    /// <param name = "_identifier">The integrationRequest to process </param>
+    /// <param name = "_runIdentifier">The acutal data to process</param>
+    static void scheduleJob(guid _identifier,guid _runIdentifier)
+    {
+        IntegrationAsyncServiceController_INT controller;
+        IntegrationAsyncContract_INT datacontract;
+        
+        controller = new IntegrationAsyncServiceController_INT();
+        controller.parmExecutionMode(SysOperationExecutionMode::ScheduledBatch);
+        
+        controller.parmLoadFromSysLastValue(false);
+        controller.batchInfo().parmBatchHeader().parmStartDateTime(DateTimeUtil::addDays(DateTimeUtil::utcNow(),10));
+        
+        dataContract = controller.getDataContractObject('_contract');
+        dataContract.parmIdentifier(_identifier);
+        datacontract.parmRunIdentifier(_runIdentifier);
+        
+        controller.runOperation();
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

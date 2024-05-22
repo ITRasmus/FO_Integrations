@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Extends>SysOperationServiceBase</Extends>
+	<IsPublic>true</IsPublic>
+	<Members>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>Record</Type>
+			<TypeName>IntegrationRequest_INT</TypeName>
+			<Name>request</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>Record</Type>
+			<TypeName>IntegrationRequestData_INT</TypeName>
+			<Name>requestData</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Tags></Tags>
+			<Type>Record</Type>
+			<TypeName>IntegrationSetup_INT</TypeName>
+			<Name>setup</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>process</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>Class</Type>
+					<TypeName>IntegrationAsyncContract_INT</TypeName>
+					<Name>_contract</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Tags></Tags>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

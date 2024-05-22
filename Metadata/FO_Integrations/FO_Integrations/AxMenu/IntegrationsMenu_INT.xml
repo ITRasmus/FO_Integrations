@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxMenu xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V1">
+	<Name>IntegrationsMenu_INT</Name>
+	<Label>@Integrations_INT:Integrations</Label>
+	<Elements>
+		<AxMenuElement xmlns=""
+			i:type="AxMenuElementSubMenu">
+			<Name>Workspace</Name>
+			<Label>@Integrations_INT:Workspace</Label>
+			<Elements>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationRequestMenuItem_INT</Name>
+					<MenuItemName>IntegrationRequestMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+			</Elements>
+		</AxMenuElement>
+		<AxMenuElement xmlns=""
+			i:type="AxMenuElementSubMenu">
+			<Name>Periodic</Name>
+			<Label>@Integrations_INT:Periodic</Label>
+			<Elements>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationAsyncProcessing_INT</Name>
+					<MenuItemName>IntegrationAsyncProcessing_INT</MenuItemName>
+					<MenuItemType>Action</MenuItemType>
+				</AxMenuElement>
+			</Elements>
+		</AxMenuElement>
+		<AxMenuElement xmlns=""
+			i:type="AxMenuElementSubMenu">
+			<Name>Setup</Name>
+			<Label>@Integrations_INT:Setup</Label>
+			<Elements>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationsSetupMenuItem_INT</Name>
+					<MenuItemName>IntegrationsSetupMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationParametersMenuItem_INT</Name>
+					<MenuItemName>IntegrationParametersMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+			</Elements>
+		</AxMenuElement>
+	</Elements>
+</AxMenu>

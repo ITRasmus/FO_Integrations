@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxPropertyCollection" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Methods>
+		<Method>
+			<Name>setValuesFromException</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>ClrType</Type>
+					<TypeName>System.Exception</TypeName>
+					<Name>_ex</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Tags></Tags>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

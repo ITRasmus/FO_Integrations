@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationOutboundSetupAttribute_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Attribute used for creating setup in the UI
+/// </summary>
+public class IntegrationOutboundSetupAttribute_INT extends SysAttribute
+{
+
+    private str name;
+    private str defaultValue;
+    private boolean isSecret;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>Name</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The name of setup
+    /// </summary>
+    /// <returns>The name</returns>
+    public str Name()
+    {
+        return name;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>DefaultValue</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The default value to create the record with
+    /// </summary>
+    /// <returns>The defaultvalue</returns>
+    public str DefaultValue()
+    {
+        return defaultValue;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>IsSecret</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Is it a secret, if it is a secret it will not be stored as plain text
+    /// </summary>
+    /// <returns>If it is a secret</returns>
+    public boolean IsSecret()
+    {
+        return isSecret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default New
+    /// </summary>
+    /// <param name = "_name">The name</param>
+    /// <param name = "_defaultValue">The default value</param>
+    /// <param name = "_isSecret">Is it used to store a secret</param>
+    public void new(str _name, str _defaultValue = '', boolean _isSecret = false )
+    {
+        name = _name;
+        defaultValue = _defaultValue;
+        isSecret = _isSecret;
+        super();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

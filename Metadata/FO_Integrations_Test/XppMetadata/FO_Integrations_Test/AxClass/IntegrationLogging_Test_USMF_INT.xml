@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Extends>SysTestCase</Extends>
+	<IsFinal>true</IsFinal>
+	<IsInternal>true</IsInternal>
+	<Attributes>
+		<AxAttribute>
+			<Name>SysTestCaseDataDependencyAttribute</Name>
+			<Parameters>
+				<AxAttributeParameter>
+					<TypeValue>'USMF'</TypeValue>
+					<AdditionalData />
+				</AxAttributeParameter>
+			</Parameters>
+		</AxAttribute>
+		<AxAttribute>
+			<Name>SysTestTransaction</Name>
+			<Parameters>
+				<AxAttributeParameter>
+					<Type>Enum</Type>
+					<TypeValue>TestTransactionMode</TypeValue>
+					<AdditionalData>
+						<AxAttributeParameter>
+							<TypeValue>None</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</AdditionalData>
+				</AxAttributeParameter>
+			</Parameters>
+		</AxAttribute>
+	</Attributes>
+	<Members>
+		<AxClassMemberVariable>
+			<Type>Record</Type>
+			<TypeName>IntegrationSetup_INT</TypeName>
+			<Name>setup</Name>
+			<Attributes />
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>testTransactionScopeAbort</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>testTransactionScopeException</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>setupTestCase</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

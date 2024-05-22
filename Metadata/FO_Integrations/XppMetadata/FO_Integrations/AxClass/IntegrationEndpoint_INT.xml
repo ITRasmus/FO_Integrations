@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<IsPublic>true</IsPublic>
+	<Methods>
+		<Method>
+			<Name>GenericEndpoint</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<Name>_integrationName</Name>
+				</AxMethodParameter>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>ExtendedDataType</Type>
+					<TypeName>DataAreaId</TypeName>
+					<Name>_company</Name>
+				</AxMethodParameter>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<Name>_payload</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Tags></Tags>
+				<Type>Class</Type>
+				<TypeName>IntegrationReturnable_INT</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>getResult</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Tags></Tags>
+					<Type>Guid</Type>
+					<TypeName></TypeName>
+					<Name>_identifier</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Tags></Tags>
+				<Type>Class</Type>
+				<TypeName>IntegrationReturnable_INT</TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
+</z:anyType>

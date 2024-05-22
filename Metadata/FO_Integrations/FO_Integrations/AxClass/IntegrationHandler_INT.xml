@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationHandler_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// The handler class for processing an integration
+/// </summary>
+public class IntegrationHandler_INT
+{
+    protected IntegrationLogging_INT logging;
+    protected Integration_INT integration;
+    protected IntegrationSetup_INT integrationSetup;
+    protected guid runIdentifier;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new, inits the loggin used for duration of the integration
+    /// </summary>
+    /// <param name = "_integration">The integration to process</param>
+    protected void New(Integration_INT _integration)
+    {
+        runIdentifier = newGuid();
+        integration = _integration;
+        integrationSetup = integration.parmIntegrationSetup();
+        logging = IntegrationLogging_INT::construct(_integration,runIdentifier);
+ 
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>HandleEvent</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes the integration or schedules a async job execution
+    /// </summary>
+    /// <param name = "_integration">The integration to process</param>
+    /// <returns>The result to return</returns>
+    public static IntegrationReturnable_INT HandleEvent(Integration_INT _integration)
+    {
+        IntegrationHandler_INT handler = new IntegrationHandler_INT(_integration);
+        return handler.HandleEventInternal();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>HandleAsyncEvent</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method to used when async integration is processed with the batchjob
+    /// </summary>
+    /// <param name = "_integration">The integration to process</param>
+    /// <returns>The result</returns>
+    public static IntegrationReturnable_INT HandleAsyncEvent(Integration_INT _integration)
+    {
+        IntegrationHandler_INT handler = new IntegrationHandler_INT(_integration);
+        return handler.processRequest();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>HandleEventInternal</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The internal method to process or schedule
+    /// </summary>
+    /// <returns>The result</returns>
+    private IntegrationReturnable_INT HandleEventInternal()
+    {
+        IntegrationReturnable_INT result;
+        logging.initLog(integration.parmPayload());
+        
+
+        switch (integrationSetup.IntegrationType)
+        {
+            case IntegrationType_INT::In_AsyncPull:
+            case IntegrationType_INT::In_AsyncPush:
+            case IntegrationType_INT::Out_Async:
+                result = this.scheduleAsync();
+                break;
+            case IntegrationType_INT::In_Sync:
+            case IntegrationType_INT::Out_Sync:
+                result = this.processRequest();
+                break;
+        }
+
+        return result;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes an integration Async
+    /// </summary>
+    /// <returns>The result</returns>
+    private IntegrationReturnable_INT processRequest()
+    {
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+        Object result;
+        try
+        {
+            logging.logProcessing();
+            ttsbegin;
+            IntegrationParseable_INT input = FormJsonSerializer::deserializeObject(integration.DataContractIdentifier(),integration.parmPayload());
+            input.setKeywords();
+            logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
+
+            result = integration.process(input);
+
+
+            logging.LogComplete(result);
+            ttscommit;
+        }
+        catch (xppEx)
+        {
+            
+            logging.logError(xppEx);
+            result = IntegrationReturnable_INT::createFromException(xppEx,integration.parmIdentifier());
+        }
+        catch (Exception::CLRError)
+        {
+            System.Exception ex = CLRInterop::getLastException();
+            logging.logError(ex);
+            result = IntegrationReturnable_INT::createFromException(ex,integration.parmIdentifier());
+
+        }
+        return result;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>scheduleAsync</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Used for scheduling an async integration
+    /// </summary>
+    /// <returns>the async scheduled result</returns>
+    private IntegrationReturnable_INT scheduleAsync()
+    {
+        IntegrationAsyncServiceController_INT::scheduleJob(integration.parmIdentifier(),this.runIdentifier);
+        logging.logAsyncSchedule();
+        return IntegrationAsyncScheduletDC_INT::construct(integration.parmIdentifier(),integrationSetup.Name);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>handleEarlyException</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for processing an early exception before the handle event could be called
+    /// </summary>
+    /// <param name = "_ex">The error</param>
+    /// <param name = "_integrationName">The integration that was trying to be called</param>
+    /// <param name = "_company">The company parameter</param>
+    /// <param name = "_payload">The payload</param>
+    /// <returns>The result to return to integration, a graceful return</returns>
+    public static IntegrationReturnable_INT handleEarlyException(System.Exception _ex,str _integrationName,DataAreaId _company, str _payload)
+    {
+        IntegrationReturnable_INT result;
+        IntegrationSetup_INT unknownIntegration;
+        unknownIntegration.Name = _integrationName;
+        guid identifier = newGuid();
+        IntegrationLogging_INT logging =  IntegrationLogging_INT::constructFromValues(unknownIntegration.Name,identifier,identifier,_company);
+        logging.initLog(_payload);
+        logging.logError(_ex);
+        result = IntegrationReturnable_INT::createFromException(_ex,identifier);
+        return result;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
