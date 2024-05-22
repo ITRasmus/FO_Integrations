@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Metadata/FO_Integrations/bin
+/Metadata/FO_Integrations/Resources
+/Metadata/FO_Integrations/BPCheck.xml
+/Metadata/FO_Integrations/BuildModelResult.err.xml
+/Metadata/FO_Integrations/BuildModelResult.log
+/Metadata/FO_Integrations/BuildModelResult.xml
+/Metadata/FO_Integrations/BuildProjectResult.err.xml
+/Metadata/FO_Integrations/BuildProjectResult.log
+/Metadata/FO_Integrations/BuildProjectResult.xml
+/Metadata/FO_Integrations/CompileLabels.xml
+/Metadata/FO_Integrations_Test/bin
+/Metadata/FO_Integrations_Test/BuildModelResult.err.xml
+/Metadata/FO_Integrations_Test/BuildModelResult.log
+/Metadata/FO_Integrations_Test/BuildModelResult.xml
+/Metadata/FO_Integrations_Test/BuildProjectResult.err.xml
+/Metadata/FO_Integrations_Test/BuildProjectResult.log
+/Metadata/FO_Integrations_Test/BuildProjectResult.xml
+/Projects/FO_Integrations/*/obj/Debug
+/Projects/*/obj/Debug
+/Projects/.vs/FO_Integrations
