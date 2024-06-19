@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxEnum xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationType_INT</Name>
+	<Name>IntegrationTypeIn_INT</Name>
+	<Label>@Integrations_INT:IntegrationType</Label>
 	<UseEnumValue>No</UseEnumValue>
 	<EnumValues>
 		<AxEnumValue>
-			<Name>In_Sync</Name>
-		</AxEnumValue>
-		<AxEnumValue>
-			<Name>In_AsyncPull</Name>
-			<Label>@Integrations_INT:AsyncPull</Label>
-			<Value>2</Value>
-		</AxEnumValue>
-		<AxEnumValue>
-			<Name>In_AsyncPush</Name>
-			<Label>@Integrations_INT:AsyncPush</Label>
-			<Value>3</Value>
-		</AxEnumValue>
-		<AxEnumValue>
-			<Name>Out_Sync</Name>
+			<Name>Sync</Name>
+			<Label>@Integrations_INT:InboundSync</Label>
 			<Value>4</Value>
 		</AxEnumValue>
 		<AxEnumValue>
-			<Name>Out_Async</Name>
+			<Name>AsyncPull</Name>
+			<Label>@Integrations_INT:AsyncPull</Label>
 			<Value>5</Value>
+		</AxEnumValue>
+		<AxEnumValue>
+			<Name>AsyncPush</Name>
+			<Label>@Integrations_INT:AsyncPush</Label>
+			<Value>6</Value>
 		</AxEnumValue>
 	</EnumValues>
 	<IsExtensible>true</IsExtensible>

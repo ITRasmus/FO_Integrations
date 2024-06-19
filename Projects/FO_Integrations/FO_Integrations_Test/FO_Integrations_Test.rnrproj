@@ -34,32 +34,33 @@
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="Macros\" />
+    <Folder Include="Integrations" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AxClass\IntegrationEndpointErrorIn_INT">
       <SubType>Content</SubType>
       <Name>IntegrationEndpointErrorIn_INT</Name>
-      <Link>Classes\IntegrationEndpointErrorIn_INT</Link>
+      <Link>Integrations\IntegrationEndpointErrorIn_INT</Link>
     </Content>
     <Content Include="AxClass\IntegrationEndpointErrorSample_INT">
       <SubType>Content</SubType>
       <Name>IntegrationEndpointErrorSample_INT</Name>
-      <Link>Classes\IntegrationEndpointErrorSample_INT</Link>
+      <Link>Integrations\IntegrationEndpointErrorSample_INT</Link>
     </Content>
     <Content Include="AxClass\IntegrationEndpointSampleIn_INT">
       <SubType>Content</SubType>
       <Name>IntegrationEndpointSampleIn_INT</Name>
-      <Link>Classes\IntegrationEndpointSampleIn_INT</Link>
+      <Link>Integrations\IntegrationEndpointSampleIn_INT</Link>
     </Content>
     <Content Include="AxClass\IntegrationEndpointSampleOut_INT">
       <SubType>Content</SubType>
       <Name>IntegrationEndpointSampleOut_INT</Name>
-      <Link>Classes\IntegrationEndpointSampleOut_INT</Link>
+      <Link>Integrations\IntegrationEndpointSampleOut_INT</Link>
     </Content>
     <Content Include="AxClass\IntegrationEndpointSample_INT">
       <SubType>Content</SubType>
       <Name>IntegrationEndpointSample_INT</Name>
-      <Link>Classes\IntegrationEndpointSample_INT</Link>
+      <Link>Integrations\IntegrationEndpointSample_INT</Link>
     </Content>
     <Content Include="AxClass\IntegrationGenericEndpoint_Test_INT">
       <SubType>Content</SubType>

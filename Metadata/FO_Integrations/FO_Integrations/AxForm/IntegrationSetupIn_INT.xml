@@ -1,27 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxForm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
-	<Name>IntegrationSetup_INT</Name>
+	<Name>IntegrationSetupIn_INT</Name>
 	<SourceCode>
 		<Methods xmlns="">
 			<Method>
 				<Name>classDeclaration</Name>
 				<Source><![CDATA[
 [Form]
-public class IntegrationSetup_INT extends FormRun
+public class IntegrationSetupIn_INT extends FormRun
 {
 }
-
 ]]></Source>
 			</Method>
 		</Methods>
-		<DataSources xmlns="" />
-		<DataControls xmlns="" />
+		<DataSources xmlns="">
+			<DataSource>
+				<Name>IntegrationSetupIn_INT</Name>
+				<Methods>
+					<Method>
+						<Name>init</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void init()
+        {
+            super();
+            IntegrationSetupIn_INT.Direction = IntegrationDirection_INT::In;
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+		</DataSources>
+		<DataControls xmlns="">
+			<Control>
+				<Name>InitIntegrations</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Creates the integrations in the setup form
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            IntegrationSetup_INT::createSetup();
+            IntegrationSetupIn_INT_ds.research();
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>FormButtonControl1</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+
+            try
+            {
+                IntegrationRequest_INT request;
+                request.IntegrationName = IntegrationSetupIn_INT.IntegrationName;
+                request.Identifier = newguid();
+                request.Company  = curExt();
+                request.Direction = IntegrationDirection_INT::In;
+                request.insert();
+
+
+                IntegrationRequestData_INT empty;
+
+
+                IntegrationNewRequestDialog_INT::createNewRequestDataDialogFromData(IntegrationRequest_INT,empty);
+            }
+            catch
+            {
+
+
+            }
+
+            
+            IntegrationRequest_INT_ds.reread();
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+		</DataControls>
 		<Members xmlns="" />
 	</SourceCode>
 	<DataSources>
 		<AxFormDataSource xmlns="">
-			<Name>IntegrationSetup_INT</Name>
-			<Table>IntegrationSetup_INT</Table>
+			<Name>IntegrationSetupIn_INT</Name>
+			<Table>IntegrationSetupIn_INT</Table>
 			<Fields>
 				<AxFormDataSourceField>
 					<DataField>ClassName</DataField>
@@ -30,10 +116,13 @@ public class IntegrationSetup_INT extends FormRun
 					<DataField>Direction</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>IntegrationType</DataField>
+					<DataField>InstanceRelationType</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>IntegrationType</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>OutBoundIntegrationName</DataField>
@@ -43,9 +132,6 @@ public class IntegrationSetup_INT extends FormRun
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>RecId</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>SupportsAsync</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>TableId</DataField>
@@ -100,7 +186,7 @@ public class IntegrationSetup_INT extends FormRun
 				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
-			<JoinSource>IntegrationSetup_INT</JoinSource>
+			<JoinSource>IntegrationSetupIn_INT</JoinSource>
 			<AllowCreate>No</AllowCreate>
 			<AllowDelete>No</AllowDelete>
 			<AllowEdit>No</AllowEdit>
@@ -109,6 +195,7 @@ public class IntegrationSetup_INT extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
+		<Caption xmlns="">@Integrations_INT:Setup</Caption>
 		<Pattern xmlns="">SimpleListDetails</Pattern>
 		<PatternVersion xmlns="">1.3</PatternVersion>
 		<Style xmlns="">SimpleListDetails</Style>
@@ -119,7 +206,44 @@ public class IntegrationSetup_INT extends FormRun
 				<Type>ActionPane</Type>
 				<FormControlExtension
 					i:nil="true" />
-				<Controls />
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormActionPaneTabControl">
+						<Name>SetupActionPane</Name>
+						<Type>ActionPaneTab</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonGroupControl">
+								<Name>BtnGroupSetup</Name>
+								<Type>ButtonGroup</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Controls>
+									<AxFormControl xmlns=""
+										i:type="AxFormButtonControl">
+										<Name>InitIntegrations</Name>
+										<Type>Button</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<Text>@Integrations_INT:InitIntegrations</Text>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormButtonControl">
+										<Name>FormButtonControl1</Name>
+										<Type>Button</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<Text>Run</Text>
+									</AxFormControl>
+								</Controls>
+								<Caption>@Integrations_INT:Setup</Caption>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Integrations_INT:Setup</Caption>
+					</AxFormControl>
+				</Controls>
 			</AxFormControl>
 			<AxFormControl xmlns=""
 				i:type="AxFormGroupControl">
@@ -168,21 +292,11 @@ public class IntegrationSetup_INT extends FormRun
 								<Type>String</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<DataField>Name</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
-							</AxFormControl>
-							<AxFormControl xmlns=""
-								i:type="AxFormComboBoxControl">
-								<Name>IntegrationSetup_INT_Direction1</Name>
-								<Type>ComboBox</Type>
-								<FormControlExtension
-									i:nil="true" />
-								<DataField>Direction</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
-								<Items />
+								<DataField>IntegrationName</DataField>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 							</AxFormControl>
 						</Controls>
-						<DataSource>IntegrationSetup_INT</DataSource>
+						<DataSource>IntegrationSetupIn_INT</DataSource>
 						<MultiSelect>No</MultiSelect>
 						<ShowRowLabels>No</ShowRowLabels>
 						<Style>List</Style>
@@ -223,11 +337,12 @@ public class IntegrationSetup_INT extends FormRun
 							<AxFormControl xmlns=""
 								i:type="AxFormComboBoxControl">
 								<Name>IntegrationSetup_INT_Direction</Name>
+								<AllowEdit>No</AllowEdit>
 								<Type>ComboBox</Type>
 								<FormControlExtension
 									i:nil="true" />
 								<DataField>Direction</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 								<Items />
 							</AxFormControl>
 							<AxFormControl xmlns=""
@@ -237,7 +352,7 @@ public class IntegrationSetup_INT extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<DataField>ClassName</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormComboBoxControl">
@@ -245,8 +360,8 @@ public class IntegrationSetup_INT extends FormRun
 								<Type>ComboBox</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<DataField>IntegrationType</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
+								<DataField>IntegrationInType</DataField>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 								<Items />
 							</AxFormControl>
 							<AxFormControl xmlns=""
@@ -255,8 +370,8 @@ public class IntegrationSetup_INT extends FormRun
 								<Type>String</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<DataField>OutBoundIntegrationName</DataField>
-								<DataSource>IntegrationSetup_INT</DataSource>
+								<DataField>OutBoundIntegration</DataField>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 							</AxFormControl>
 						</Controls>
 						<ColumnsMode>Fill</ColumnsMode>
@@ -379,7 +494,7 @@ public class IntegrationSetup_INT extends FormRun
 								<FrameType>None</FrameType>
 							</AxFormControl>
 						</Controls>
-						<Caption>Requests</Caption>
+						<Caption>@Integrations_INT:Requests</Caption>
 					</AxFormControl>
 				</Controls>
 				<Style>FastTabs</Style>

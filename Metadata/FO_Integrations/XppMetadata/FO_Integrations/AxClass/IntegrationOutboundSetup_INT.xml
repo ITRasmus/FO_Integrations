@@ -3,4 +3,50 @@
 	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
 	<IsAbstract>true</IsAbstract>
 	<IsPublic>true</IsPublic>
+	<Members>
+		<AxClassMemberVariable>
+			<Type>Enum</Type>
+			<TypeName>boolean</TypeName>
+			<Name>correlationId</Name>
+			<Attributes />
+			<Visibility>Private</Visibility>
+		</AxClassMemberVariable>
+	</Members>
+	<Methods>
+		<Method>
+			<Name>getSetupName</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Type>ExtendedDataType</Type>
+				<TypeName>Name</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>parmCorrelationId</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>IntegrationOutboundSetupAttribute_INT</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'useCorrelationId'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Enum</Type>
+					<TypeName>boolean</TypeName>
+					<DefaultValue>correlationId</DefaultValue>
+					<Name>_correlationId</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>Enum</Type>
+				<TypeName>boolean</TypeName>
+			</ReturnType>
+		</Method>
+	</Methods>
 </z:anyType>

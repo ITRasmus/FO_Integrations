@@ -28,7 +28,7 @@ public class IntegrationAsyncService_INT extends SysOperationServiceBase
         select firstonly request
             where request.Identifier == _contract.parmIdentifier()
             outer join setup
-            where setup.Name == request.Name
+            where setup.IntegrationName == request.IntegrationName
             outer join requestData
             where requestData.Identifier == _contract.parmIdentifier()
             && requestData.RunIdentifier == _contract.parmRunIdentifier();
@@ -42,25 +42,25 @@ public class IntegrationAsyncService_INT extends SysOperationServiceBase
         
         if(!setup)
         {
-            throw error(strFmt("@Integrations_INT:MissingSetup",request.Name,_contract.parmIdentifier()));
+            throw error(strFmt("@Integrations_INT:MissingSetup",request.IntegrationName,_contract.parmIdentifier()));
         }
         
         if(!requestData)
         {
-            throw error(strFmt("@Integrations_INT:MissingData",setup.Name,_contract.parmIdentifier(),_contract.parmRunIdentifier()));
+            throw error(strFmt("@Integrations_INT:MissingData",setup.IntegrationName,_contract.parmIdentifier(),_contract.parmRunIdentifier()));
         }
         IntegrationSetup_INT outboundSetup;
 
         
-        if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
+        /*if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
         {
             outboundSetup = IntegrationSetup_INT::find(setup.OutBoundIntegrationName);
             if(!outboundSetup)
             {
-                throw error("skdflksdfl");
+                throw error("@Integrations_INT:MissingOutboundIntegration");
             }
         }
-
+*/
 
         Integration_INT  integration = setup.createIntegration(request.company,requestData.Input);
 
@@ -70,12 +70,12 @@ public class IntegrationAsyncService_INT extends SysOperationServiceBase
             throw error(result.parmException());
         }
 
-        if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
+    /*    if(setup.IntegrationType == IntegrationType_INT::In_AsyncPush)
         {
             Integration_INT outboundIntegration = outboundSetup.createIntegration(request.company,result.Serialize());
             IntegrationHandler_INT::HandleEvent(outboundIntegration);
         }
-
+*/
 
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
 	i:type="AxCompilerMetadata" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+	<Extends>IntegrationOutboundSetup_INT</Extends>
 	<IsPublic>true</IsPublic>
 	<Attributes>
 		<AxAttribute>
@@ -178,6 +179,14 @@
 			<ReturnType>
 				<Type>Int32</Type>
 				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>getSetupName</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Type>ExtendedDataType</Type>
+				<TypeName>Name</TypeName>
 			</ReturnType>
 		</Method>
 	</Methods>

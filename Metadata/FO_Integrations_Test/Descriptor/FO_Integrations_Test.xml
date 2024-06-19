@@ -15,6 +15,7 @@
 		<d2p1:string>ApplicationFoundation</d2p1:string>
 		<d2p1:string>ApplicationPlatform</d2p1:string>
 		<d2p1:string>FO_Integrations</d2p1:string>
+		<d2p1:string>MonitoringandTelemetry</d2p1:string>
 	</ModuleReferences>
 	<Name>FO_Integrations_Test</Name>
 	<Publisher>GRITConsulting</Publisher>

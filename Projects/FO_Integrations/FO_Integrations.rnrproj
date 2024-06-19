@@ -83,6 +83,11 @@
       <Name>IntegrationLogging_INT</Name>
       <Link>Controller\IntegrationLogging_INT</Link>
     </Content>
+    <Content Include="AxClass\IntegrationNewRequestDialog_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationNewRequestDialog_INT</Name>
+      <Link>UI\Dialogs\IntegrationNewRequestDialog_INT</Link>
+    </Content>
     <Content Include="AxClass\IntegrationOutBoundRest_INT">
       <SubType>Content</SubType>
       <Name>IntegrationOutBoundRest_INT</Name>
@@ -137,6 +142,11 @@
       <SubType>Content</SubType>
       <Name>IntegrationCompany_INT</Name>
       <Link>DataTypes\IntegrationCompany_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationCorrelationId_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationCorrelationId_INT</Name>
+      <Link>DataTypes\IntegrationCorrelationId_INT</Link>
     </Content>
     <Content Include="AxEdt\IntegrationDateTimeStamp_INT">
       <SubType>Content</SubType>
@@ -223,20 +233,30 @@
       <Name>IntegrationState_INT</Name>
       <Link>Base Enums\IntegrationState_INT</Link>
     </Content>
-    <Content Include="AxEnum\IntegrationType_INT">
+    <Content Include="AxEnum\IntegrationTypeIn_INT">
       <SubType>Content</SubType>
-      <Name>IntegrationType_INT</Name>
-      <Link>Base Enums\IntegrationType_INT</Link>
+      <Name>IntegrationTypeIn_INT</Name>
+      <Link>Base Enums\IntegrationTypeIn_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationTypeOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTypeOut_INT</Name>
+      <Link>Base Enums\IntegrationTypeOut_INT</Link>
     </Content>
     <Content Include="AxForm\IntegrationRequest_INT">
       <SubType>Content</SubType>
       <Name>IntegrationRequest_INT</Name>
       <Link>UI\Forms\IntegrationRequest_INT</Link>
     </Content>
-    <Content Include="AxForm\IntegrationSetup_INT">
+    <Content Include="AxForm\IntegrationSetupIn_INT">
       <SubType>Content</SubType>
-      <Name>IntegrationSetup_INT</Name>
-      <Link>UI\Forms\IntegrationSetup_INT</Link>
+      <Name>IntegrationSetupIn_INT</Name>
+      <Link>UI\Forms\IntegrationSetupIn_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationSetupOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOut_INT</Name>
+      <Link>UI\Forms\IntegrationSetupOut_INT</Link>
     </Content>
     <Content Include="AxLabelFile\Integrations_INT_en-US">
       <SubType>Content</SubType>
@@ -253,6 +273,11 @@
       <Name>IntegrationAsyncProcessing_INT</Name>
       <Link>UI\Menu\MenuItems\IntegrationAsyncProcessing_INT</Link>
     </Content>
+    <Content Include="AxMenuItemAction\IntegrationNewRequestMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationNewRequestMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationNewRequestMenuItem_INT</Link>
+    </Content>
     <Content Include="AxMenuItemDisplay\IntegrationParametersMenuItem_INT">
       <SubType>Content</SubType>
       <Name>IntegrationParametersMenuItem_INT</Name>
@@ -263,10 +288,15 @@
       <Name>IntegrationRequestMenuItem_INT</Name>
       <Link>UI\Menu\MenuItems\IntegrationRequestMenuItem_INT</Link>
     </Content>
-    <Content Include="AxMenuItemDisplay\IntegrationsSetupMenuItem_INT">
+    <Content Include="AxMenuItemDisplay\IntegrationSetupInMenuItem_INT">
       <SubType>Content</SubType>
-      <Name>IntegrationsSetupMenuItem_INT</Name>
-      <Link>UI\Menu\MenuItems\IntegrationsSetupMenuItem_INT</Link>
+      <Name>IntegrationSetupInMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationSetupInMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationSetupOutMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOutMenuItem_INT</Name>
+      <Link>UI\Menu\MenuItems\IntegrationSetupOutMenuItem_INT</Link>
     </Content>
     <Content Include="AxMenu\IntegrationsMenu_INT">
       <SubType>Content</SubType>
@@ -303,10 +333,20 @@
       <Name>IntegrationRequest_INT</Name>
       <Link>DataStructure\IntegrationRequest_INT</Link>
     </Content>
-    <Content Include="AxTable\IntegrationSetupValue_INT">
+    <Content Include="AxTable\IntegrationSetupIn_INT">
       <SubType>Content</SubType>
-      <Name>IntegrationSetupValue_INT</Name>
-      <Link>DataStructure\IntegrationSetupValue_INT</Link>
+      <Name>IntegrationSetupIn_INT</Name>
+      <Link>DataStructure\IntegrationSetupIn_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupOutValue_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOutValue_INT</Name>
+      <Link>DataStructure\IntegrationSetupOutValue_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOut_INT</Name>
+      <Link>DataStructure\IntegrationSetupOut_INT</Link>
     </Content>
     <Content Include="AxTable\IntegrationSetup_INT">
       <SubType>Content</SubType>
@@ -320,21 +360,26 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Action Menu Items\" />
     <Folder Include="Base Enums\" />
+    <Folder Include="Classes\" />
     <Folder Include="DataTypes" />
     <Folder Include="DataStructure" />
     <Folder Include="Abstracts" />
+    <Folder Include="Display Menu Items\" />
     <Folder Include="Enums" />
     <Folder Include="Controller" />
     <Folder Include="Batch" />
     <Folder Include="Attributes" />
     <Folder Include="Common" />
+    <Folder Include="Tables\" />
     <Folder Include="UI" />
     <Folder Include="Outbound" />
     <Folder Include="UI\Menu" />
     <Folder Include="UI\Forms" />
     <Folder Include="UI\Menu\MenuItems" />
     <Folder Include="Service" />
+    <Folder Include="UI\Dialogs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
   <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />

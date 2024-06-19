@@ -252,5 +252,13 @@
 				</AxMethodVariable>
 			</Variables>
 		</Method>
+		<Method>
+			<Name>getSetupName</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Type>ExtendedDataType</Type>
+				<TypeName>Name</TypeName>
+			</ReturnType>
+		</Method>
 	</Methods>
 </z:anyType>

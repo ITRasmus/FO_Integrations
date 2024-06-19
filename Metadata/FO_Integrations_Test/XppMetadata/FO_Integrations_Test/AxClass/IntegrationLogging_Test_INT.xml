@@ -25,74 +25,23 @@
 				</AxAttribute>
 			</Attributes>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationSetup_INT</TypeName>
-					<Name>setup</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Guid</Type>
-					<TypeName></TypeName>
-					<Name>id</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Guid</Type>
-					<TypeName></TypeName>
-					<Name>runid</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationLogging_INT</TypeName>
-					<Name>log</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>TestLoggingData</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationSetup_INT</TypeName>
-					<Name>setup</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Guid</Type>
-					<TypeName></TypeName>
-					<Name>id</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Guid</Type>
-					<TypeName></TypeName>
-					<Name>runid</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationLogging_INT</TypeName>
-					<Name>log</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>setupTestCase</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>

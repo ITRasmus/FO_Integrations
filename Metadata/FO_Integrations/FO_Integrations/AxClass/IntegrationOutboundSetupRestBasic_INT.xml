@@ -64,6 +64,16 @@ public class IntegrationOutboundSetupRestBasic_INT extends IntegrationOutBoundSe
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return 'Basic Auth';
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
 </AxClass>

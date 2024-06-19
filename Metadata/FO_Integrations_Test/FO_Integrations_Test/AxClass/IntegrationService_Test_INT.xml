@@ -29,6 +29,27 @@ internal final class IntegrationService_Test_INT extends SysTestCase
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>testdummy</Name>
+				<Source><![CDATA[
+    public void testdummy()
+    {
+    
+        
+        Microsoft.Dynamics.Integration.Telemetry.TelemetryClient c = SysGlobalTelemetry::newClient("FO_Integrations");
+        c.trackEvent("sdf");
+        c.trackEvent("sdg");
+
+        SysGlobalTelemetry::logTrace("fskdlfksd");
+        SysGlobalTelemetry::logEvent("asdasdsa");
+
+
+
+
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
 </AxClass>

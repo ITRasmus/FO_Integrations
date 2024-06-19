@@ -29,7 +29,7 @@ internal final class IntegrationLogging_Test_USMF_INT extends SysTestCase
                 
         guid id = newGuid();
         guid runid = newGuid();
-        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#USMF);
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.IntegrationName,id,runid,#USMF);
 
         log.initLog(#Payload);
         ttsabort;
@@ -57,7 +57,7 @@ internal final class IntegrationLogging_Test_USMF_INT extends SysTestCase
         {
             ttsbegin;
        
-            log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#USMF);
+            log = IntegrationLogging_INT::constructFromValues(setup.IntegrationName,id,runid,#USMF);
 
             log.initLog(#Payload);
             if(true) //To avoid BP Error
@@ -74,6 +74,47 @@ internal final class IntegrationLogging_Test_USMF_INT extends SysTestCase
             this.assertNotNull(request);
 
         }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TestSample</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Tests the sample integration
+    /// </summary>
+    public void TestSample()
+    {
+        IntegrationRequest_INT request;
+        IntegrationRequestData_Int requestData;
+        IntegrationEndpoint_INT endpoint = new IntegrationEndpoint_INT();
+        IntegrationReturnable_INT result = endpoint.GenericEndpoint(#IntegrationSampleName,#USMF,#PayloadObject);
+        this.assertNotNull(result);
+
+        if(result is IntegrationEndpointSampleOut_INT)
+        {
+            IntegrationEndpointSampleOut_INT sample = result as IntegrationEndpointSampleOut_INT;
+            this.assertEquals(#IntegrationSampleName,sample.parmIntegrationName());
+            select firstonly request
+                join setup where setup.IntegrationName == request.IntegrationName;
+
+            this.assertNotNull(setup);
+            this.assertNotNull(request);
+            this.assertEquals(#USMF, request.Company);
+            this.assertEquals(#IntegrationSampleName,setup.IntegrationName);
+            this.assertEquals(IntegrationState_INT::Completed,request.State);
+            select firstonly requestData
+            where requestData.Identifier == request.Identifier;
+            this.assertNotNull(requestData);
+            this.assertEquals(#PayloadObject,requestData.Input);
+
+        }
+        else
+        {
+            this.fail('Wrong type returned');
+        }
+
     }
 
 ]]></Source>

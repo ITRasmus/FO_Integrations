@@ -13,10 +13,50 @@ public abstract class IntegrationParseable_INT
     private str keyword1;
     private str keyword2;
     private str keyword3;
+    private str payload;
 
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parse</Name>
+				<Source><![CDATA[
+    public IntegrationParseable_INT parse(Integration_INT _integration)
+    {
+        IntegrationParseable_INT input = FormJsonSerializer::deserializeObject(_integration.DataContractIdentifier(),_integration.parmPayload());
+        input.parmPayload(_integration.parmPayload());
+        input.setKeywords();
+        return input;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>Construct</Name>
+				<Source><![CDATA[
+    public static IntegrationParseable_INT Construct(Integration_INT _integration)
+    {
+
+        DictClass dclass = new DictClass(_integration.DataContractIdentifier());
+        IntegrationParseable_INT  integration = dclass.makeObject();
+        integration = integration.parse(_integration);
+        
+        return integration;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmPayload</Name>
+				<Source><![CDATA[
+    public str parmPayload(str _payload = payload)
+    {
+        payload = _payload;
+        return payload;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>getKeyword1</Name>
 				<Source><![CDATA[

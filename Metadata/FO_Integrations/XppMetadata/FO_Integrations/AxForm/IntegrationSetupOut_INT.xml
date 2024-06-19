@@ -9,12 +9,13 @@
 	</Methods>
 	<DataSources>
 		<DataSource>
-			<Name>IntegrationRequestData_INT</Name>
+			<Name>IntegrationSetupOutValue_INT</Name>
 			<Methods>
 				<Method>
-					<Name>init</Name>
+					<Name>active</Name>
 					<Visibility>Public</Visibility>
 					<ReturnType>
+						<Type>Int32</Type>
 						<TypeName></TypeName>
 					</ReturnType>
 				</Method>
@@ -24,7 +25,33 @@
 	</DataSources>
 	<DataControls>
 		<Control>
-			<Name>Rerun</Name>
+			<Name>InitIntegrations</Name>
+			<Type>Button</Type>
+			<Methods>
+				<Method>
+					<Name>clicked</Name>
+					<Visibility>Public</Visibility>
+					<ReturnType>
+						<TypeName></TypeName>
+					</ReturnType>
+				</Method>
+			</Methods>
+		</Control>
+		<Control>
+			<Name>IntegrationSetupOut_INT_Transport</Name>
+			<Type>String</Type>
+			<Methods>
+				<Method>
+					<Name>lookup</Name>
+					<Visibility>Public</Visibility>
+					<ReturnType>
+						<TypeName></TypeName>
+					</ReturnType>
+				</Method>
+			</Methods>
+		</Control>
+		<Control>
+			<Name>CreateSetupValues</Name>
 			<Type>Button</Type>
 			<Methods>
 				<Method>

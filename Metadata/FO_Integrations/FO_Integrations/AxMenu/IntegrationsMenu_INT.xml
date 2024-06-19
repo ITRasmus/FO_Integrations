@@ -26,6 +26,12 @@
 					<MenuItemName>IntegrationAsyncProcessing_INT</MenuItemName>
 					<MenuItemType>Action</MenuItemType>
 				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationNewRequestMenuItem_INT</Name>
+					<MenuItemName>IntegrationNewRequestMenuItem_INT</MenuItemName>
+					<MenuItemType>Action</MenuItemType>
+				</AxMenuElement>
 			</Elements>
 		</AxMenuElement>
 		<AxMenuElement xmlns=""
@@ -35,13 +41,32 @@
 			<Elements>
 				<AxMenuElement xmlns=""
 					i:type="AxMenuElementMenuItem">
-					<Name>IntegrationsSetupMenuItem_INT</Name>
-					<MenuItemName>IntegrationsSetupMenuItem_INT</MenuItemName>
-				</AxMenuElement>
-				<AxMenuElement xmlns=""
-					i:type="AxMenuElementMenuItem">
 					<Name>IntegrationParametersMenuItem_INT</Name>
 					<MenuItemName>IntegrationParametersMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementSubMenu">
+					<Name>Inbound</Name>
+					<Label>@Integrations_INT:Inbound</Label>
+					<Elements>
+						<AxMenuElement xmlns=""
+							i:type="AxMenuElementMenuItem">
+							<Name>IntegrationSetupInMenuItem_INT</Name>
+							<MenuItemName>IntegrationSetupInMenuItem_INT</MenuItemName>
+						</AxMenuElement>
+					</Elements>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementSubMenu">
+					<Name>Outbound</Name>
+					<Label>@Integrations_INT:Outbound</Label>
+					<Elements>
+						<AxMenuElement xmlns=""
+							i:type="AxMenuElementMenuItem">
+							<Name>IntegrationSetupOutMenuItem_INT</Name>
+							<MenuItemName>IntegrationSetupOutMenuItem_INT</MenuItemName>
+						</AxMenuElement>
+					</Elements>
 				</AxMenuElement>
 			</Elements>
 		</AxMenuElement>

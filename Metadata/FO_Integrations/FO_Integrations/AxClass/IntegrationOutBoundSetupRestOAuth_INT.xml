@@ -137,6 +137,16 @@ public class IntegrationOutBoundSetupRestOAuth_INT extends IntegrationOutBoundSe
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return 'OAuth';
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
 </AxClass>
