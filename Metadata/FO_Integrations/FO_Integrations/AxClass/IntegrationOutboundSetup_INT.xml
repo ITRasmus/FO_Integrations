@@ -9,8 +9,32 @@
 public abstract class IntegrationOutboundSetup_INT
 {
 
+    private boolean correlationId;
 }
 ]]></Declaration>
-		<Methods />
+		<Methods>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return classId2Name(classIdGet(this));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCorrelationId</Name>
+				<Source><![CDATA[
+    [IntegrationOutboundSetupAttribute_INT('useCorrelationId')]
+    public boolean parmCorrelationId(boolean _correlationId = correlationId)
+    {
+        correlationId = _correlationId;
+        return correlationId;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
 	</SourceCode>
 </AxClass>

@@ -32,6 +32,7 @@
 	</Attributes>
 	<Members>
 		<AxClassMemberVariable>
+			<Tags></Tags>
 			<Type>Record</Type>
 			<TypeName>IntegrationSetup_INT</TypeName>
 			<Name>setup</Name>
@@ -43,6 +44,7 @@
 			<Name>testTransactionScopeAbort</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
@@ -50,6 +52,15 @@
 			<Name>testTransactionScopeException</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>TestSample</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
@@ -57,6 +68,7 @@
 			<Name>setupTestCase</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>

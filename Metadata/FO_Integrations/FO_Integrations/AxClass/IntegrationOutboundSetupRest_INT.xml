@@ -7,7 +7,7 @@
 /// The datacountract for setting out a rest integration
 /// </summary>
 [DataContract('Outbound_Rest')]
-public class IntegrationOutboundSetupRest_INT
+public class IntegrationOutboundSetupRest_INT extends IntegrationOutboundSetup_INT
 {
 
     private str contentType;
@@ -110,6 +110,16 @@ public class IntegrationOutboundSetupRest_INT
     public int getTimeOut()
     {
         return str2Int(timeout);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return 'Simple Rest';
     }
 
 ]]></Source>

@@ -34,7 +34,7 @@ public class IntegrationSetup_INT extends common
             }
 
             select firstonly integration               
-                where integration.Name == _integrationName;
+                where integration.IntegrationName == _integrationName;
         }
 
         return integration;
@@ -76,7 +76,7 @@ public class IntegrationSetup_INT extends common
     {
         if(_setup.ClassName == '')
         {
-            throw error(strFmt("@Integrations_INT:NoClassAssigned",_setup.Name));
+            throw error(strFmt("@Integrations_INT:NoClassAssigned",_setup.IntegrationName));
         }
         int classId = className2Id(_setup.ClassName);
         if(classId == 0)
@@ -107,7 +107,7 @@ public class IntegrationSetup_INT extends common
         IntegrationInboundAsyncPull_INT asyncPull;
 
         select firstonly integrationSetup
-            where integrationSetup.Name;
+            where integrationSetup.IntegrationName;
         if(!integrationSetup)
         {
             Throw  error(strFmt("@Integrations_INT:IntegrationNotFound",_name));
@@ -139,6 +139,9 @@ public class IntegrationSetup_INT extends common
     {
 
         IntegrationSetup_INT integrationSetup;
+        IntegrationSetupIn_INT setupIn;
+        IntegrationSetupOut_INT setupOut;
+
 
         DictClass integrationClasses = new DictClass(className2Id('Integration_INT'));
 
@@ -158,14 +161,28 @@ public class IntegrationSetup_INT extends common
                 if(!integrationSetup)
                 {
                     Integration_INT instance = inteClass.makeObject();
-                    integrationSetup.Direction = instance.Direction();
-                    integrationSetup.ClassName = inteClass.name();
-                    integrationSetup.Name = instance.DefaultName();
-                    if(inteClass.getExtensionClassName(1) == 'IntegrationInboundAsyncPull_INT')
+
+                    switch (instance.Direction())
                     {
-                        integrationSetup.SupportsAsync = true;
+                        case IntegrationDirection_INT::In:
+                            setupIn.clear();
+                            setupIn.Direction = instance.Direction();
+                            setupIn.ClassName = inteClass.name();
+                            setupIn.IntegrationName = instance.DefaultName();
+                            setupIn.IntegrationInType = IntegrationTypeIn_INT::Sync;
+                            setupIn.insert();
+                            break;
+
+                        case IntegrationDirection_INT::Out:
+                            setupOut.clear();
+                            setupOut.Direction = instance.Direction();
+                            setupOut.ClassName = inteClass.name();
+                            setupOut.IntegrationName = instance.DefaultName();
+                            setupOut.IntegrationOutType =  IntegrationTypeOut_INT::Sync;
+                            setupOut.insert();
+                            break;
                     }
-                    integrationSetup.insert();
+                    
                 }
             }
 
@@ -185,11 +202,13 @@ public class IntegrationSetup_INT extends common
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
-	<TitleField1>Name</TitleField1>
+	<TitleField1>IntegrationName</TitleField1>
 	<TitleField2>ClassName</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<InstanceRelationType>InstanceRelationType</InstanceRelationType>
 	<ReplacementKey>NameIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SupportInheritance>Yes</SupportInheritance>
 	<DeleteActions>
 		<AxTableDeleteAction>
 			<Name>IntegrationRequest_INT</Name>
@@ -207,16 +226,7 @@ public class IntegrationSetup_INT extends common
 					<DataField>ClassName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
-					<DataField>Name</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
-					<DataField>SupportsAsync</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
-					<DataField>OutBoundIntegrationName</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
-					<DataField>IntegrationType</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -224,7 +234,7 @@ public class IntegrationSetup_INT extends common
 			<Name>AutoLookup</Name>
 			<Fields>
 				<AxTableFieldGroupField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>ClassName</DataField>
@@ -236,7 +246,7 @@ public class IntegrationSetup_INT extends common
 			<AutoPopulate>Yes</AutoPopulate>
 			<Fields>
 				<AxTableFieldGroupField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -248,7 +258,7 @@ public class IntegrationSetup_INT extends common
 			<Name>AutoBrowse</Name>
 			<Fields>
 				<AxTableFieldGroupField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>ClassName</DataField>
@@ -259,7 +269,7 @@ public class IntegrationSetup_INT extends common
 	<Fields>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
-			<Name>Name</Name>
+			<Name>IntegrationName</Name>
 			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
 		</AxTableField>
@@ -279,25 +289,8 @@ public class IntegrationSetup_INT extends common
 			<EnumType>IntegrationDirection_INT</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
-			i:type="AxTableFieldEnum">
-			<Name>IntegrationType</Name>
-			<EnumType>IntegrationType_INT</EnumType>
-		</AxTableField>
-		<AxTableField xmlns=""
-			i:type="AxTableFieldEnum">
-			<Name>SupportsAsync</Name>
-			<AllowEdit>No</AllowEdit>
-			<AllowEditOnCreate>No</AllowEditOnCreate>
-			<ExtendedDataType>IntegrationSupportsAsync_INT</ExtendedDataType>
-			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<EnumType>NoYes</EnumType>
-		</AxTableField>
-		<AxTableField xmlns=""
-			i:type="AxTableFieldString">
-			<Name>OutBoundIntegrationName</Name>
-			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
-			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>@Integrations_INT:OutBoundIntegration</Label>
+			i:type="AxTableFieldInt64">
+			<Name>InstanceRelationType</Name>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
@@ -316,28 +309,12 @@ public class IntegrationSetup_INT extends common
 			<AlternateKey>Yes</AlternateKey>
 			<Fields>
 				<AxTableIndexField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>
 	</Indexes>
 	<Mappings />
-	<Relations>
-		<AxTableRelation>
-			<Name>OutBoundIntegration</Name>
-			<Cardinality>ZeroMore</Cardinality>
-			<RelatedTable>IntegrationSetup_INT</RelatedTable>
-			<RelatedTableCardinality>ZeroOne</RelatedTableCardinality>
-			<RelationshipType>Association</RelationshipType>
-			<Constraints>
-				<AxTableRelationConstraint xmlns=""
-					i:type="AxTableRelationConstraintField">
-					<Name>ClassName</Name>
-					<Field>ClassName</Field>
-					<RelatedField>OutBoundIntegrationName</RelatedField>
-				</AxTableRelationConstraint>
-			</Constraints>
-		</AxTableRelation>
-	</Relations>
+	<Relations />
 	<StateMachines />
 </AxTable>

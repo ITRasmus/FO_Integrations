@@ -59,7 +59,7 @@ public class IntegrationLogging_INT
         request.setConnection(userCon);
 
         update_recordset requestData
-            setting Output = _response.Serialize(), Ended = DateTimeUtil::utcNow()
+            setting Output = _response.Serialize(), Ended = DateTimeUtil::utcNow(), State = IntegrationState_INT::Completed
             where requestData.RunIdentifier == RunIdentifier;
         update_recordset request
             setting State = IntegrationState_INT::Completed
@@ -96,7 +96,7 @@ public class IntegrationLogging_INT
             where request.Identifier == identifier;
 
         update_recordset requestData
-            setting Ended = DateTimeUtil::utcNow()
+            setting Ended = DateTimeUtil::utcNow(), State = IntegrationState_INT::Failed
             where requestData.RunIdentifier == runIdentifier;
     }
 
@@ -124,7 +124,7 @@ public class IntegrationLogging_INT
             request.Identifier = identifier;
             request.DateTimeStamp = beginDatetime;
             request.Company = company;
-            request.Name = integrationName;
+            request.IntegrationName = integrationName;
             request.State = IntegrationState_INT::New;
             request.RelatedRequest = relatedRequest;
             request.insert();
@@ -142,6 +142,7 @@ public class IntegrationLogging_INT
         requestData.Begin = beginDatetime;
         requestData.RunIdentifier = runIdentifier;
         requestData.Input = _payload;
+        requestData.State = IntegrationState_INT::New;
         requestData.insert();
 
     }
@@ -167,7 +168,7 @@ public class IntegrationLogging_INT
             setting State = IntegrationState_INT::AwaitingAsyncProcessing
             where request.Identifier == identifier;
         update_recordset requestData
-            setting Schedulet = DateTimeUtil::utcNow()
+            setting Schedulet = DateTimeUtil::utcNow(),State = IntegrationState_INT::AwaitingAsyncProcessing
             where requestData.RunIdentifier == this.runIdentifier;
 
                 
@@ -192,11 +193,11 @@ public class IntegrationLogging_INT
         requestData.setConnection(userCon);
  
         update_recordset request
-            setting State = IntegrationState_INT::AwaitingAsyncProcessing
+            setting State = IntegrationState_INT::Processing
             where request.Identifier == identifier;
         
         update_recordset requestData
-            setting Processing = DateTimeUtil::utcNow()
+            setting Processing = DateTimeUtil::utcNow(),State = IntegrationState_INT::Processing
             where requestData.RunIdentifier == this.runIdentifier;
     
     }
@@ -238,7 +239,7 @@ public class IntegrationLogging_INT
     /// <returns>The logging instance</returns>
     public static IntegrationLogging_INT construct(Integration_INT _integration, guid _runIdentifier)
     {
-        return new IntegrationLogging_INT(_integration.parmIntegrationSetup().Name,_integration.parmIdentifier(),_runIdentifier,_integration.parmCompany(),_integration.getRelatedRequest());
+        return new IntegrationLogging_INT(_integration.parmIntegrationSetup().IntegrationName,_integration.parmIdentifier(),_runIdentifier,_integration.parmCompany(),_integration.getRelatedRequest());
     }
 
 ]]></Source>

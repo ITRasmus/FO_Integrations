@@ -29,7 +29,7 @@ internal final class IntegrationEndpointSample_INT extends IntegrationInbound_IN
 
         returnValue.parmCompany(this.parmCompany());
         returnValue.parmIndentifier(this.parmIdentifier());
-        returnValue.parmIntegrationName(this.parmIntegrationSetup().Name);
+        returnValue.parmIntegrationName(this.parmIntegrationSetup().IntegrationName);
         returnValue.parmPayload(this.parmPayload());
 
         return returnValue;

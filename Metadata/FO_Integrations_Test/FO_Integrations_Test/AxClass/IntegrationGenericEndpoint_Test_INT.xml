@@ -72,12 +72,12 @@ internal final class IntegrationGenericEndpoint_Test_INT extends SysTestCase
             IntegrationEndpointSampleOut_INT sample = result as IntegrationEndpointSampleOut_INT;
             this.assertEquals(#IntegrationSampleName,sample.parmIntegrationName());
             select firstonly request
-                join setup where setup.Name == request.Name;
+                join setup where setup.IntegrationName == request.IntegrationName;
 
             this.assertNotNull(setup);
             this.assertNotNull(request);
             this.assertEquals(#JustACompany, request.Company);
-            this.assertEquals(#IntegrationSampleName,setup.Name);
+            this.assertEquals(#IntegrationSampleName,setup.IntegrationName);
             this.assertEquals(IntegrationState_INT::Completed,request.State);
             select firstonly requestData
             where requestData.Identifier == request.Identifier;

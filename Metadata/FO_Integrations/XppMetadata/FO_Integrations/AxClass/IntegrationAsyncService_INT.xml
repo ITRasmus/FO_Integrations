@@ -5,7 +5,6 @@
 	<IsPublic>true</IsPublic>
 	<Members>
 		<AxClassMemberVariable>
-			<Tags></Tags>
 			<Type>Record</Type>
 			<TypeName>IntegrationRequest_INT</TypeName>
 			<Name>request</Name>
@@ -13,7 +12,6 @@
 			<Visibility>Private</Visibility>
 		</AxClassMemberVariable>
 		<AxClassMemberVariable>
-			<Tags></Tags>
 			<Type>Record</Type>
 			<TypeName>IntegrationRequestData_INT</TypeName>
 			<Name>requestData</Name>
@@ -21,7 +19,6 @@
 			<Visibility>Private</Visibility>
 		</AxClassMemberVariable>
 		<AxClassMemberVariable>
-			<Tags></Tags>
 			<Type>Record</Type>
 			<TypeName>IntegrationSetup_INT</TypeName>
 			<Name>setup</Name>
@@ -35,16 +32,31 @@
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>Class</Type>
 					<TypeName>IntegrationAsyncContract_INT</TypeName>
 					<Name>_contract</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
-				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
+			<Variables>
+				<AxMethodVariable>
+					<Type>Record</Type>
+					<TypeName>IntegrationSetup_INT</TypeName>
+					<Name>outboundSetup</Name>
+				</AxMethodVariable>
+				<AxMethodVariable>
+					<Type>Class</Type>
+					<TypeName>Integration_INT</TypeName>
+					<Name>integration</Name>
+				</AxMethodVariable>
+				<AxMethodVariable>
+					<Type>Class</Type>
+					<TypeName>IntegrationReturnable_INT</TypeName>
+					<Name>result</Name>
+				</AxMethodVariable>
+			</Variables>
 		</Method>
 	</Methods>
 </z:anyType>

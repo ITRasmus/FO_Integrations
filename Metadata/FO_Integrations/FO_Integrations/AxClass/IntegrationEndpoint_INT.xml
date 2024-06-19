@@ -103,7 +103,7 @@ public class IntegrationEndpoint_INT
             where data.Identifier == _identifier;
         if(!data)
         {
-            throw error(strFmt("@Integrations_INT:MissingData",request.Name,_identifier,emptyGuid()));
+            throw error(strFmt("@Integrations_INT:MissingData",request.IntegrationName,_identifier,emptyGuid()));
         }
         if(data.Output == '')
         {

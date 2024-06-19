@@ -77,18 +77,33 @@ public class IntegrationHandler_INT
     {
         IntegrationReturnable_INT result;
         logging.initLog(integration.parmPayload());
-        
 
-        switch (integrationSetup.IntegrationType)
+        switch (integrationSetup.getInstanceRelationType())
         {
-            case IntegrationType_INT::In_AsyncPull:
-            case IntegrationType_INT::In_AsyncPush:
-            case IntegrationType_INT::Out_Async:
-                result = this.scheduleAsync();
+            case tableStr(IntegrationSetupOut_INT):
+                IntegrationSetupOut_INT outSetup = integrationSetup;
+                switch(outSetup.IntegrationOutType)
+                {
+                    case IntegrationTypeOut_INT::Sync:
+                        result = this.processRequest();
+                        break;
+                    default:
+                        result = this.scheduleAsync();
+                        break;
+                }
                 break;
-            case IntegrationType_INT::In_Sync:
-            case IntegrationType_INT::Out_Sync:
-                result = this.processRequest();
+            
+            case tableStr(IntegrationSetupIn_INT):
+                IntegrationSetupIn_INT inSetup = integrationSetup;
+                switch(inSetup.IntegrationInType)
+                {
+                    case IntegrationTypeIn_INT::Sync:
+                        result = this.processRequest();
+                        break;
+                    default:
+                        result = this.scheduleAsync();
+                        break;
+                }
                 break;
         }
 
@@ -112,12 +127,11 @@ public class IntegrationHandler_INT
         {
             logging.logProcessing();
             ttsbegin;
-            IntegrationParseable_INT input = FormJsonSerializer::deserializeObject(integration.DataContractIdentifier(),integration.parmPayload());
-            input.setKeywords();
+            IntegrationParseable_INT input = IntegrationParseable_INT::Construct(integration);
+
             logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
 
             result = integration.process(input);
-
 
             logging.LogComplete(result);
             ttscommit;
@@ -151,7 +165,7 @@ public class IntegrationHandler_INT
     {
         IntegrationAsyncServiceController_INT::scheduleJob(integration.parmIdentifier(),this.runIdentifier);
         logging.logAsyncSchedule();
-        return IntegrationAsyncScheduletDC_INT::construct(integration.parmIdentifier(),integrationSetup.Name);
+        return IntegrationAsyncScheduletDC_INT::construct(integration.parmIdentifier(),integrationSetup.IntegrationName);
     }
 
 ]]></Source>
@@ -171,9 +185,9 @@ public class IntegrationHandler_INT
     {
         IntegrationReturnable_INT result;
         IntegrationSetup_INT unknownIntegration;
-        unknownIntegration.Name = _integrationName;
+        unknownIntegration.IntegrationName = _integrationName;
         guid identifier = newGuid();
-        IntegrationLogging_INT logging =  IntegrationLogging_INT::constructFromValues(unknownIntegration.Name,identifier,identifier,_company);
+        IntegrationLogging_INT logging =  IntegrationLogging_INT::constructFromValues(unknownIntegration.IntegrationName,identifier,identifier,_company);
         logging.initLog(_payload);
         logging.logError(_ex);
         result = IntegrationReturnable_INT::createFromException(_ex,identifier);

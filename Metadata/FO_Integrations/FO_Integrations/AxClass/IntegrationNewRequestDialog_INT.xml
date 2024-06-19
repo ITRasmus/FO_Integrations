@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationNewRequestDialog_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal class IntegrationNewRequestDialog_INT
+{
+
+    private Dialog dialog;
+    private DialogField integrationName;
+    private DialogField integrationCompany;
+    private DialogField integrationIdentifier;
+    private DialogField integrationInput;
+    private guid identifier;
+
+
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    protected void New()
+    {
+        dialog = new Dialog("@Integrations_INT:NewRequest",this);
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>BuildDialog</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Builds the acutal dialog
+    /// </summary>
+    /// <param name = "_name">Name of the integration</param>
+    /// <param name = "_allowEditName">Allow Edit of the name</param>
+    /// <param name = "_company">The company to run the integration In</param>
+    /// <param name = "_allowEditCompany">Allow edit of company</param>
+    /// <param name = "_input">The input to preload with</param>
+    /// <param name = "_identifier">The identifier if there is already an request</param>
+    protected void BuildDialog(IntegrationName_INT _name,boolean _allowEditName,IntegrationCompany_INT _company, boolean _allowEditCompany,IntegrationInput_INT _input,guid _identifier = newGuid())
+    {
+        identifier = _identifier;
+        DialogGroup requestGroup = dialog.addGroup("@Integrations_INT:RequestInfo");
+        
+        integrationName =  dialog.addField(extendedTypeStr(IntegrationName_INT));
+        integrationName.value(_name);
+        integrationName.allowEdit(_allowEditName);
+
+        integrationCompany =  dialog.addField(extendedTypeStr(IntegrationCompany_INT));
+        integrationCompany.value(_company);
+        integrationCompany.allowEdit(_allowEditCompany);
+
+        integrationIdentifier =  dialog.addField(extendedTypeStr(String50),"@Integrations_INT:Identifier");
+        integrationIdentifier.value(guid2Str(_identifier));
+        integrationIdentifier.allowEdit(false);
+
+        requestGroup.addFieldname(integrationName.name());
+        requestGroup.addFieldname(integrationCompany.name());
+        requestGroup.addFieldname(integrationIdentifier.name());
+        
+        DialogGroup requestData = dialog.addGroup("@Integrations_INT:RequestData");
+        
+        
+
+        integrationInput =  dialog.addField(extendedTypeStr(IntegrationInput_INT));
+        integrationInput.value(_input);
+        integrationInput.displayHeight(50);
+        integrationInput.displayLength(50);
+        integrationInput.multiLine(true);
+
+        requestData.addFieldname(integrationInput.name());
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>showDialog</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Shows the dialog and processes the result
+    /// </summary>
+    protected void showDialog()
+    {
+
+        if(dialog.run())
+        {
+            if(dialog.closedOk())
+            {
+                IntegrationRequestData_INT data;
+                update_recordset data
+                    setting State = IntegrationState_INT::Obsolete
+                where data.Identifier == identifier;
+
+                IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(integrationName.value());
+
+                Integration_INT integration = integrationSetup.createIntegration(integrationCompany.value(),integrationInput.value());
+                integration.parmIdentifier(identifier);
+                IntegrationHandler_INT::HandleEvent(integration);
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createNewRequestDataDialogFromData</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Shows a dialog with input from another request
+    /// </summary>
+    /// <param name = "_request">The request</param>
+    /// <param name = "_requestData">The data</param>
+    public static void createNewRequestDataDialogFromData(IntegrationRequest_INT _request,IntegrationRequestData_INT _requestData)
+    {
+        IntegrationNewRequestDialog_INT diag = new IntegrationNewRequestDialog_INT();
+
+        diag.BuildDialog(_request.IntegrationName,false,_request.Company,false,_requestData.Input,_request.Identifier);
+        diag.showDialog();
+ 
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Show the dialog for running a new integration
+    /// </summary>
+    /// <param name = "_args">From the menu item</param>
+    public static void main(Args _args)
+    {
+        IntegrationNewRequestDialog_INT diag = new IntegrationNewRequestDialog_INT();
+
+        diag.BuildDialog('',true,curExt(),true,'');
+        diag.showDialog();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

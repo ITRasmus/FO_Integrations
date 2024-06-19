@@ -34,6 +34,11 @@
 			<Label>@Integrations_INT:Completed</Label>
 			<Value>5</Value>
 		</AxEnumValue>
+		<AxEnumValue>
+			<Name>Obsolete</Name>
+			<Label>@Integrations_INT:Obsolete</Label>
+			<Value>6</Value>
+		</AxEnumValue>
 	</EnumValues>
 	<IsExtensible>true</IsExtensible>
 </AxEnum>

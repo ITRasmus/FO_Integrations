@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationSetupValue_INT</Name>
+	<Name>IntegrationSetupOutValue_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// 
 /// </summary>
-public class IntegrationSetupValue_INT extends common
+public class IntegrationSetupOutValue_INT extends common
 {
 
     #Define.IntegrationAttributeName('IntegrationOutboundSetupAttribute_INT')
@@ -21,12 +21,12 @@ public class IntegrationSetupValue_INT extends common
     /// Removes all previus setup values for the integration
     /// </summary>
     /// <param name = "_className">The integrationTo remove setup for</param>
-    public static void removeOldValues(ClassName _className)
+    public static void removeOldValues(IntegrationName_INT _integrationName)
     {
-        IntegrationSetupValue_INT value;
+        IntegrationSetupOutValue_INT value;
 
         delete_from value
-            where value.ClassName == _className;
+            where value.IntegrationName == _integrationName;
 
     }
 
@@ -40,30 +40,45 @@ public class IntegrationSetupValue_INT extends common
     /// </summary>
     /// <param name = "_className">The integration to create the records for</param>
     /// <param name = "_values">The setup to create them for</param>
-    public static void createValuesFromContract(ClassName _className, IntegrationOutboundSetup_INT _values)
+    public static void createValuesFromContract(IntegrationName_INT _IntegrationName, classId _classId)
     {
         DictClass theClass;
         DictMethod theMethod;
-        IntegrationSetupValue_INT value;
-
-        int classId = classIdGet(_values);
-        theClass = new DictClass(classId);
-        int methodCount = theClass.objectMethodCnt();
-        int counter = 1;
-        while(counter < methodCount)
+        IntegrationSetupOutValue_INT value;
+        if(_classId)
         {
-            theMethod = theClass.objectMethodObject(counter);
-            IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
-                
-            if(integrationAttribute)
+
+         
+            theClass = new DictClass(_classId);
+            int methodCount = theClass.objectMethodCnt();
+            
+            int counter = 1;
+            while(counter < methodCount)
             {
-                value.clear();
-                value.ClassName = _className;
-                value.Id = integrationAttribute.Name();
-                value.Value = integrationAttribute.DefaultValue();
-                value.insert();
+                theMethod = theClass.objectMethodObject(counter);
+                IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
+                
+                if(integrationAttribute)
+                {
+                    select firstonly value
+                        where value.Id == integrationAttribute.Name()
+                        && value.IntegrationName == _IntegrationName;
+
+                    if(!value)
+                    {
+                        value.clear();
+                        value.IntegrationName = _IntegrationName;
+                        value.Id = integrationAttribute.Name();
+                        value.Value = integrationAttribute.DefaultValue();
+                        value.insert();
+                    }
+                }
+                counter ++;
             }
-            counter ++;
+            if(theClass.extend())
+            {
+                IntegrationSetupOutValue_INT::createValuesFromContract(_IntegrationName,theClass.extend());
+            }
         }
 
     }
@@ -79,12 +94,12 @@ public class IntegrationSetupValue_INT extends common
     /// <param name = "_classId">The classid the object should be type of</param>
     /// <param name = "_className">The name of the integration to get the values from</param>
     /// <returns>A created object with the values from the setup</returns>
-    public Object createContractWithValues(int _classId, ClassName _className)
+    public static Object createContractWithValues(int _classId, IntegrationName_INT _integrationName)
     {
         
         DictClass theClass;
         DictMethod theMethod;
-        IntegrationSetupValue_INT value;
+        IntegrationSetupOutValue_INT value;
         Object contract;
         
         theClass = new DictClass(_classId);
@@ -99,7 +114,7 @@ public class IntegrationSetupValue_INT extends common
             if(integrationAttribute)
             {
                 select firstonly value
-                    where value.ClassName == _className
+                    where value.IntegrationName == _integrationName
                     && value.Id == integrationAttribute.Name();
                 if(value)
                 {
@@ -127,7 +142,7 @@ public class IntegrationSetupValue_INT extends common
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
-	<TitleField1>ClassName</TitleField1>
+	<TitleField1>IntegrationName</TitleField1>
 	<TitleField2>Id</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
 	<ReplacementKey>IntegrationAndIdIdx</ReplacementKey>
@@ -162,9 +177,6 @@ public class IntegrationSetupValue_INT extends common
 				<AxTableFieldGroupField>
 					<DataField>Id</DataField>
 				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
-					<DataField>ClassName</DataField>
-				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
@@ -196,6 +208,12 @@ public class IntegrationSetupValue_INT extends common
 	<Fields>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
+			<Name>IntegrationName</Name>
+			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
 			<Name>Id</Name>
 			<ExtendedDataType>IntegrationSetupValueId_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
@@ -213,12 +231,6 @@ public class IntegrationSetupValue_INT extends common
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
-		<AxTableField xmlns=""
-			i:type="AxTableFieldString">
-			<Name>ClassName</Name>
-			<ExtendedDataType>ClassName</ExtendedDataType>
-			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes>
@@ -227,15 +239,28 @@ public class IntegrationSetupValue_INT extends common
 			<AlternateKey>Yes</AlternateKey>
 			<Fields>
 				<AxTableIndexField>
-					<DataField>ClassName</DataField>
-				</AxTableIndexField>
-				<AxTableIndexField>
 					<DataField>Id</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>
 	</Indexes>
 	<Mappings />
-	<Relations />
+	<Relations>
+		<AxTableRelation>
+			<Name>IntegrationSetup</Name>
+			<Cardinality>ZeroMore</Cardinality>
+			<RelatedTable>IntegrationSetup_INT</RelatedTable>
+			<RelatedTableCardinality>ExactlyOne</RelatedTableCardinality>
+			<RelationshipType>Association</RelationshipType>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>IntegrationName</Name>
+					<Field>IntegrationName</Field>
+					<RelatedField>IntegrationName</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+		</AxTableRelation>
+	</Relations>
 	<StateMachines />
 </AxTable>

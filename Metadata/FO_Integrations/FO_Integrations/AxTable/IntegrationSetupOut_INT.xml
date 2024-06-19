@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetupOut_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Helper methods for translation the setup to classes
+/// </summary>
+public class IntegrationSetupOut_INT extends common
+{
+     
+
+    
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>lookupTransport</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static void lookupTransport(FormControl _formCtrl)
+    {
+        TmpSysClass             tmpSysClass;
+        ;
+        DictClass outBoundSetupClass = new DictClass(classnum(IntegrationOutboundSetup_INT));
+    
+        List classExtends = outBoundSetupClass.extendedBy(true);
+        ListEnumerator  setupClassesEnumerator = classExtends.getEnumerator();
+
+    
+        while (setupClassesEnumerator.moveNext())
+        {
+            DictClass setupClass = new DictClass(setupClassesEnumerator.current());
+            if (!setupClass.isAbstract())
+            {
+                tmpSysClass.ClassId   = setupClass.id();
+                IntegrationOutboundSetup_INT setup = setupClass.makeObject();
+                tmpSysClass.ClassName = setup.getSetupName();
+                tmpSysClass.insert();
+            }
+        }
+        SysTableLookup sysTableLookup = SysTableLookup::newParameters(tablenum(TmpSysClass), _formCtrl);
+        sysTableLookup.addLookupfield(fieldnum(TmpSysClass, ClassId),true);
+        sysTableLookup.addLookupfield(fieldnum(TmpSysClass, ClassName));
+
+        Query query = new Query();
+        query.addDataSource(tablenum(TmpSysClass));
+    
+        sysTableLookup.parmQuery(query);
+        sysTableLookup.parmTmpBuffer(tmpSysClass);
+        sysTableLookup.performFormLookup();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getTransportObject</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public IntegrationOutboundSetup_INT getTransportObject()
+    {
+
+        if(this.Transport)
+        {
+            DictClass outSetup = new DictClass(this.Transport);
+
+            return outSetup.makeObject();
+        }
+        return null;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>editTransport</Name>
+				<Source><![CDATA[
+    public edit str editTransport(boolean set, str _classId)
+    {
+        int classId = str2Int(_classId);
+        
+        if (set)
+        {
+            ttsbegin;
+            this.Transport = classId;
+            ttscommit;
+        }
+        else
+        {
+            classId = this.Transport;
+        }
+
+        if(classId)
+        {
+            DictClass dclass = new DictClass(classId);
+            IntegrationOutboundSetup_INT outSetup = dclass.makeObject();
+            return outSetup.getSetupName();
+        }
+        else
+        {
+            return '';
+
+        }
+
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<DeveloperDocumentation>@Integrations_INT:IntegrationSetupDevDoc</DeveloperDocumentation>
+	<Label>@Integrations_INT:IntegrationSetup</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TitleField1>IntegrationName</TitleField1>
+	<TitleField2>ClassName</TitleField2>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<Extends>IntegrationSetup_INT</Extends>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SupportInheritance>Yes</SupportInheritance>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>IntegrationRequest_INT</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation></Relation>
+			<Table>IntegrationRequest_INT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>IntegrationOutType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>IntegrationOutType</Name>
+			<EnumType>IntegrationTypeOut_INT</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>Transport</Name>
+			<ExtendedDataType>ClassId</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:Transport</Label>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes />
+	<Mappings />
+	<Relations>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>IntegrationSetup_INT</Name>
+			<Cardinality>ZeroOne</Cardinality>
+			<RelatedTable>IntegrationSetup_INT</RelatedTable>
+			<RelatedTableCardinality>ExactlyOne</RelatedTableCardinality>
+			<RelationshipType>Specialization</RelationshipType>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>RecId</Name>
+					<Field>RecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

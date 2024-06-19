@@ -9,7 +9,7 @@
 	</Methods>
 	<DataSources>
 		<DataSource>
-			<Name>IntegrationRequestData_INT</Name>
+			<Name>IntegrationSetupIn_INT</Name>
 			<Methods>
 				<Method>
 					<Name>init</Name>
@@ -24,7 +24,20 @@
 	</DataSources>
 	<DataControls>
 		<Control>
-			<Name>Rerun</Name>
+			<Name>InitIntegrations</Name>
+			<Type>Button</Type>
+			<Methods>
+				<Method>
+					<Name>clicked</Name>
+					<Visibility>Public</Visibility>
+					<ReturnType>
+						<TypeName></TypeName>
+					</ReturnType>
+				</Method>
+			</Methods>
+		</Control>
+		<Control>
+			<Name>FormButtonControl1</Name>
 			<Type>Button</Type>
 			<Methods>
 				<Method>

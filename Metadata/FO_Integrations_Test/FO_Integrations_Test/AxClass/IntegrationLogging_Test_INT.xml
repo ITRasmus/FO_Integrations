@@ -25,12 +25,12 @@ internal final class IntegrationLogging_Test_INT extends SysTestCase
         IntegrationRequest_INT request;
         IntegrationSetup_INT setup;
         select firstonly setup
-            where setup.Name == #IntegrationSampleName;
+            where setup.IntegrationName == #IntegrationSampleName;
         this.assertNotNull(setup);
         
         guid id = newGuid();
         guid runid = newGuid();
-        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#JustACompany,emptyGuid());
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.IntegrationName,id,runid,#JustACompany,emptyGuid());
 
         log.initLog(#Payload);
 
@@ -38,7 +38,7 @@ internal final class IntegrationLogging_Test_INT extends SysTestCase
             where request.Identifier == id;
         this.assertNotNull(request);
         this.assertEquals(#JustACompany,request.Company);
-        this.assertEquals(#IntegrationSampleName,setup.Name);
+        this.assertEquals(#IntegrationSampleName,setup.IntegrationName);
         
     }
 
@@ -55,12 +55,12 @@ internal final class IntegrationLogging_Test_INT extends SysTestCase
         IntegrationRequestData_INT requestData;
         IntegrationSetup_INT setup;
         select firstonly setup
-            where setup.Name == #IntegrationSampleName;
+            where setup.IntegrationName == #IntegrationSampleName;
         this.assertNotNull(setup);
 
         guid id = newGuid();
         guid runid = newGuid();
-        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.Name,id,runid,#JustACompany);
+        IntegrationLogging_INT log = IntegrationLogging_INT::constructFromValues(setup.IntegrationName,id,runid,#JustACompany);
 
         log.initLog(#Payload);
 
@@ -79,7 +79,7 @@ internal final class IntegrationLogging_Test_INT extends SysTestCase
             && requestData.RunIdentifier == runid;
         this.assertNull(requestData);
 
-        log = IntegrationLogging_INT::constructFromValues(setup.name,id,runid,#JustACompany);
+        log = IntegrationLogging_INT::constructFromValues(setup.IntegrationName,id,runid,#JustACompany);
         log.initLog(#payload2);
 
         select firstonly requestData

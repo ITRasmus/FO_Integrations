@@ -35,6 +35,15 @@
 			<Name>TestServiceSchedule</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>testdummy</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>

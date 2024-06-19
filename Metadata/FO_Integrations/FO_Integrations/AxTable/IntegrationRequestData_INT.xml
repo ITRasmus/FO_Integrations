@@ -93,6 +93,7 @@ public class IntegrationRequestData_INT extends common
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>Time</Name>
+			<Label>@Integrations_INT:Time</Label>
 			<Fields>
 				<AxTableFieldGroupField>
 					<DataField>Begin</DataField>
@@ -139,6 +140,7 @@ public class IntegrationRequestData_INT extends common
 			<Name>Begin</Name>
 			<ExtendedDataType>IntegrationDateTimeStamp_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:Recieved</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
@@ -150,18 +152,21 @@ public class IntegrationRequestData_INT extends common
 			<Name>Schedulet</Name>
 			<ExtendedDataType>IntegrationDateTimeStamp_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:Schedulet</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldUtcDateTime">
 			<Name>Processing</Name>
 			<ExtendedDataType>IntegrationDateTimeStamp_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:Processing</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldUtcDateTime">
 			<Name>Ended</Name>
 			<ExtendedDataType>IntegrationDateTimeStamp_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:Ended</Label>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

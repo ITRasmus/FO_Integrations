@@ -10,8 +10,8 @@
 				<AxMethodParameter>
 					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
-					<TypeName>ClassName</TypeName>
-					<Name>_className</Name>
+					<TypeName>IntegrationName_INT</TypeName>
+					<Name>_integrationName</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
@@ -27,14 +27,14 @@
 				<AxMethodParameter>
 					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
-					<TypeName>ClassName</TypeName>
-					<Name>_className</Name>
+					<TypeName>IntegrationName_INT</TypeName>
+					<Name>_IntegrationName</Name>
 				</AxMethodParameter>
 				<AxMethodParameter>
 					<Tags></Tags>
-					<Type>Class</Type>
-					<TypeName>IntegrationOutboundSetup_INT</TypeName>
-					<Name>_values</Name>
+					<Type>ExtendedDataType</Type>
+					<TypeName>classId</TypeName>
+					<Name>_classId</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
@@ -44,6 +44,7 @@
 		</Method>
 		<Method>
 			<Name>createContractWithValues</Name>
+			<IsStatic>true</IsStatic>
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
@@ -55,8 +56,8 @@
 				<AxMethodParameter>
 					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
-					<TypeName>ClassName</TypeName>
-					<Name>_className</Name>
+					<TypeName>IntegrationName_INT</TypeName>
+					<Name>_integrationName</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>

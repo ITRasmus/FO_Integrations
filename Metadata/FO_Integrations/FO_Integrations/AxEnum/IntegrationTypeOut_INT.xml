@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxEnum xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationDirection_INT</Name>
-	<Label>@Integrations_INT:Direction</Label>
+	<Name>IntegrationTypeOut_INT</Name>
+	<Label>@Integrations_INT:IntegrationType</Label>
 	<UseEnumValue>No</UseEnumValue>
 	<EnumValues>
 		<AxEnumValue>
-			<Name>In</Name>
-			<Label>@Integrations_INT:DirectionIn</Label>
+			<Name>Sync</Name>
+			<Label>@Integrations_INT:OutboundSync</Label>
+			<Value>4</Value>
 		</AxEnumValue>
 		<AxEnumValue>
-			<Name>Out</Name>
-			<Label>@Integrations_INT:DirectionOut</Label>
-			<Value>1</Value>
+			<Name>Async</Name>
+			<Label>@Integrations_INT:OutboundAsync</Label>
+			<Value>5</Value>
 		</AxEnumValue>
 	</EnumValues>
 	<IsExtensible>true</IsExtensible>

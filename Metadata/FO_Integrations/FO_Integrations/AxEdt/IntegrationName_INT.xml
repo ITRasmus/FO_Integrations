@@ -3,7 +3,13 @@
 	i:type="AxEdtString">
 	<Name>IntegrationName_INT</Name>
 	<Extends>Name</Extends>
+	<ReferenceTable>IntegrationSetup_INT</ReferenceTable>
 	<ArrayElements />
 	<Relations />
-	<TableReferences />
+	<TableReferences>
+		<AxEdtTableReference>
+			<RelatedField>IntegrationName</RelatedField>
+			<Table>IntegrationSetup_INT</Table>
+		</AxEdtTableReference>
+	</TableReferences>
 </AxEdt>

@@ -14,7 +14,7 @@ public class IntegrationRequest_INT extends common
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
-	<TitleField1>Name</TitleField1>
+	<TitleField1>IntegrationName</TitleField1>
 	<TitleField2>Identifier</TitleField2>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
 	<ClusteredIndex>IntegrationIdentifierIdx</ClusteredIndex>
@@ -45,6 +45,9 @@ public class IntegrationRequest_INT extends common
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>RelatedRequest</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -100,9 +103,14 @@ public class IntegrationRequest_INT extends common
 	<Fields>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
-			<Name>Name</Name>
+			<Name>IntegrationName</Name>
 			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>Direction</Name>
+			<EnumType>IntegrationDirection_INT</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldGuid">
@@ -165,6 +173,12 @@ public class IntegrationRequest_INT extends common
 			<Label>@Integrations_INT:RelatedRequest</Label>
 			<Mandatory>Yes</Mandatory>
 		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldGuid">
+			<Name>CorrelationId</Name>
+			<ExtendedDataType>IntegrationCorrelationId_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes>
@@ -182,7 +196,7 @@ public class IntegrationRequest_INT extends common
 			<AllowDuplicates>Yes</AllowDuplicates>
 			<Fields>
 				<AxTableIndexField>
-					<DataField>Name</DataField>
+					<DataField>IntegrationName</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>
@@ -190,7 +204,7 @@ public class IntegrationRequest_INT extends common
 	<Mappings />
 	<Relations>
 		<AxTableRelation>
-			<Name>IntegrationSetup</Name>
+			<Name>Integration</Name>
 			<Cardinality>ZeroMore</Cardinality>
 			<OnDelete>Restricted</OnDelete>
 			<RelatedTable>IntegrationSetup_INT</RelatedTable>
@@ -199,9 +213,9 @@ public class IntegrationRequest_INT extends common
 			<Constraints>
 				<AxTableRelationConstraint xmlns=""
 					i:type="AxTableRelationConstraintField">
-					<Name>Name</Name>
-					<Field>Name</Field>
-					<RelatedField>Name</RelatedField>
+					<Name>IntegrationName</Name>
+					<Field>IntegrationName</Field>
+					<RelatedField>IntegrationName</RelatedField>
 				</AxTableRelationConstraint>
 			</Constraints>
 		</AxTableRelation>
