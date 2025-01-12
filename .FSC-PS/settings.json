@@ -1,0 +1,8 @@
+{
+  "type":"FSCM",
+  "packageName": "FO_Integrations",
+  "buildVersion": "10.0.42",
+  "ciBranches": "dev,main",
+  "useLocalNuGetStorage":true,
+  "deploymentScheduler":false
+}
