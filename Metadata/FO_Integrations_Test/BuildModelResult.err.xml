@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Diagnostics
+  GenerationTime="2025-01-12T13:53:11.6509939+00:00">
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestOAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>15</Line>
+      <Column>9</Column>
+      <EndLine>15</EndLine>
+      <EndColumn>46</EndColumn>
+      <Message>The name 'IntegrationOutBoundSetupRestOAuth_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestOAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassNotFound</Moniker>
+      <Line>15</Line>
+      <Column>59</Column>
+      <EndLine>15</EndLine>
+      <EndColumn>102</EndColumn>
+      <Message>Class 'IntegrationOutBoundSetupRestOAuth_INT' was not found. Are you missing a module reference?</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestOAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>28</Line>
+      <Column>9</Column>
+      <EndLine>28</EndLine>
+      <EndColumn>36</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestOAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassOrTableNotFound</Moniker>
+      <Line>28</Line>
+      <Column>52</Column>
+      <EndLine>28</EndLine>
+      <EndColumn>103</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not designate a class or table.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestFailure</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>54</Line>
+      <Column>9</Column>
+      <EndLine>54</EndLine>
+      <EndColumn>46</EndColumn>
+      <Message>The name 'IntegrationOutBoundSetupRestOAuth_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestFailure</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassNotFound</Moniker>
+      <Line>54</Line>
+      <Column>59</Column>
+      <EndLine>54</EndLine>
+      <EndColumn>102</EndColumn>
+      <Message>Class 'IntegrationOutBoundSetupRestOAuth_INT' was not found. Are you missing a module reference?</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestFailure</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>67</Line>
+      <Column>9</Column>
+      <EndLine>67</EndLine>
+      <EndColumn>36</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationInOut_Test_USMF_INT/Method/TestFailure</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassOrTableNotFound</Moniker>
+      <Line>67</Line>
+      <Column>52</Column>
+      <EndLine>67</EndLine>
+      <EndColumn>103</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not designate a class or table.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestPostPlainText</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>13</Line>
+      <Column>9</Column>
+      <EndLine>13</EndLine>
+      <EndColumn>41</EndColumn>
+      <Message>The name 'IntegrationOutboundSetupRest_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestPostPlainText</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassNotFound</Moniker>
+      <Line>13</Line>
+      <Column>50</Column>
+      <EndLine>13</EndLine>
+      <EndColumn>88</EndColumn>
+      <Message>Class 'IntegrationOutboundSetupRest_INT' was not found. Are you missing a module reference?</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestPostPlainText</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>23</Line>
+      <Column>9</Column>
+      <EndLine>23</EndLine>
+      <EndColumn>36</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestPostPlainText</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassOrTableNotFound</Moniker>
+      <Line>23</Line>
+      <Column>52</Column>
+      <EndLine>23</EndLine>
+      <EndColumn>99</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not designate a class or table.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestBasicAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>45</Line>
+      <Column>9</Column>
+      <EndLine>45</EndLine>
+      <EndColumn>46</EndColumn>
+      <Message>The name 'IntegrationOutboundSetupRestBasic_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestBasicAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassNotFound</Moniker>
+      <Line>45</Line>
+      <Column>55</Column>
+      <EndLine>45</EndLine>
+      <EndColumn>98</EndColumn>
+      <Message>Class 'IntegrationOutboundSetupRestBasic_INT' was not found. Are you missing a module reference?</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestBasicAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>TypeNotFound</Moniker>
+      <Line>56</Line>
+      <Column>9</Column>
+      <EndLine>56</EndLine>
+      <EndColumn>36</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not denote a class, a table, or an extended data type.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationOutboundRest_Test_INT/Method/TestBasicAuth</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassOrTableNotFound</Moniker>
+      <Line>56</Line>
+      <Column>52</Column>
+      <EndLine>56</EndLine>
+      <EndColumn>99</EndColumn>
+      <Message>The name 'IntegrationOutBoundRest_INT' does not designate a class or table.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationService_Test_INT/Method/TestServiceSchedule</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassOrTableNotFound</Moniker>
+      <Line>14</Line>
+      <Column>9</Column>
+      <EndLine>14</EndLine>
+      <EndColumn>80</EndColumn>
+      <Message>The name 'IntegrationAsyncServiceController_INT' does not designate a class or table.</Message>
+    </Diagnostic>
+  </Items>
+  <Aliases />
+</Diagnostics>

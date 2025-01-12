@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationBrokerPropertiesDC_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[DataContract]
+public class IntegrationBrokerPropertiesDC_INT
+{
+    private int deliverycount;
+    private int enqueuedSequenceNumber;
+    private int sequenceNumber;
+    private int timeToLive;
+    private guid lockToken;
+    private guid messageId;
+    private str state;
+    private utcdatetime enqueuedTimeUtc;
+    private utcdatetime lockedUntilUtc;
+
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmEnqueuedTimeUtc</Name>
+				<Source><![CDATA[
+    [DataMember('EnqueuedTimeUtc')]
+    public utcdatetime parmEnqueuedTimeUtc(utcdatetime _enqueuedTimeUtc = enqueuedTimeUtc)
+    {
+        enqueuedTimeUtc = _enqueuedTimeUtc;
+        return enqueuedTimeUtc;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmLockedUntilUtc</Name>
+				<Source><![CDATA[
+    [DataMember('LockedUntilUtc')]
+    public utcdatetime parmLockedUntilUtc(utcdatetime _lockedUntilUtc = lockedUntilUtc)
+    {
+        lockedUntilUtc = _lockedUntilUtc;
+        return lockedUntilUtc;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmDeliveryCount</Name>
+				<Source><![CDATA[
+    [DataMember('DeliveryCount')]
+    public int parmDeliveryCount(int _deliveryCount = deliveryCount)
+    {
+        deliveryCount = _deliveryCount;
+        return deliveryCount;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmEnqueuedSequenceNumber</Name>
+				<Source><![CDATA[
+    [DataMember('EnqueuedSequenceNumber')]
+    public int parmEnqueuedSequenceNumber(int _enqueuedSequenceNumber = enqueuedSequenceNumber)
+    {
+        enqueuedSequenceNumber = _enqueuedSequenceNumber;
+        return enqueuedSequenceNumber;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSequenceNumber</Name>
+				<Source><![CDATA[
+    [DataMember('SequenceNumber')]
+    public int parmSequenceNumber(int _sequenceNumber = sequenceNumber)
+    {
+        sequenceNumber = _sequenceNumber;
+        return sequenceNumber;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmLockToken</Name>
+				<Source><![CDATA[
+    [DataMember('LockToken')]
+    public guid parmLockToken(guid _lockToken = lockToken)
+    {
+        lockToken = _lockToken;
+        return lockToken;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmMessageId</Name>
+				<Source><![CDATA[
+    [DataMember('MessageId')]
+    public guid parmMessageId(guid _messageId = messageId)
+    {
+        messageId = _messageId;
+        return messageId;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmState</Name>
+				<Source><![CDATA[
+    [DataMember('State')]
+    public str parmState(str _state = state)
+    {
+        state = _state;
+        return state;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmTimeToLive</Name>
+				<Source><![CDATA[
+    [DataMember('TimeToLive')]
+    public int parmTimeToLive(int _timeToLive = timeToLive)
+    {
+        timeToLive = _timeToLive;
+        return timeToLive;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

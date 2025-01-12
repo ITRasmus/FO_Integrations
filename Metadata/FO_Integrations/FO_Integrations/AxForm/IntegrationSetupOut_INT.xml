@@ -10,7 +10,23 @@
 public class IntegrationSetupOut_INT extends FormRun
 {
 
+
 }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public void init()
+    {
+        super();
+        IntegrationSetupOutValue_INT_ds.allowEdit(true);
+ 
+    }
+
 ]]></Source>
 			</Method>
 		</Methods>
@@ -32,6 +48,7 @@ public class IntegrationSetupOut_INT extends FormRun
             ret = super();
 
             IntegrationSetupOutValue_INT_ds.allowEdit(true);
+ 
     
             return ret;
         }
@@ -143,6 +160,7 @@ public class IntegrationSetupOut_INT extends FormRun
 				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
+			<AllowCreate>No</AllowCreate>
 			<InsertAtEnd>No</InsertAtEnd>
 			<InsertIfEmpty>No</InsertIfEmpty>
 			<DataSourceLinks />
@@ -407,6 +425,7 @@ public class IntegrationSetupOut_INT extends FormRun
 									i:nil="true" />
 								<DataMethod>editTransport</DataMethod>
 								<DataSource>IntegrationSetupOut_INT</DataSource>
+								<Label>@Integrations_INT:Transport</Label>
 								<LookupButton>Always</LookupButton>
 								<ViewEditMode>Edit</ViewEditMode>
 							</AxFormControl>
@@ -418,8 +437,8 @@ public class IntegrationSetupOut_INT extends FormRun
 					<AxFormControl xmlns=""
 						i:type="AxFormTabPageControl">
 						<Name>SetupValues</Name>
-						<Pattern>NestedSimpleListDetails</Pattern>
-						<PatternVersion>UX7 1.1</PatternVersion>
+						<Pattern>ToolbarList</Pattern>
+						<PatternVersion>1.2</PatternVersion>
 						<Type>TabPage</Type>
 						<FormControlExtension
 							i:nil="true" />
@@ -455,83 +474,45 @@ public class IntegrationSetupOut_INT extends FormRun
 							<AxFormControl xmlns=""
 								i:type="AxFormGroupControl">
 								<Name>FormGroupControl1</Name>
-								<HeightMode>SizeToAvailable</HeightMode>
+								<Pattern>CustomFilters</Pattern>
+								<PatternVersion>1.1</PatternVersion>
 								<Type>Group</Type>
 								<WidthMode>SizeToAvailable</WidthMode>
 								<FormControlExtension
 									i:nil="true" />
+								<Controls />
+								<ArrangeMethod>HorizontalLeft</ArrangeMethod>
+								<FrameType>None</FrameType>
+								<Style>CustomFilter</Style>
+								<ViewEditMode>Edit</ViewEditMode>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormGridControl">
+								<Name>FormGridControl1</Name>
+								<Type>Grid</Type>
+								<FormControlExtension
+									i:nil="true" />
 								<Controls>
 									<AxFormControl xmlns=""
-										i:type="AxFormGroupControl">
-										<Name>FormGroupControl2</Name>
-										<HeightMode>SizeToAvailable</HeightMode>
-										<Type>Group</Type>
+										i:type="AxFormStringControl">
+										<Name>IntegrationSetupOutValue_INT_Id</Name>
+										<Type>String</Type>
 										<FormControlExtension
 											i:nil="true" />
-										<Controls>
-											<AxFormControl xmlns=""
-												i:type="AxFormGridControl">
-												<Name>FormGridControl1</Name>
-												<AllowEdit>No</AllowEdit>
-												<Type>Grid</Type>
-												<WidthMode>SizeToContent</WidthMode>
-												<FormControlExtension
-													i:nil="true" />
-												<Controls>
-													<AxFormControl xmlns=""
-														i:type="AxFormStringControl">
-														<Name>IntegrationSetupOutValue_INT_Id</Name>
-														<Type>String</Type>
-														<FormControlExtension
-															i:nil="true" />
-														<DataField>Id</DataField>
-														<DataSource>IntegrationSetupOutValue_INT</DataSource>
-													</AxFormControl>
-													<AxFormControl xmlns=""
-														i:type="AxFormStringControl">
-														<Name>IntegrationSetupOutValue_INT_Value</Name>
-														<Type>String</Type>
-														<FormControlExtension
-															i:nil="true" />
-														<DataField>Value</DataField>
-														<DataSource>IntegrationSetupOutValue_INT</DataSource>
-														<DisplayLength>80</DisplayLength>
-														<DisplayLengthMode>Fixed</DisplayLengthMode>
-													</AxFormControl>
-												</Controls>
-												<DataSource>IntegrationSetupOutValue_INT</DataSource>
-												<MultiSelect>No</MultiSelect>
-												<ShowRowLabels>No</ShowRowLabels>
-											</AxFormControl>
-										</Controls>
-										<FrameType>None</FrameType>
+										<DataField>Id</DataField>
+										<DataSource>IntegrationSetupOutValue_INT</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""
-										i:type="AxFormGroupControl">
-										<Name>FormGroupControl3</Name>
-										<HeightMode>SizeToAvailable</HeightMode>
-										<Type>Group</Type>
-										<WidthMode>SizeToAvailable</WidthMode>
+										i:type="AxFormStringControl">
+										<Name>IntegrationSetupOutValue_INT_Value</Name>
+										<Type>String</Type>
 										<FormControlExtension
 											i:nil="true" />
-										<Controls>
-											<AxFormControl xmlns=""
-												i:type="AxFormGroupControl">
-												<Name>FormGroupControl4</Name>
-												<Type>Group</Type>
-												<WidthMode>SizeToAvailable</WidthMode>
-												<FormControlExtension
-													i:nil="true" />
-												<Controls />
-												<ColumnsMode>Fill</ColumnsMode>
-												<FrameType>None</FrameType>
-											</AxFormControl>
-										</Controls>
-										<FrameType>None</FrameType>
+										<DataField>Value</DataField>
+										<DataSource>IntegrationSetupOutValue_INT</DataSource>
 									</AxFormControl>
 								</Controls>
-								<Columns>2</Columns>
-								<FrameType>None</FrameType>
+								<DataSource>IntegrationSetupOutValue_INT</DataSource>
 							</AxFormControl>
 						</Controls>
 						<Caption>Setup values</Caption>

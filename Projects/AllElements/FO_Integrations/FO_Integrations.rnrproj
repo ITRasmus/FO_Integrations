@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>FO_Integrations</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{ae913f21-d743-418c-84ed-f45555d470ba}</ProjectGuid>
+    <Name>FO_Integrations</Name>
+    <RootNamespace>FO_Integrations</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>False</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Action Menu Items\" />
+    <Folder Include="Base Enums\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Display Menu Items\" />
+    <Folder Include="Extended Data Types\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Label Files\" />
+    <Folder Include="Menu Extensions\" />
+    <Folder Include="Menus\" />
+    <Folder Include="Service Groups\" />
+    <Folder Include="Services\" />
+    <Folder Include="Tables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AxClass\IntegrationBrokerPropertiesDC_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationBrokerPropertiesDC_INT</Name>
+      <Link>Classes\IntegrationBrokerPropertiesDC_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckController_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckController_INT</Name>
+      <Link>Classes\IntegrationClaimCheckController_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckDC_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckDC_INT</Name>
+      <Link>Classes\IntegrationClaimCheckDC_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckServiceDC_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckServiceDC_INT</Name>
+      <Link>Classes\IntegrationClaimCheckServiceDC_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckService_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckService_INT</Name>
+      <Link>Classes\IntegrationClaimCheckService_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckTaskController_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckTaskController_INT</Name>
+      <Link>Classes\IntegrationClaimCheckTaskController_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationClaimCheckTask_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationClaimCheckTask_INT</Name>
+      <Link>Classes\IntegrationClaimCheckTask_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpoint_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpoint_INT</Name>
+      <Link>Classes\IntegrationEndpoint_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationHandler_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationHandler_INT</Name>
+      <Link>Classes\IntegrationHandler_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInboundAsyncPull_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInboundAsyncPull_INT</Name>
+      <Link>Classes\IntegrationInboundAsyncPull_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInbound_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInbound_INT</Name>
+      <Link>Classes\IntegrationInbound_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInsightsCorrelationId_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInsightsCorrelationId_INT</Name>
+      <Link>Classes\IntegrationInsightsCorrelationId_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInsightsIntegration_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInsightsIntegration_INT</Name>
+      <Link>Classes\IntegrationInsightsIntegration_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInsightsMessages_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInsightsMessages_INT</Name>
+      <Link>Classes\IntegrationInsightsMessages_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInsightsStatus_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInsightsStatus_INT</Name>
+      <Link>Classes\IntegrationInsightsStatus_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInsightsTopic_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInsightsTopic_INT</Name>
+      <Link>Classes\IntegrationInsightsTopic_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationKeywordAttribute_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationKeywordAttribute_INT</Name>
+      <Link>Classes\IntegrationKeywordAttribute_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationLogging_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationLogging_INT</Name>
+      <Link>Classes\IntegrationLogging_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationNewRequestDialog_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationNewRequestDialog_INT</Name>
+      <Link>Classes\IntegrationNewRequestDialog_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundSetupAttribute_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundSetupAttribute_INT</Name>
+      <Link>Classes\IntegrationOutboundSetupAttribute_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutbound_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutbound_INT</Name>
+      <Link>Classes\IntegrationOutbound_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationParseable_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationParseable_INT</Name>
+      <Link>Classes\IntegrationParseable_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationProcessingContract_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationProcessingContract_INT</Name>
+      <Link>Classes\IntegrationProcessingContract_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationProcessingController_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationProcessingController_INT</Name>
+      <Link>Classes\IntegrationProcessingController_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationProcessingService_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationProcessingService_INT</Name>
+      <Link>Classes\IntegrationProcessingService_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationRestResponse_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRestResponse_INT</Name>
+      <Link>Classes\IntegrationRestResponse_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationReturnable_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationReturnable_INT</Name>
+      <Link>Classes\IntegrationReturnable_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupBase_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupBase_INT</Name>
+      <Link>Classes\IntegrationSetupBase_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupClaimCheckBase_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupClaimCheckBase_INT</Name>
+      <Link>Classes\IntegrationSetupClaimCheckBase_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupRestBasic_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupRestBasic_INT</Name>
+      <Link>Classes\IntegrationSetupRestBasic_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupRestOAuth_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupRestOAuth_INT</Name>
+      <Link>Classes\IntegrationSetupRestOAuth_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupRest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupRest_INT</Name>
+      <Link>Classes\IntegrationSetupRest_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationSetupServiceBus_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupServiceBus_INT</Name>
+      <Link>Classes\IntegrationSetupServiceBus_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationTransportClaimCheck_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTransportClaimCheck_INT</Name>
+      <Link>Classes\IntegrationTransportClaimCheck_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationTransportRest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTransportRest_INT</Name>
+      <Link>Classes\IntegrationTransportRest_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationTransportServiceBus_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTransportServiceBus_INT</Name>
+      <Link>Classes\IntegrationTransportServiceBus_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationTransport_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTransport_INT</Name>
+      <Link>Classes\IntegrationTransport_INT</Link>
+    </Content>
+    <Content Include="AxClass\Integration_INT">
+      <SubType>Content</SubType>
+      <Name>Integration_INT</Name>
+      <Link>Classes\Integration_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationAsyncBatchExecution_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncBatchExecution_INT</Name>
+      <Link>Extended Data Types\IntegrationAsyncBatchExecution_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationCompany_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationCompany_INT</Name>
+      <Link>Extended Data Types\IntegrationCompany_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationCorrelationId_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationCorrelationId_INT</Name>
+      <Link>Extended Data Types\IntegrationCorrelationId_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationDateTimeStamp_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationDateTimeStamp_INT</Name>
+      <Link>Extended Data Types\IntegrationDateTimeStamp_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationError_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationError_INT</Name>
+      <Link>Extended Data Types\IntegrationError_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationException_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationException_INT</Name>
+      <Link>Extended Data Types\IntegrationException_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationExecutionCount_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationExecutionCount_INT</Name>
+      <Link>Extended Data Types\IntegrationExecutionCount_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationIdentifier_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationIdentifier_INT</Name>
+      <Link>Extended Data Types\IntegrationIdentifier_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationInput_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInput_INT</Name>
+      <Link>Extended Data Types\IntegrationInput_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationIsSecret_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationIsSecret_INT</Name>
+      <Link>Extended Data Types\IntegrationIsSecret_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationKeyword_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationKeyword_INT</Name>
+      <Link>Extended Data Types\IntegrationKeyword_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationName_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationName_INT</Name>
+      <Link>Extended Data Types\IntegrationName_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationOutput_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutput_INT</Name>
+      <Link>Extended Data Types\IntegrationOutput_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationRunIdentifier_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRunIdentifier_INT</Name>
+      <Link>Extended Data Types\IntegrationRunIdentifier_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSetupValueId_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupValueId_INT</Name>
+      <Link>Extended Data Types\IntegrationSetupValueId_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSetupValueValue_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupValueValue_INT</Name>
+      <Link>Extended Data Types\IntegrationSetupValueValue_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationStacktrace_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationStacktrace_INT</Name>
+      <Link>Extended Data Types\IntegrationStacktrace_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationSupportsAsync_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSupportsAsync_INT</Name>
+      <Link>Extended Data Types\IntegrationSupportsAsync_INT</Link>
+    </Content>
+    <Content Include="AxEdt\IntegrationTopic_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTopic_INT</Name>
+      <Link>Extended Data Types\IntegrationTopic_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationDirection_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationDirection_INT</Name>
+      <Link>Base Enums\IntegrationDirection_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationServiceBusCommand_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceBusCommand_INT</Name>
+      <Link>Base Enums\IntegrationServiceBusCommand_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationState_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationState_INT</Name>
+      <Link>Base Enums\IntegrationState_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationTypeIn_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTypeIn_INT</Name>
+      <Link>Base Enums\IntegrationTypeIn_INT</Link>
+    </Content>
+    <Content Include="AxEnum\IntegrationTypeOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationTypeOut_INT</Name>
+      <Link>Base Enums\IntegrationTypeOut_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationRequest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequest_INT</Name>
+      <Link>Forms\IntegrationRequest_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationSetupClaimCheck_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupClaimCheck_INT</Name>
+      <Link>Forms\IntegrationSetupClaimCheck_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationSetupIn_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupIn_INT</Name>
+      <Link>Forms\IntegrationSetupIn_INT</Link>
+    </Content>
+    <Content Include="AxForm\IntegrationSetupOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOut_INT</Name>
+      <Link>Forms\IntegrationSetupOut_INT</Link>
+    </Content>
+    <Content Include="AxLabelFile\Integrations_INT_en-US">
+      <SubType>Content</SubType>
+      <Name>Integrations_INT_en-US</Name>
+      <Link>Label Files\Integrations_INT_en-US</Link>
+    </Content>
+    <Content Include="AxMenuExtension\MainMenu.FO_Integrations">
+      <SubType>Content</SubType>
+      <Name>MainMenu.FO_Integrations</Name>
+      <Link>Menu Extensions\MainMenu.FO_Integrations</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\IntegrationAsyncProcessing_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationAsyncProcessing_INT</Name>
+      <Link>Action Menu Items\IntegrationAsyncProcessing_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\IntegrationNewRequestMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationNewRequestMenuItem_INT</Name>
+      <Link>Action Menu Items\IntegrationNewRequestMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationRequestMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestMenuItem_INT</Name>
+      <Link>Display Menu Items\IntegrationRequestMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationSetupClaminCheckMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupClaminCheckMenuItem_INT</Name>
+      <Link>Display Menu Items\IntegrationSetupClaminCheckMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationSetupInMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupInMenuItem_INT</Name>
+      <Link>Display Menu Items\IntegrationSetupInMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\IntegrationSetupOutMenuItem_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOutMenuItem_INT</Name>
+      <Link>Display Menu Items\IntegrationSetupOutMenuItem_INT</Link>
+    </Content>
+    <Content Include="AxMenu\IntegrationsMenu_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationsMenu_INT</Name>
+      <Link>Menus\IntegrationsMenu_INT</Link>
+    </Content>
+    <Content Include="AxServiceGroup\IntegrationServiceGroup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceGroup_INT</Name>
+      <Link>Service Groups\IntegrationServiceGroup_INT</Link>
+    </Content>
+    <Content Include="AxService\IntegrationProcessing_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationProcessing_INT</Name>
+      <Link>Services\IntegrationProcessing_INT</Link>
+    </Content>
+    <Content Include="AxService\IntegrationService_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationService_INT</Name>
+      <Link>Services\IntegrationService_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequestData_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestData_INT</Name>
+      <Link>Tables\IntegrationRequestData_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequestException_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestException_INT</Name>
+      <Link>Tables\IntegrationRequestException_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationRequest_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequest_INT</Name>
+      <Link>Tables\IntegrationRequest_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupClaimCheck_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupClaimCheck_INT</Name>
+      <Link>Tables\IntegrationSetupClaimCheck_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupIn_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupIn_INT</Name>
+      <Link>Tables\IntegrationSetupIn_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupOutTopics_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOutTopics_INT</Name>
+      <Link>Tables\IntegrationSetupOutTopics_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupOutValue_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOutValue_INT</Name>
+      <Link>Tables\IntegrationSetupOutValue_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetupOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupOut_INT</Name>
+      <Link>Tables\IntegrationSetupOut_INT</Link>
+    </Content>
+    <Content Include="AxTable\IntegrationSetup_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetup_INT</Name>
+      <Link>Tables\IntegrationSetup_INT</Link>
+    </Content>
+    <Content Include="Integrations_INT.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>Integrations_INT.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\Integrations_INT_en-US</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
+</Project>

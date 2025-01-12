@@ -200,6 +200,15 @@ public class IntegrationRequest_INT extends common
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>
+		<AxTableIndex>
+			<Name>SortIdx</Name>
+			<AllowDuplicates>Yes</AllowDuplicates>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>DateTimeStamp</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
 	</Indexes>
 	<Mappings />
 	<Relations>

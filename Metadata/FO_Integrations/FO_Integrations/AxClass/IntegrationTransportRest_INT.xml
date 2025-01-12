@@ -1,21 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationOutBoundRest_INT</Name>
+	<Name>IntegrationTransportRest_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 using System.Net;
 /// <summary>
 /// Integration class for outbound restCalls
 /// </summary>
-public class IntegrationOutBoundRest_INT
+public class IntegrationTransportRest_INT extends IntegrationTransport_INT
 {
-    protected IntegrationOutBoundSetupRest_INT  setup;
+    protected IntegrationSetupRest_INT  restSetup;
     protected HttpWebRequest webRequest;
     protected System.Text.Encoding encoding;
     private HttpStatusCode statusCode;
+    protected str payload;
+    protected boolean allowTokenReuse;
+    protected str lastToken;
+    
+
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmRestSetup</Name>
+				<Source><![CDATA[
+    public IntegrationSetupRest_INT parmRestSetup(IntegrationSetupRest_INT _restSetup = restSetup)
+    {
+        restSetup = _restSetup;
+        return restSetup;
+    
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmLastToken</Name>
+				<Source><![CDATA[
+    public str parmLastToken(str _lastToken = lastToken)
+    {
+        lastToken = _lastToken;
+        return lastToken;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmAllowTokenReuse</Name>
+				<Source><![CDATA[
+    public boolean parmAllowTokenReuse(boolean _allowTokenReuse = allowTokenReuse)
+    {
+        allowTokenReuse = _allowTokenReuse;
+        return allowTokenReuse;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>New</Name>
 				<Source><![CDATA[
@@ -23,10 +63,11 @@ public class IntegrationOutBoundRest_INT
     /// Default new
     /// </summary>
     /// <param name = "_setup">The setup to use in the request</param>
-    protected void New(IntegrationOutBoundSetupRest_INT _setup)
+    public void New(IntegrationSetupRest_INT _setup,IntegrationSetupOut_INT _integration )
     {
-
-        setup = _setup;
+        super(_setup,_integration);
+        restSetup  = _setup;
+        
         encoding = System.Text.Encoding::UTF8;
         
     }
@@ -55,14 +96,19 @@ public class IntegrationOutBoundRest_INT
     /// </summary>
     protected void initRequest()
     {
-        webRequest =  System.Net.WebRequest::Create(setup.getUri());
-        webRequest.Method = setup.parmMethod();
-        webRequest.ContentType = setup.parmContentType();
-
-        if(setup.getTimeOut() > 0)
+        webRequest =  System.Net.WebRequest::Create(restSetup.getUri());
+        webRequest.Method = restSetup.parmMethod();
+        if(restSetup.parmMethod() != 'GET')
         {
-            webRequest.timeout = setup.getTimeOut();
+            webRequest.ContentType = restSetup.parmContentType();
         }
+
+        if(restSetup.getTimeOut() > 0)
+        {
+            webRequest.timeout = restSetup.getTimeOut();
+        }
+     
+
     }
 
 ]]></Source>
@@ -75,21 +121,31 @@ public class IntegrationOutBoundRest_INT
     /// </summary>
     protected void setHeaders()
     {
-
         System.Net.WebHeaderCollection headerCollection = webRequest.Headers;
-        if(setup is IntegrationOutboundSetupRestBasic_INT)
-        {
-            IntegrationOutboundSetupRestBasic_INT basic = setup as IntegrationOutboundSetupRestBasic_INT;
 
+        if(setup is IntegrationSetupRestBasic_INT)
+        {
+            IntegrationSetupRestBasic_INT basic = setup as IntegrationSetupRestBasic_INT;
             headerCollection.Set('Authorization',basic.getAuthValue());
         }
-        else if( setup is IntegrationOutBoundSetupRestOAuth_INT)
+        else if( setup is IntegrationSetupRestOAuth_INT)
         {
-            IntegrationOutBoundSetupRestOAuth_INT oauth = setup as IntegrationOutBoundSetupRestOAuth_INT;
-            str token = this.GetAuthenticationHeader(oauth);
-
+            IntegrationSetupRestOAuth_INT oauth = setup as IntegrationSetupRestOAuth_INT;
+            str  token = this.GetAuthenticationHeader(oauth);
             headerCollection.Set('Authorization','Bearer ' + token);
-
+        }
+        if(restSetup.parmXmSVersion() != '')
+        {
+            headerCollection.Set('x-ms-version',restSetup.parmXmSVersion());
+        }
+        if(restSetup.parmSubscriptionKey() != '')
+        {
+            headerCollection.Set('Ocp-Apim-Subscription-Key',restSetup.parmSubscriptionKey());
+        }
+        if(this.parmCorrelationId() != emptyGuid())
+        {
+            headerCollection.Set('x-correlation-id',guid2StrWithoutBraces(this.parmCorrelationId()));
+        
         }
 
     }
@@ -106,18 +162,25 @@ public class IntegrationOutBoundRest_INT
     /// <param name = "_oauth">The setup</param>
     /// <returns>the access_token</returns>
 
-    private str GetAuthenticationHeader(IntegrationOutBoundSetupRestOAuth_INT _oauth)
+    protected str GetAuthenticationHeader(IntegrationSetupRestOAuth_INT _oauth)
     {
-        IntegrationOutboundSetupRest_INT OauthSetup = new IntegrationOutboundSetupRest_INT();
+        if(lastToken != '' && allowTokenReuse)
+        {
+            return this.lastToken;
+        }
+
+        IntegrationSetupRest_INT OauthSetup = new IntegrationSetupRest_INT();
 
         OauthSetup.parmUrl(_oauth.parmAuthUrl());
-        OauthSetup.parmMethod('Post');
+        OauthSetup.parmMethod('POST');
         OauthSetup.parmContentType('application/x-www-form-urlencoded');
 
-        IntegrationOutBoundRest_INT outBoundRest = IntegrationOutBoundRest_INT::constructor(OauthSetup);
-        str payload = _oauth.getAuthValue();
+        IntegrationTransportRest_INT outBoundRest = IntegrationTransportRest_INT::constructor(OauthSetup,this.integration);
+        str AuthPayload = _oauth.getAuthValue();
 
-        str response = outBoundRest.process(payload);
+        IntegrationRestResponse_INT IntegrationResponse = outBoundRest.process(AuthPayload);
+        str response = IntegrationResponse.parmResponse();
+        
         Newtonsoft.Json.Linq.JObject JObject = Newtonsoft.Json.Linq.JObject::Parse(response);
         if(!JObject)
         {
@@ -129,7 +192,9 @@ public class IntegrationOutBoundRest_INT
         {
             throw Error("@Integrations_INT:NoToken",response);
         }
-        return  access_token.ToString();
+        str token = access_token.ToString();
+        this.parmLastToken(token);
+        return token;
     }
 
 ]]></Source>
@@ -141,9 +206,11 @@ public class IntegrationOutBoundRest_INT
     /// Writes the data to requestSteam
     /// </summary>
     /// <param name = "_payload">The payload to write</param>
-    protected void writeRequest(str _payload)
+    protected void writeRequest()
     {
-        if(setup.parmMethod() != 'GET' && _payload != '')
+        str _payload = this.payload;
+
+        if(restSetup.parmMethod() != 'GET' && _payload != '')
         {
             System.IO.Stream requestStream;
             System.Byte[] requestData = encoding.GetBytes(_payload);
@@ -166,24 +233,44 @@ public class IntegrationOutBoundRest_INT
     /// Gets the response from the request
     /// </summary>
     /// <returns>The response</returns>
-    protected str getResponse()
+    protected IntegrationRestResponse_INT getResponse()
     {
+        IntegrationRestResponse_INT restResponse = new IntegrationRestResponse_INT();
+        restResponse.parmOriginalUrl(webRequest.RequestUri.ToString());
         HttpWebResponse      webResponse;
         System.IO.Stream				responseStream;
         System.IO.StreamReader			responseReader;
         str response;
         System.Exception ex;
+        int intStatusCode;
         try
         {
             webResponse = webRequest.GetResponse();
-
             statusCode = webResponse.StatusCode;
+
+            intStatusCode = System.Convert::ToInt32(statusCode);
+            restResponse.parmStatusCode(intStatusCode);
 
             if(webResponse.ContentLength != 0)
             {
                 responseStream = webResponse.getResponseStream();
                 responseReader = new System.IO.StreamReader(responseStream,encoding);
                 response = responseReader.ReadToEnd();
+            }
+            
+            for(int i = 0; webResponse.Headers.Count > i ; i++)
+            {
+                str header  = webResponse.Headers.GetKey(i);
+                str value = webResponse.Headers.Get(header);
+                if(header == 'CorrelationId')
+                {
+                    restResponse.parmCorrelationId(str2Guid(strReplace(value,'\"','')));
+                }
+                if(header == 'BrokerProperties')
+                {
+                    IntegrationBrokerPropertiesDC_INT brokerprop = FormJsonSerializer::deserializeObject(classNum('IntegrationBrokerPropertiesDC_INT'),value);
+                    restResponse.parmBrokerProperties(brokerprop);
+                }
             }
         }
         catch(ex)
@@ -204,7 +291,21 @@ public class IntegrationOutBoundRest_INT
 
 
         }
-        return response;
+        restResponse.parmResponse(response);
+
+
+        if(intStatusCode >= 200 && intStatusCode < 300)
+        {
+            restResponse.parmSuccess(true);
+        }
+        else
+        {
+            restResponse.parmSuccess(false);
+            restresponse.parmException(response);
+
+        }
+        
+        return restResponse;
 
 
     }
@@ -219,16 +320,14 @@ public class IntegrationOutBoundRest_INT
     /// </summary>
     /// <param name = "_payload">The payload</param>
     /// <returns>the result</returns>
-    public str process(str _payload)
+    public IntegrationReturnable_INT process(str _payload = '')
     {
-        
-       
+        this.payload = _payload;
         this.initRequest();
         this.setHeaders();        
-        this.writeRequest(_payload);
-        str response = this.getResponse();
-
-        return response;
+        this.writeRequest();
+        IntegrationRestResponse_INT restResponse = this.getResponse();
+        return restResponse;
         
     }
 
@@ -242,9 +341,9 @@ public class IntegrationOutBoundRest_INT
     /// </summary>
     /// <param name = "_setup">The setup parameters</param>
     /// <returns>the instance</returns>
-    public static IntegrationOutBoundRest_INT constructor(IntegrationOutBoundSetupRest_INT _setup)
+    public static IntegrationTransportRest_INT constructor(IntegrationSetupRest_INT _setup,IntegrationSetupOut_INT _integration)
     {
-        return new IntegrationOutBoundRest_INT(_setup);
+        return new IntegrationTransportRest_INT(_setup,_integration);
     }
 
 ]]></Source>

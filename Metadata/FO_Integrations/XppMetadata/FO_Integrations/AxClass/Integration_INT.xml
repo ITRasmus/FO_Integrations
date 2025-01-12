@@ -44,7 +44,7 @@
 	<Methods>
 		<Method>
 			<Name>New</Name>
-			<Visibility>Protected</Visibility>
+			<Visibility>Public</Visibility>
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
@@ -156,8 +156,16 @@
 			</ReturnType>
 		</Method>
 		<Method>
-			<Name>getRelatedRequest</Name>
+			<Name>parmRelatedRequest</Name>
 			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Guid</Type>
+					<TypeName></TypeName>
+					<DefaultValue>relatedRequest</DefaultValue>
+					<Name>_relatedRequest</Name>
+				</AxMethodParameter>
+			</Parameters>
 			<ReturnType>
 				<Type>Guid</Type>
 				<TypeName></TypeName>

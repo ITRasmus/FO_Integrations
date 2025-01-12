@@ -72,7 +72,7 @@ public class IntegrationSetup_INT extends common
     /// </summary>
     /// <param name = "_setup">The integration setup</param>
     /// <returns>the integration</returns>
-    private static Integration_INT createInstanceOfIntegrationClass(IntegrationSetup_INT _setup)
+    public static Integration_INT createInstanceOfIntegrationClass(IntegrationSetup_INT _setup)
     {
         if(_setup.ClassName == '')
         {
@@ -141,6 +141,7 @@ public class IntegrationSetup_INT extends common
         IntegrationSetup_INT integrationSetup;
         IntegrationSetupIn_INT setupIn;
         IntegrationSetupOut_INT setupOut;
+        IntegrationSetupClaimCheck_INT claimCheck;
 
 
         DictClass integrationClasses = new DictClass(className2Id('Integration_INT'));
@@ -180,6 +181,13 @@ public class IntegrationSetup_INT extends common
                             setupOut.IntegrationName = instance.DefaultName();
                             setupOut.IntegrationOutType =  IntegrationTypeOut_INT::Sync;
                             setupOut.insert();
+                            break;
+                        case IntegrationDirection_INT::ClaimCheck:
+                            claimCheck.clear();
+                            claimCheck.Direction = instance.Direction();
+                            claimCheck.ClassName = inteClass.name();
+                            claimCheck.IntegrationName = instance.DefaultName();                           
+                            claimCheck.insert();
                             break;
                     }
                     
@@ -239,6 +247,9 @@ public class IntegrationSetup_INT extends common
 				<AxTableFieldGroupField>
 					<DataField>ClassName</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>AsyncBatchExecution</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
@@ -291,6 +302,13 @@ public class IntegrationSetup_INT extends common
 		<AxTableField xmlns=""
 			i:type="AxTableFieldInt64">
 			<Name>InstanceRelationType</Name>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>AsyncBatchExecution</Name>
+			<ExtendedDataType>IntegrationAsyncBatchExecution_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<EnumType>NoYes</EnumType>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

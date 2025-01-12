@@ -6,6 +6,13 @@
 			<Name>classDeclaration</Name>
 			<ReturnType />
 		</Method>
+		<Method>
+			<Name>init</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
 	</Methods>
 	<DataSources>
 		<DataSource>

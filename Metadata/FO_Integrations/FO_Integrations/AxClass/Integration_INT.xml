@@ -24,7 +24,7 @@ public abstract class Integration_INT
     /// <summary>
     /// Default new
     /// </summary>
-    protected void New()
+    public void New()
     {
         identifier = newGuid();
     }
@@ -152,14 +152,15 @@ public abstract class Integration_INT
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>getRelatedRequest</Name>
+				<Name>parmRelatedRequest</Name>
 				<Source><![CDATA[
     /// <summary>
     /// Gets the identifier for a related request
     /// </summary>
     /// <returns>The related request identifier</returns>
-    public guid getRelatedRequest()
+    public guid parmRelatedRequest(guid _relatedRequest = relatedRequest)
     {
+        relatedRequest = _relatedRequest;
         return relatedRequest;
     }
 

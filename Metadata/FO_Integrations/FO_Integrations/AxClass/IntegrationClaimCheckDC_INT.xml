@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckDC_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[DataContract]
+public  class IntegrationClaimCheckDC_INT extends IntegrationParseable_INT
+{
+
+    private str topic;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmTopic</Name>
+				<Source><![CDATA[
+    [IntegrationKeywordAttribute_INT(1),DataMember('Topic')]
+    public str parmTopic(str _topic = topic)
+    {
+        topic = _topic;
+        return topic;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

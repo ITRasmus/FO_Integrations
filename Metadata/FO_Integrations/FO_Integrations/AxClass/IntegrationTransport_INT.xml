@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationTransport_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public abstract class IntegrationTransport_INT
+{
+    protected IntegrationSetupBase_INT setup;
+    protected IntegrationSetup_INT integration;
+
+    private guid correlationId;
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmCorrelationId</Name>
+				<Source><![CDATA[
+    public guid parmCorrelationId(guid _correlationId = correlationId)
+    {
+        correlationId = _correlationId;
+        return correlationId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public abstract IntegrationReturnable_INT process(str _payload = '') { }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    public void new (IntegrationSetupBase_INT _setup,IntegrationSetup_INT _integration)
+    {
+        this.setup = _setup;
+        this.integration = _integration;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

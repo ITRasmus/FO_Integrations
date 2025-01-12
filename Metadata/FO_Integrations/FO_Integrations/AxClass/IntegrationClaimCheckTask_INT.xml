@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckTask_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class IntegrationClaimCheckTask_INT	extends SysOperationServiceBase
+{
+
+    private IntegrationRequest_INT request;
+    private IntegrationRequestData_INT requestData;
+    private IntegrationSetup_INT setup;
+    private IntegrationLogging_INT logging;
+
+
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public void process(IntegrationClaimCheckServiceDC_INT _contract)
+    {
+        Integration_INT  integration;
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+        select firstonly request
+            where request.Identifier == _contract.parmIdentifier()
+                join setup
+            where setup.IntegrationName == request.IntegrationName
+                join requestData
+            where requestData.Identifier == _contract.parmIdentifier()
+                && requestData.RunIdentifier == _contract.parmRunIdentifier();
+
+
+            if(request)
+            {
+                integration = setup.createIntegration(_contract.parmCompany(),requestData.Input);
+                integration.parmIdentifier(request.Identifier);
+                integration.parmRelatedRequest(request.RelatedRequest);
+
+                IntegrationParseable_INT input = IntegrationParseable_INT::Construct(integration);
+                logging = IntegrationLogging_INT::construct(integration,_contract.parmRunIdentifier());
+                logging.logKeywords(_contract.parmTopic(),'','');
+
+                logging.logProcessing();
+
+                try
+                {
+                    changecompany (_contract.parmCompany())
+                    {
+                        IntegrationSetupClaimCheckBase_INT base = new IntegrationSetupClaimCheckBase_INT();
+
+                        IntegrationSetupClaimCheck_INT test = setup as IntegrationSetupClaimCheck_INT;
+                        IntegrationTransport_INT transport = test.getTransportObject();
+
+                        IntegrationReturnable_INT result = transport.process(_contract.parmTopic());
+                        if(result.parmSuccess())
+                        {   
+                            logging.LogComplete(result);
+                        }
+                        else
+                        {
+                            logging.LogErrorFromResponse(result);
+                        }
+
+
+                        
+                    }
+                }
+            
+                catch (xppEx)
+                {
+                    logging.logError(xppEx);
+                    IntegrationReturnable_INT::createFromException(xppEx,integration.parmIdentifier());
+                }
+                catch (Exception::CLRError)
+                {
+                    System.Exception ex = CLRInterop::getLastException();
+                    logging.logError(ex);
+                    IntegrationReturnable_INT::createFromException(ex,integration.parmIdentifier());
+                }
+            }
+
+
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

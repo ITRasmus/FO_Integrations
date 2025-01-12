@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationTransportServiceBus_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+using System.Net;
+ 
+/// <summary>
+/// Integration class for outbound restCalls
+/// </summary>
+public class IntegrationTransportServiceBus_INT extends IntegrationTransportRest_INT
+{
+  
+    protected System.Uri peekUri;
+    protected System.Uri deleteUri;
+    protected str topic;
+    protected IntegrationServiceBusCommand_INT command; 
+
+ 
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmCommand</Name>
+				<Source><![CDATA[
+    public IntegrationServiceBusCommand_INT parmCommand(IntegrationServiceBusCommand_INT _command = command)
+    {
+        command = _command;
+        return command;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setServiceBus</Name>
+				<Source><![CDATA[
+    public void setServiceBus(str _topic,str _subscription,guid _messageId = emptyGuid(),guid _lockToken = emptyGuid())
+    {
+        topic = _topic;
+        peekUri  = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/head",restSetup.parmUrl(),_topic,_subscription));
+        deleteUri = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/%4/%5",restSetup.parmUrl(),topic,_subscription,guid2StrWithoutBraces(_messageId),guid2StrWithoutBraces(_lockToken)));
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initRequest</Name>
+				<Source><![CDATA[
+    protected void initRequest()
+    {
+        System.Uri requestUri;
+        str requestMethod;
+        switch (command)
+        {
+
+            case  IntegrationServiceBusCommand_INT::Peek:
+                requestUri = peekUri;
+                requestMethod = 'POST';
+                break;
+            case IntegrationServiceBusCommand_INT::Delete:
+                requestUri = deleteUri;
+                requestMethod = 'DELETE';
+                break;
+            default:
+                throw Error("Unsupported");
+                break;
+        }
+        webRequest =  System.Net.WebRequest::Create(requestUri);
+        webRequest.Method = requestMethod;
+
+        if(restSetup.getTimeOut() > 0)
+        {
+            webRequest.timeout = restSetup.getTimeOut();
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

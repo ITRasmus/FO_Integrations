@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetupClaimCheckBase_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Datacontract for creating a ClamCheck
+/// </summary>
+[DataContract('Outbound_ClaimCheck')]
+public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
+{
+
+    private str subscription;
+    private str audience;
+    private guid lockToken;
+    private guid messageId;
+    private str topic;
+
+
+ 
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmLockToken</Name>
+				<Source><![CDATA[
+    public guid parmLockToken(guid _lockToken = locktoken)
+    {
+        lockToken = _lockToken;
+        return lockToken;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmMessageId</Name>
+				<Source><![CDATA[
+    public guid parmMessageId(guid _messageId = messageId)
+    {
+        messageId = _messageId;
+        return messageId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmTopic</Name>
+				<Source><![CDATA[
+    public str parmTopic(str _topic = topic)
+    {
+        topic = _topic;
+        return topic;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSubscription</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The resoruce for the OAuth token
+    /// </summary>
+    /// <param name = "_resource">The resource</param>
+    /// <returns>The resource</returns>
+    [IntegrationOutboundSetupAttribute_INT('subscription','To-Atp')]
+    public str parmSubscription(str _subscription = subscription)
+    {
+        subscription = _subscription;
+        return subscription;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return 'ClaimCheck';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmAudience</Name>
+				<Source><![CDATA[
+    [IntegrationOutboundSetupAttribute_INT('Audience','api://')]
+    public str parmAudience(str _audience = audience)
+    {
+        audience = audience;
+        return audience;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TransportIdentifier</Name>
+				<Source><![CDATA[
+    public ClassId TransportIdentifier()
+    {
+        return className2Id(classStr(IntegrationTransportClaimCheck_INT));
+    }
+/*                                               
+    public IntegrationOutBoundSetupRestOAuth_INT CreateParametersForBlob()
+    {
+        IntegrationOutBoundSetupRestOAuth_INT blobSetup = new IntegrationOutBoundSetupRestOAuth_INT();
+
+        blobSetup.parmAuthUrl(this.parmAuthUrl());
+        blobSetup.parmClientId(this.parmClientId());
+        blobSetup.parmMethod('GET');
+        blobSetup.parmScope('https://storage.azure.com/.default');
+        blobSetup.parmSecret(this.parmSecret());
+        blobSetup.parmXmSVersion(this.parmXmSVersion());
+
+        return blobSetup;
+    }
+  */
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

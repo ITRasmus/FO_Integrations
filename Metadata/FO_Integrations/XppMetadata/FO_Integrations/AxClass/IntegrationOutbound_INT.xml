@@ -6,12 +6,48 @@
 	<IsPublic>true</IsPublic>
 	<Methods>
 		<Method>
+			<Name>TransportPayload</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>Object</TypeName>
+					<Name>_input</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>process</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>IntegrationParseable_INT</TypeName>
+					<Name>_input</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>Class</Type>
+				<TypeName>IntegrationReturnable_INT</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
 			<Name>Direction</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
-				<Tags></Tags>
 				<Type>Enum</Type>
 				<TypeName>IntegrationDirection_INT</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>processOutboundTransport</Name>
+			<Visibility>Public</Visibility>
+			<ReturnType>
+				<Type>Class</Type>
+				<TypeName>IntegrationReturnable_INT</TypeName>
 			</ReturnType>
 		</Method>
 	</Methods>

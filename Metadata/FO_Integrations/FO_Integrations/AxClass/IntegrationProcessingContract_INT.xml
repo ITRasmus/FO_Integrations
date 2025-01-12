@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationProcessingContract_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Datacontract used for scheduling an Async integration
+/// </summary>
+[DataContract]
+public class IntegrationProcessingContract_INT
+{
+    private guid identifier;
+    private guid runIdentifier;
+    private IntegrationDirection_INT direction;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmIdentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The acutal request to run async
+    /// </summary>
+    /// <param name = "_identifier">The identifier</param>
+    /// <returns>The identifier</returns>
+    [Datamember('Identifier')]
+    public guid parmIdentifier(guid _identifier = identifier)
+    {
+        identifier = _identifier;
+        return identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmRunIdentifier</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The request data identifier to process
+    /// </summary>
+    /// <param name = "_runIdentifier">The identifier</param>
+    /// <returns>The identifier</returns>
+    [Datamember('RunIdentifier')]
+    public guid parmRunIdentifier(guid _runIdentifier = runIdentifier)
+    {
+        runIdentifier = _runIdentifier;
+        return runIdentifier;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmDirection</Name>
+				<Source><![CDATA[
+    [Datamember('Direction')]
+    public IntegrationDirection_INT parmDirection(IntegrationDirection_INT _direction = direction)
+    {
+        direction = _direction;
+        return direction;
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

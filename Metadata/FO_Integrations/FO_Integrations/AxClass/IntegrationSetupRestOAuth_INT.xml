@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationOutBoundSetupRestOAuth_INT</Name>
+	<Name>IntegrationSetupRestOAuth_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Datacontract for createing an outbound rest Oauth call
 /// </summary>
 [DataContract('Outbound_RestOAuth')]
-public class IntegrationOutBoundSetupRestOAuth_INT extends IntegrationOutBoundSetupRest_INT
+public class IntegrationSetupRestOAuth_INT extends IntegrationSetupRest_INT
 {
 
     private str clientId;
@@ -142,7 +142,7 @@ public class IntegrationOutBoundSetupRestOAuth_INT extends IntegrationOutBoundSe
 				<Source><![CDATA[
     public Name getSetupName()
     {
-        return 'OAuth';
+        return 'Rest with OAuth';
     }
 
 ]]></Source>

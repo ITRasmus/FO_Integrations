@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Diagnostics
+  GenerationTime="2025-01-12T13:48:55.7748389+00:00">
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Error</Severity>
+      <Path>dynamics://Class/IntegrationAsyncService_INT/Method/process</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ClassDoesNotContainStaticMethod</Moniker>
+      <Line>56</Line>
+      <Column>44</Column>
+      <EndLine>56</EndLine>
+      <EndColumn>97</EndColumn>
+      <Message>Class 'IntegrationHandler_INT' does not contain the static method 'HandleAsyncEvent'.</Message>
+    </Diagnostic>
+  </Items>
+  <Aliases />
+</Diagnostics>

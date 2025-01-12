@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationRestResponse_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[DataContract]
+public class IntegrationRestResponse_INT extends  IntegrationReturnable_INT
+{
+    private str response;
+    private guid correlationId;
+    private IntegrationBrokerPropertiesDC_INT prop;
+    private str originalUrl;
+    private int statusCode;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmCorrelationId</Name>
+				<Source><![CDATA[
+    [Datamember('CorrelationId')]
+    public guid parmCorrelationId(guid _correlationId = correlationId)
+    {
+        correlationId = _correlationId;
+        return correlationId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmOriginalUrl</Name>
+				<Source><![CDATA[
+    [Datamember('Url')]
+    public str parmOriginalUrl(str _originalUrl = originalUrl)
+    {
+        originalUrl = _originalUrl;
+        return originalUrl;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmResponse</Name>
+				<Source><![CDATA[
+    [Datamember('Response')]
+    public str parmResponse(str _response = response)
+    {
+        response = _response;
+        return response;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmBrokerProperties</Name>
+				<Source><![CDATA[
+    [Datamember('BrokerProperties')]
+    public IntegrationBrokerPropertiesDC_INT parmBrokerProperties(IntegrationBrokerPropertiesDC_INT _prop = prop)
+    {
+        prop = _prop;
+        return prop;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmStatusCode</Name>
+				<Source><![CDATA[
+    [Datamember('StatusCode')]
+    public int parmStatusCode(int _statusCode = statusCode)
+    {
+        statusCode = _statusCode;
+        return statusCode;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

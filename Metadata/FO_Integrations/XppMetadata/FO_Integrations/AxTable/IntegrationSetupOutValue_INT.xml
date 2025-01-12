@@ -8,14 +8,12 @@
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
 					<TypeName>IntegrationName_INT</TypeName>
 					<Name>_integrationName</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
-				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
@@ -25,20 +23,17 @@
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
 					<TypeName>IntegrationName_INT</TypeName>
 					<Name>_IntegrationName</Name>
 				</AxMethodParameter>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
 					<TypeName>classId</TypeName>
 					<Name>_classId</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
-				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
@@ -48,22 +43,43 @@
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>Int32</Type>
 					<TypeName></TypeName>
 					<Name>_classId</Name>
 				</AxMethodParameter>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>ExtendedDataType</Type>
 					<TypeName>IntegrationName_INT</TypeName>
 					<Name>_integrationName</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
-				<Tags></Tags>
 				<Type>Class</Type>
 				<TypeName>Object</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>populateObject</Name>
+			<IsStatic>true</IsStatic>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>Object</TypeName>
+					<Name>_contract</Name>
+				</AxMethodParameter>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>DictClass</TypeName>
+					<Name>_dictObject</Name>
+				</AxMethodParameter>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<Name>_integrationName</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
 	</Methods>

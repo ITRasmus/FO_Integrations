@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckTaskController_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class IntegrationClaimCheckTaskController_INT extends SysOperationServiceController
+{
+    
+ 
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    protected void new()
+    {
+        super(classStr(IntegrationClaimCheckTask_INT), methodStr(IntegrationClaimCheckTask_INT, process), SysOperationExecutionMode::ScheduledBatch);
+       
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>defaultCaption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default caption
+    /// </summary>
+    /// <returns>The caption</returns>
+    public ClassDescription defaultCaption()
+    {
+        return "@Integrations_INT:ClaimCheckDescription";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default implementation of a constructor for a service controller
+    /// </summary>
+    /// <param name = "_executionMode">The exectionMode</param>
+    /// <returns>The service controller</returns>
+    public static IntegrationClaimCheckTaskController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::ScheduledBatch)
+    {
+        IntegrationClaimCheckTaskController_INT controller;
+        controller = new IntegrationClaimCheckTaskController_INT();
+        controller.parmExecutionMode(_executionMode);
+        
+        return controller;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Main for menu item
+    /// </summary>
+    /// <param name = "_args">The args from the menuitem</param>
+    public static void main(Args _args)
+    {
+        IntegrationClaimCheckTaskController_INT controller;
+        controller = IntegrationClaimCheckTaskController_INT::construct();
+        controller.parmArgs(_args);
+        controller.parmLoadFromSysLastValue(false);
+      
+        controller.startOperation();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

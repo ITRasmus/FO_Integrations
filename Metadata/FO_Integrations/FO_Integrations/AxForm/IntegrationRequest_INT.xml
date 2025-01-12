@@ -16,6 +16,26 @@ public class IntegrationRequest_INT extends FormRun
 		</Methods>
 		<DataSources xmlns="">
 			<DataSource>
+				<Name>IntegrationRequest_INT</Name>
+				<Methods>
+					<Method>
+						<Name>init</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void init()
+        {
+            super();
+            this.queryBuildDataSource().addSortField(fieldNum(IntegrationRequest_INT,DateTimeStamp),SortOrder::Descending);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+			<DataSource>
 				<Name>IntegrationRequestData_INT</Name>
 				<Methods>
 					<Method>
@@ -362,6 +382,15 @@ public class IntegrationRequest_INT extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<DataField>CreatedDateTime</DataField>
+								<DataSource>IntegrationRequest_INT</DataSource>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormGuidControl">
+								<Name>IntegrationRequest_INT_Identifier</Name>
+								<Type>Guid</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Identifier</DataField>
 								<DataSource>IntegrationRequest_INT</DataSource>
 							</AxFormControl>
 						</Controls>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckService_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Service class for async processing
+/// </summary>
+public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
+{
+    private IntegrationRequest_INT request;
+    private IntegrationRequestData_INT requestData;
+    private IntegrationSetup_INT setup;
+    private IntegrationLogging_INT logging;
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for processing the clamincheck Integration
+    /// </summary>
+    /// <param name = "_contract">the parameters for the processing</param>
+    public void process(IntegrationClaimCheckServiceDC_INT _contract)
+    {
+        Integration_INT  integration;
+
+
+
+        select firstonly request
+            where request.Identifier == _contract.parmIdentifier()
+                join setup
+            where setup.IntegrationName == request.IntegrationName
+                join requestData
+            where requestData.Identifier == _contract.parmIdentifier()
+                && requestData.RunIdentifier == _contract.parmRunIdentifier();
+
+
+        if(request)
+        {
+            IntegrationClaimCheckTaskController_INT taskController;
+            IntegrationSetupOutTopics_INT topics;
+            IntegrationClaimCheckServiceDC_INT taskContract;
+            while select topics
+                where topics.IntegrationName == request.IntegrationName
+                && (_contract.parmTopic() == topics.Topic 
+                || _contract.parmTopic() == '')
+            {
+
+                guid runIdentifier = newGuid();
+                integration = setup.createIntegration(request.company,requestData.Input);
+                integration.parmRelatedRequest(request.Identifier);
+
+                logging = IntegrationLogging_INT::construct(integration,runIdentifier);
+                
+                IntegrationParseable_INT input = IntegrationParseable_INT::Construct(integration);
+              
+                if(this.isExecutingInBatch())
+                {
+                    logging.logAsyncSchedule();
+                    BatchHeader bh = this.getCurrentBatchHeader();
+
+                    taskContract = new IntegrationClaimCheckServiceDC_INT();
+                
+                    taskController = IntegrationClaimCheckTaskController_INT::construct();
+                    taskContract = taskController.getDataContractObject('_contract');
+                    taskContract.parmIdentifier(integration.parmIdentifier());
+                    taskContract.parmRunIdentifier(runIdentifier);
+                    taskContract.parmTopic(topics.Topic);
+                    taskContract.parmIntegrationName(request.IntegrationName);
+                    taskContract.parmCompany(_contract.parmCompany());
+                    logging.initLog(FormJsonSerializer::serializeClass(taskContract));
+                    taskContract.setKeywords();
+                    logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
+
+
+                    bh.addTask(taskController);
+                    bh.save();
+                }
+                else
+                {
+                    IntegrationClaimCheckTask_INT task = new IntegrationClaimCheckTask_INT();
+                    taskContract = new IntegrationClaimCheckServiceDC_INT();
+                    taskContract.parmIdentifier(integration.parmIdentifier());
+                    taskContract.parmRunIdentifier(runIdentifier);
+                    taskContract.parmTopic(_contract.parmTopic());
+                    taskContract.parmIntegrationName(request.IntegrationName);
+                    taskContract.parmCompany(_contract.parmCompany());
+                    logging.initLog(FormJsonSerializer::serializeClass(taskContract));
+                    taskContract.setKeywords();
+                    logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
+
+                    task.process(taskContract);
+
+                }
+
+
+
+
+            }
+
+        }
+        logging = IntegrationLogging_INT::construct(integration,requestData.RunIdentifier);
+
+        IntegrationReturnable_INT result =  new IntegrationReturnable_INT();
+
+        result.parmSuccess(true);
+        logging.LogComplete(result);
+
+        
+    }
+/*
+    public IntegrationReturnable_INT process(str _payload= '')
+    {
+
+        IntegrationSetupOutTopics_INT topic;
+        while select topic
+            where topic.IntegrationName == this.integration.IntegrationName
+            && (Topic.Topic == _payload || _payload == '')
+        {
+            this.ProcessTopic(topic);
+        }
+        IntegrationReturnable_INT result = new IntegrationReturnable_INT();
+        result.parmSuccess(true);
+        return result;
+
+    }
+
+  */
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

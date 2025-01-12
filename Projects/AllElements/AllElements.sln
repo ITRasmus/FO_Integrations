@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FC65038C-1B2F-41E1-A629-BED71D161FFF}") = "FO_Integrations (ISV) [FO_Integrations]", "FO_Integrations\FO_Integrations.rnrproj", "{AE913F21-D743-418C-84ED-F45555D470BA}"
+EndProject
+Project("{FC65038C-1B2F-41E1-A629-BED71D161FFF}") = "FO_Integrations_Test (ISV) [FO_Integrations_Test]", "FO_Integrations_Test\FO_Integrations_Test.rnrproj", "{B66D71B2-3AA2-4B68-A354-063FD37CBA76}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE913F21-D743-418C-84ED-F45555D470BA} = {AE913F21-D743-418C-84ED-F45555D470BA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE913F21-D743-418C-84ED-F45555D470BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE913F21-D743-418C-84ED-F45555D470BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66D71B2-3AA2-4B68-A354-063FD37CBA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66D71B2-3AA2-4B68-A354-063FD37CBA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73C57CC7-7170-43CD-BA66-A66D8F10CBDD}
+	EndGlobalSection
+EndGlobal

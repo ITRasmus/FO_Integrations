@@ -24,7 +24,7 @@ public class IntegrationSetupOut_INT extends common
     {
         TmpSysClass             tmpSysClass;
         ;
-        DictClass outBoundSetupClass = new DictClass(classnum(IntegrationOutboundSetup_INT));
+        DictClass outBoundSetupClass = new DictClass(classnum(IntegrationSetupBase_INT));
     
         List classExtends = outBoundSetupClass.extendedBy(true);
         ListEnumerator  setupClassesEnumerator = classExtends.getEnumerator();
@@ -36,7 +36,7 @@ public class IntegrationSetupOut_INT extends common
             if (!setupClass.isAbstract())
             {
                 tmpSysClass.ClassId   = setupClass.id();
-                IntegrationOutboundSetup_INT setup = setupClass.makeObject();
+                IntegrationSetupBase_INT setup = setupClass.makeObject();
                 tmpSysClass.ClassName = setup.getSetupName();
                 tmpSysClass.insert();
             }
@@ -61,16 +61,23 @@ public class IntegrationSetupOut_INT extends common
     /// <summary>
     ///
     /// </summary>
-    public IntegrationOutboundSetup_INT getTransportObject()
+    public IntegrationTransport_INT getTransportObject()
     {
 
-        if(this.Transport)
-        {
-            DictClass outSetup = new DictClass(this.Transport);
+        IntegrationTransport_INT transport;
 
-            return outSetup.makeObject();
+        IntegrationSetupBase_INT outboundSetup = IntegrationSetupOutValue_INT::createContractWithValues(this.Transport,this.IntegrationName);
+
+        DictClass transportClass = new DictClass(outboundSetup.TransportIdentifier());
+        transport =  transportClass.makeObject(outboundSetup,this);
+
+        
+        if(!transport)
+        {
+            throw Error("TODO");
         }
-        return null;
+        
+        return transport;
     }
 
 ]]></Source>
@@ -96,7 +103,7 @@ public class IntegrationSetupOut_INT extends common
         if(classId)
         {
             DictClass dclass = new DictClass(classId);
-            IntegrationOutboundSetup_INT outSetup = dclass.makeObject();
+            IntegrationSetupBase_INT outSetup = dclass.makeObject();
             return outSetup.getSetupName();
         }
         else
@@ -106,6 +113,24 @@ public class IntegrationSetupOut_INT extends common
         }
 
         
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static IntegrationSetupOut_INT find(IntegrationName_INT _integrationName)
+    {
+        IntegrationSetupOut_INT setupOut;
+
+        select firstonly setupOut
+            where setupOut.IntegrationName == _integrationName;
+
+        return setupOut;
     }
 
 ]]></Source>

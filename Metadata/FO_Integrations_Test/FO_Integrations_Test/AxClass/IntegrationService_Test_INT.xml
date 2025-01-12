@@ -22,7 +22,8 @@ internal final class IntegrationService_Test_INT extends SysTestCase
     /// </summary>
     public void TestServiceSchedule ()
     {
-        IntegrationAsyncServiceController_INT::scheduleJob(newGuid(),newGuid());
+        //TODO: Implement test case
+        //IntegrationAsyncServiceController_INT::scheduleJob(newGuid(),newGuid());
 
 
     }

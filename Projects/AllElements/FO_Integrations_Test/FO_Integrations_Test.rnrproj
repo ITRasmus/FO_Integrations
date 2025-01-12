@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>FO_Integrations_Test</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{b66d71b2-3aa2-4b68-a354-063fd37cba76}</ProjectGuid>
+    <Name>FO_Integrations_Test</Name>
+    <RootNamespace>FO_Integrations_Test</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>False</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Classes\" />
+    <Folder Include="Macros\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AxClass\IntegrationEndpointErrorIn_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpointErrorIn_INT</Name>
+      <Link>Classes\IntegrationEndpointErrorIn_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpointErrorSample_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpointErrorSample_INT</Name>
+      <Link>Classes\IntegrationEndpointErrorSample_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpointSampleIn_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpointSampleIn_INT</Name>
+      <Link>Classes\IntegrationEndpointSampleIn_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpointSampleOut_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpointSampleOut_INT</Name>
+      <Link>Classes\IntegrationEndpointSampleOut_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationEndpointSample_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationEndpointSample_INT</Name>
+      <Link>Classes\IntegrationEndpointSample_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationGenericEndpoint_Test_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationGenericEndpoint_Test_INT</Name>
+      <Link>Classes\IntegrationGenericEndpoint_Test_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationInOut_Test_USMF_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationInOut_Test_USMF_INT</Name>
+      <Link>Classes\IntegrationInOut_Test_USMF_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationLogging_Test_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationLogging_Test_INT</Name>
+      <Link>Classes\IntegrationLogging_Test_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationLogging_Test_USMF_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationLogging_Test_USMF_INT</Name>
+      <Link>Classes\IntegrationLogging_Test_USMF_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationOutboundRest_Test_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationOutboundRest_Test_INT</Name>
+      <Link>Classes\IntegrationOutboundRest_Test_INT</Link>
+    </Content>
+    <Content Include="AxClass\IntegrationService_Test_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationService_Test_INT</Name>
+      <Link>Classes\IntegrationService_Test_INT</Link>
+    </Content>
+    <Content Include="AxMacroDictionary\IntegrationTests">
+      <SubType>Content</SubType>
+      <Name>IntegrationTests</Name>
+      <Link>Macros\IntegrationTests</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
+</Project>

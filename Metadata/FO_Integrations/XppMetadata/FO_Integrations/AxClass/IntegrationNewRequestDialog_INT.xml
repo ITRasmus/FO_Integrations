@@ -55,6 +55,36 @@
 			</ReturnType>
 		</Method>
 		<Method>
+			<Name>integration_modified</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>FormStringControl</TypeName>
+					<Name>_integrationName</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>Enum</Type>
+				<TypeName>boolean</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>integration_validate</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Class</Type>
+					<TypeName>FormStringControl</TypeName>
+					<Name>_integrationName</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>Enum</Type>
+				<TypeName>boolean</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
 			<Name>BuildDialog</Name>
 			<Visibility>Protected</Visibility>
 			<Parameters>
@@ -93,18 +123,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>DialogGroup</TypeName>
-					<Name>requestGroup</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>DialogGroup</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>showDialog</Name>
@@ -132,13 +150,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationNewRequestDialog_INT</TypeName>
-					<Name>diag</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>main</Name>
@@ -154,13 +165,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationNewRequestDialog_INT</TypeName>
-					<Name>diag</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 	</Methods>
 </z:anyType>

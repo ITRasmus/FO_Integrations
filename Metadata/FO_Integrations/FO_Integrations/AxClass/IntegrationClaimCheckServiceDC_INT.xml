@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationAsyncContract_INT</Name>
+	<Name>IntegrationClaimCheckServiceDC_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Datacontract used for scheduling an Async integration
 /// </summary>
 [DataContract]
-public class IntegrationAsyncContract_INT
+public class IntegrationClaimCheckServiceDC_INT extends IntegrationClaimCheckDC_INT
 {
     private guid identifier;
     private guid runIdentifier;
-    private str  demo;
+ 
+    private str integrationName;
+    private str company;
+
+
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmCompany</Name>
+				<Source><![CDATA[
+    [Datamember('Company')]
+    public str parmCompany(str _company = company)
+    {
+        company = _company;
+        return company;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>parmIdentifier</Name>
 				<Source><![CDATA[
@@ -51,13 +67,13 @@ public class IntegrationAsyncContract_INT
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>parmDemo</Name>
+				<Name>parmIntegrationName</Name>
 				<Source><![CDATA[
-    [Datamember('Demo')]
-    public str parmDemo(str _demo = demo)
+    [Datamember('IntegrationName')]
+    public str parmIntegrationName(str _integrationName = integrationName)
     {
-        demo = _demo;
-        return demo;
+        integrationName = _integrationName;
+        return integrationName;
 
     }
 
