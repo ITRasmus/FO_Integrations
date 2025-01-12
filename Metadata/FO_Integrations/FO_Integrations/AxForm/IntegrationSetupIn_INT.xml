@@ -368,15 +368,6 @@ public class IntegrationSetupIn_INT extends FormRun
 								<Items />
 							</AxFormControl>
 							<AxFormControl xmlns=""
-								i:type="AxFormStringControl">
-								<Name>IntegrationSetup_INT_OutBoundIntegrationName</Name>
-								<Type>String</Type>
-								<FormControlExtension
-									i:nil="true" />
-								<DataField>OutBoundIntegration</DataField>
-								<DataSource>IntegrationSetupIn_INT</DataSource>
-							</AxFormControl>
-							<AxFormControl xmlns=""
 								i:type="AxFormComboBoxControl">
 								<Name>IntegrationSetupIn_INT_AsyncExecution</Name>
 								<Type>ComboBox</Type>

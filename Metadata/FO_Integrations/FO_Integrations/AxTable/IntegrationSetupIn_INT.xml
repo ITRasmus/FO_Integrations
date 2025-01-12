@@ -40,9 +40,6 @@ public class IntegrationSetupIn_INT extends common
 			<Name>AutoReport</Name>
 			<Fields>
 				<AxTableFieldGroupField>
-					<DataField>OutBoundIntegration</DataField>
-				</AxTableFieldGroupField>
-				<AxTableFieldGroupField>
 					<DataField>IntegrationInType</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
@@ -71,33 +68,11 @@ public class IntegrationSetupIn_INT extends common
 			<Name>IntegrationInType</Name>
 			<EnumType>IntegrationTypeIn_INT</EnumType>
 		</AxTableField>
-		<AxTableField xmlns=""
-			i:type="AxTableFieldString">
-			<Name>OutBoundIntegration</Name>
-			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
-			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>@Integrations_INT:OutBoundIntegration</Label>
-		</AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes />
 	<Mappings />
 	<Relations>
-		<AxTableRelation>
-			<Name>OutBoundIntegration</Name>
-			<Cardinality>ZeroMore</Cardinality>
-			<RelatedTable>IntegrationSetup_INT</RelatedTable>
-			<RelatedTableCardinality>ZeroOne</RelatedTableCardinality>
-			<RelationshipType>Association</RelationshipType>
-			<Constraints>
-				<AxTableRelationConstraint xmlns=""
-					i:type="AxTableRelationConstraintField">
-					<Name>OutBoundIntegration</Name>
-					<Field>OutBoundIntegration</Field>
-					<RelatedField>IntegrationName</RelatedField>
-				</AxTableRelationConstraint>
-			</Constraints>
-		</AxTableRelation>
 		<AxTableRelation xmlns=""
 			i:type="AxTableRelationForeignKey">
 			<Name>IntegrationSetup_INT</Name>

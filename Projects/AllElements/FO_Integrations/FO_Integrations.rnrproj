@@ -397,11 +397,6 @@
       <Name>IntegrationNewRequestMenuItem_INT</Name>
       <Link>Action Menu Items\IntegrationNewRequestMenuItem_INT</Link>
     </Content>
-    <Content Include="AxMenuItemDisplay\IntegrationParametersMenuItem_INT">
-      <SubType>Content</SubType>
-      <Name>IntegrationParametersMenuItem_INT</Name>
-      <Link>Display Menu Items\IntegrationParametersMenuItem_INT</Link>
-    </Content>
     <Content Include="AxMenuItemDisplay\IntegrationRequestMenuItem_INT">
       <SubType>Content</SubType>
       <Name>IntegrationRequestMenuItem_INT</Name>
@@ -441,11 +436,6 @@
       <SubType>Content</SubType>
       <Name>IntegrationService_INT</Name>
       <Link>Services\IntegrationService_INT</Link>
-    </Content>
-    <Content Include="AxTable\IntegrationParameters_INT">
-      <SubType>Content</SubType>
-      <Name>IntegrationParameters_INT</Name>
-      <Link>Tables\IntegrationParameters_INT</Link>
     </Content>
     <Content Include="AxTable\IntegrationRequestData_INT">
       <SubType>Content</SubType>

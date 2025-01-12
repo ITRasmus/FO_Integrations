@@ -791,6 +791,7 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
 								<DataSource>IntegrationSetupOutTopics_INT</DataSource>
 							</AxFormControl>
 						</Controls>
+						<Caption>@Integrations_INT:Topics</Caption>
 					</AxFormControl>
 				</Controls>
 				<Style>FastTabs</Style>
