@@ -13,6 +13,11 @@
 			<Label>@Integrations_INT:DirectionOut</Label>
 			<Value>1</Value>
 		</AxEnumValue>
+		<AxEnumValue>
+			<Name>ClaimCheck</Name>
+			<Label>@Integrations_INT:ClaimCheck</Label>
+			<Value>2</Value>
+		</AxEnumValue>
 	</EnumValues>
 	<IsExtensible>true</IsExtensible>
 </AxEnum>

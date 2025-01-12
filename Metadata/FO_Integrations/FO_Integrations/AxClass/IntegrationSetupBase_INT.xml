@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationOutboundSetup_INT</Name>
+	<Name>IntegrationSetupBase_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Class used for the outbound setup
 /// </summary>
-public abstract class IntegrationOutboundSetup_INT
+public abstract class IntegrationSetupBase_INT
 {
 
     private boolean correlationId;
@@ -32,6 +32,23 @@ public abstract class IntegrationOutboundSetup_INT
         correlationId = _correlationId;
         return correlationId;
     }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    public void new()
+    {
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TransportIdentifier</Name>
+				<Source><![CDATA[
+    public  abstract ClassId TransportIdentifier() { }
 
 ]]></Source>
 			</Method>

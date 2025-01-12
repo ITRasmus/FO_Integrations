@@ -9,6 +9,19 @@
 	</Methods>
 	<DataSources>
 		<DataSource>
+			<Name>IntegrationRequest_INT</Name>
+			<Methods>
+				<Method>
+					<Name>init</Name>
+					<Visibility>Public</Visibility>
+					<ReturnType>
+						<TypeName></TypeName>
+					</ReturnType>
+				</Method>
+			</Methods>
+			<Fields />
+		</DataSource>
+		<DataSource>
 			<Name>IntegrationRequestData_INT</Name>
 			<Methods>
 				<Method>

@@ -39,6 +39,12 @@
 			<Name>beginDatetime</Name>
 			<Attributes />
 		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Type>Class</Type>
+			<TypeName>SysApplicationInsightsTelemetryLogger</TypeName>
+			<Name>telemtryLogger</Name>
+			<Attributes />
+		</AxClassMemberVariable>
 	</Members>
 	<Methods>
 		<Method>
@@ -88,23 +94,20 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
+		</Method>
+		<Method>
+			<Name>LogErrorFromResponse</Name>
+			<Visibility>Public</Visibility>
+			<Parameters>
+				<AxMethodParameter>
 					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-			</Variables>
+					<TypeName>IntegrationReturnable_INT</TypeName>
+					<Name>_response</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<TypeName></TypeName>
+			</ReturnType>
 		</Method>
 		<Method>
 			<Name>logError</Name>
@@ -119,28 +122,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestException_INT</TypeName>
-					<Name>requestException</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>initLog</Name>
@@ -155,23 +136,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>logAsyncSchedule</Name>
@@ -179,23 +143,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>logProcessing</Name>
@@ -203,23 +150,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequestData_INT</TypeName>
-					<Name>requestData</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>logKeywords</Name>
@@ -244,18 +174,6 @@
 			<ReturnType>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>UserConnection</TypeName>
-					<Name>userCon</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>construct</Name>
@@ -313,6 +231,19 @@
 			<ReturnType>
 				<Type>Class</Type>
 				<TypeName>IntegrationLogging_INT</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
+			<Name>logTelemetry</Name>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>String</Type>
+					<TypeName></TypeName>
+					<Name>_status</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<TypeName></TypeName>
 			</ReturnType>
 		</Method>
 	</Methods>

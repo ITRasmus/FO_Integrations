@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationAsyncServiceController_INT</Name>
+	<Name>IntegrationClaimCheckController_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Service class for processing a Async integration job
 /// </summary>
-public class IntegrationAsyncServiceController_INT extends SysOperationServiceController
+public class IntegrationClaimCheckController_INT extends SysOperationServiceController
 {
+    
+ 
+
+   
 }
 ]]></Declaration>
 		<Methods>
@@ -19,7 +23,7 @@ public class IntegrationAsyncServiceController_INT extends SysOperationServiceCo
     /// </summary>
     protected void new()
     {
-        super(classStr(IntegrationAsyncService_INT), methodStr(IntegrationAsyncService_INT, process), SysOperationExecutionMode::Synchronous);
+        super(classStr(IntegrationClaimCheckService_INT), methodStr(IntegrationClaimCheckService_INT, process), SysOperationExecutionMode::ScheduledBatch);
        
     }
 
@@ -34,7 +38,7 @@ public class IntegrationAsyncServiceController_INT extends SysOperationServiceCo
     /// <returns>The caption</returns>
     public ClassDescription defaultCaption()
     {
-        return "@Integrations_INT:AsyncJobDescription";
+        return "@Integrations_INT:ClaimCheckDescription";
     }
 
 ]]></Source>
@@ -47,10 +51,10 @@ public class IntegrationAsyncServiceController_INT extends SysOperationServiceCo
     /// </summary>
     /// <param name = "_executionMode">The exectionMode</param>
     /// <returns>The service controller</returns>
-    public static IntegrationAsyncServiceController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
+    public static IntegrationClaimCheckController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::ScheduledBatch)
     {
-        IntegrationAsyncServiceController_INT controller;
-        controller = new IntegrationAsyncServiceController_INT();
+        IntegrationClaimCheckController_INT controller;
+        controller = new IntegrationClaimCheckController_INT();
         controller.parmExecutionMode(_executionMode);
         
         return controller;
@@ -67,9 +71,10 @@ public class IntegrationAsyncServiceController_INT extends SysOperationServiceCo
     /// <param name = "_args">The args from the menuitem</param>
     public static void main(Args _args)
     {
-        IntegrationAsyncServiceController_INT controller;
-        controller = IntegrationAsyncServiceController_INT::construct();
+        IntegrationClaimCheckController_INT controller;
+        controller = IntegrationClaimCheckController_INT::construct();
         controller.parmArgs(_args);
+        controller.parmLoadFromSysLastValue(false);
       
         controller.startOperation();
     }
@@ -77,28 +82,31 @@ public class IntegrationAsyncServiceController_INT extends SysOperationServiceCo
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>scheduleJob</Name>
+				<Name>processRequest</Name>
 				<Source><![CDATA[
     /// <summary>
     /// Helper method for scheduling an async batch job
     /// </summary>
     /// <param name = "_identifier">The integrationRequest to process </param>
     /// <param name = "_runIdentifier">The acutal data to process</param>
-    static void scheduleJob(guid _identifier,guid _runIdentifier)
+    static void processRequest(guid _identifier,guid _runIdentifier,dataAreaId _company,str _topic, SysOperationExecutionMode _executionMode  = SysOperationExecutionMode::ScheduledBatch )
     {
-        IntegrationAsyncServiceController_INT controller;
-        IntegrationAsyncContract_INT datacontract;
+        IntegrationClaimCheckController_INT controller;
+        IntegrationClaimCheckServiceDC_INT datacontract;
         
-        controller = new IntegrationAsyncServiceController_INT();
-        controller.parmExecutionMode(SysOperationExecutionMode::ScheduledBatch);
+        controller = new IntegrationClaimCheckController_INT();
+        controller.parmExecutionMode(_executionMode);
+        controller.parmCurrentBatch().Company = _company;
+
         
         controller.parmLoadFromSysLastValue(false);
-        controller.batchInfo().parmBatchHeader().parmStartDateTime(DateTimeUtil::addDays(DateTimeUtil::utcNow(),10));
+        
         
         dataContract = controller.getDataContractObject('_contract');
         dataContract.parmIdentifier(_identifier);
-        datacontract.parmRunIdentifier(_runIdentifier);
-        
+        datacontract.parmCompany(_company);
+        datacontract.parmTopic(_topic);
+        dataContract.parmRunIdentifier(_runIdentifier);
         controller.runOperation();
         
     }

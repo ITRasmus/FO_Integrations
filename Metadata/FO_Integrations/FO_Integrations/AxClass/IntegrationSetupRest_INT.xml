@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationOutboundSetupRest_INT</Name>
+	<Name>IntegrationSetupRest_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// The datacountract for setting out a rest integration
 /// </summary>
 [DataContract('Outbound_Rest')]
-public class IntegrationOutboundSetupRest_INT extends IntegrationOutboundSetup_INT
+public class IntegrationSetupRest_INT extends IntegrationSetupBase_INT
 {
 
     private str contentType;
     private str method;
     private str url;
     private str timeout;
+    private str xMsVersion;
+    private str SubscriptionKey;
 }
 ]]></Declaration>
 		<Methods>
@@ -76,7 +78,7 @@ public class IntegrationOutboundSetupRest_INT extends IntegrationOutboundSetup_I
     /// </summary>
     /// <param name = "_url">The url</param>
     /// <returns>The url</returns>
-    [IntegrationOutboundSetupAttribute_INT('URL')]
+    [IntegrationOutboundSetupAttribute_INT('Url')]
     public str parmUrl(str _url = url)
     {
         url = _url;
@@ -92,7 +94,7 @@ public class IntegrationOutboundSetupRest_INT extends IntegrationOutboundSetup_I
     /// Builds a URI from the url
     /// </summary>
     /// <returns>an URI</returns>
-    public System.Uri getUri()
+    public System.Uri getUri(str _modifier = '')
     {
         return new System.Uri(url);
 
@@ -120,6 +122,45 @@ public class IntegrationOutboundSetupRest_INT extends IntegrationOutboundSetup_I
     public Name getSetupName()
     {
         return 'Simple Rest';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TransportIdentifier</Name>
+				<Source><![CDATA[
+    public ClassId TransportIdentifier()
+    {
+        return className2Id(classStr(IntegrationTransportRest_INT));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmXmSVersion</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The resoruce for the OAuth token
+    /// </summary>
+    /// <param name = "_resource">The resource</param>
+    /// <returns>The resource</returns>
+    [IntegrationOutboundSetupAttribute_INT('x-ms-version','2023-11-03')]
+    public str parmXmSVersion(str _xMsVersion = xMsVersion)
+    {
+        xMsVersion = _xMsVersion;
+        return xMsVersion;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSubscriptionKey</Name>
+				<Source><![CDATA[
+    [IntegrationOutboundSetupAttribute_INT('Ocp-Apim-Subscription-Key','')]
+    public str parmSubscriptionKey(str _subscriptionKey = subscriptionKey)
+    {
+        subscriptionKey = _subscriptionKey;
+        return subscriptionKey;
     }
 
 ]]></Source>

@@ -26,6 +26,74 @@ internal class IntegrationNewRequestDialog_INT
     {
         dialog = new Dialog("@Integrations_INT:NewRequest",this);
         
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>integration_modified</Name>
+				<Source><![CDATA[
+    public boolean integration_modified(FormStringControl _integrationName)
+    {
+        
+        IntegrationSetup_INT integration = IntegrationSetup_INT::find(_integrationName.valueStr());
+
+        if(integration)
+        {
+
+            Integration_INT inte = IntegrationSetup_INT::createInstanceOfIntegrationClass(integration);
+            
+
+
+            DictClass dataContract = new DictClass(inte.DataContractIdentifier());
+            IntegrationParseable_INT dataContractObject =  dataContract.makeObject();
+
+            int methodCount = dataContract.objectMethodCnt();
+            int numMethod = 1;
+            while(numMethod <= methodCount)
+            {
+                DictMethod method = dataContract.objectMethodObject(numMethod);
+                if(method.parameterCnt() == 1 && method.returnType() == Types::Class )
+                {
+                    Object attribute = method.getAttribute('DataMemberAttribute');
+ 
+                    if(attribute)
+                    {
+                        int classId =  ClassName2Id(method.returnTypeName());
+                        if(ClassId > 0)
+                        {
+                            DictClass innerObject =  new DictClass(classId);
+                            Object o = innerObject.makeObject();
+                            dataContract.callObject(method.name(),dataContractObject,o);
+                        }
+                    }
+                }
+                numMethod++;
+            }
+            
+            integrationInput.value(FormJsonSerializer::serializeClass(dataContractObject));
+        }
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>integration_validate</Name>
+				<Source><![CDATA[
+    public boolean integration_validate(FormStringControl _integrationName)
+    {
+        
+        IntegrationSetup_INT integration = IntegrationSetup_INT::find(_integrationName.valueStr());
+
+        if(integration)
+        {
+
+            return true;
+        }
+        return false;
+
     }
 
 ]]></Source>
@@ -42,7 +110,12 @@ internal class IntegrationNewRequestDialog_INT
     /// <param name = "_allowEditCompany">Allow edit of company</param>
     /// <param name = "_input">The input to preload with</param>
     /// <param name = "_identifier">The identifier if there is already an request</param>
-    protected void BuildDialog(IntegrationName_INT _name,boolean _allowEditName,IntegrationCompany_INT _company, boolean _allowEditCompany,IntegrationInput_INT _input,guid _identifier = newGuid())
+    protected void BuildDialog(IntegrationName_INT _name,
+                                boolean _allowEditName,
+                                IntegrationCompany_INT _company, 
+                                boolean _allowEditCompany,
+                                IntegrationInput_INT _input,
+                                guid _identifier = newGuid())
     {
         identifier = _identifier;
         DialogGroup requestGroup = dialog.addGroup("@Integrations_INT:RequestInfo");
@@ -50,6 +123,13 @@ internal class IntegrationNewRequestDialog_INT
         integrationName =  dialog.addField(extendedTypeStr(IntegrationName_INT));
         integrationName.value(_name);
         integrationName.allowEdit(_allowEditName);
+        
+
+        integrationName.registerOverrideMethod(methodStr(FormStringControl, modified), methodStr(IntegrationNewRequestDialog_INT, integration_modified), this);
+        integrationName.registerOverrideMethod(methodStr(FormStringControl, validate), methodStr(IntegrationNewRequestDialog_INT, integration_validate), this);
+
+        
+        
 
         integrationCompany =  dialog.addField(extendedTypeStr(IntegrationCompany_INT));
         integrationCompany.value(_company);
@@ -63,10 +143,11 @@ internal class IntegrationNewRequestDialog_INT
         requestGroup.addFieldname(integrationCompany.name());
         requestGroup.addFieldname(integrationIdentifier.name());
         
-        DialogGroup requestData = dialog.addGroup("@Integrations_INT:RequestData");
-        
+
         
 
+        DialogGroup requestData = dialog.addGroup("@Integrations_INT:RequestData");
+        
         integrationInput =  dialog.addField(extendedTypeStr(IntegrationInput_INT));
         integrationInput.value(_input);
         integrationInput.displayHeight(50);
@@ -74,6 +155,10 @@ internal class IntegrationNewRequestDialog_INT
         integrationInput.multiLine(true);
 
         requestData.addFieldname(integrationInput.name());
+
+
+       
+
     }
 
 ]]></Source>

@@ -29,6 +29,12 @@
 			<Name>identifier</Name>
 			<Attributes />
 		</AxClassMemberVariable>
+		<AxClassMemberVariable>
+			<Type>Enum</Type>
+			<TypeName>boolean</TypeName>
+			<Name>success</Name>
+			<Attributes />
+		</AxClassMemberVariable>
 	</Members>
 	<Methods>
 		<Method>
@@ -113,6 +119,33 @@
 			</ReturnType>
 		</Method>
 		<Method>
+			<Name>parmSuccess</Name>
+			<Visibility>Public</Visibility>
+			<Attributes>
+				<AxAttribute>
+					<Name>DataMember</Name>
+					<Parameters>
+						<AxAttributeParameter>
+							<TypeValue>'Success'</TypeValue>
+							<AdditionalData />
+						</AxAttributeParameter>
+					</Parameters>
+				</AxAttribute>
+			</Attributes>
+			<Parameters>
+				<AxMethodParameter>
+					<Type>Enum</Type>
+					<TypeName>boolean</TypeName>
+					<DefaultValue>success</DefaultValue>
+					<Name>_success</Name>
+				</AxMethodParameter>
+			</Parameters>
+			<ReturnType>
+				<Type>Enum</Type>
+				<TypeName>boolean</TypeName>
+			</ReturnType>
+		</Method>
+		<Method>
 			<Name>deSerialize</Name>
 			<Visibility>Public</Visibility>
 			<Parameters>
@@ -126,13 +159,6 @@
 				<Type>Class</Type>
 				<TypeName>IntegrationReturnable_INT</TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Int32</Type>
-					<TypeName></TypeName>
-					<Name>classid</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>Serialize</Name>
@@ -162,18 +188,6 @@
 				<Type>Class</Type>
 				<TypeName>IntegrationReturnable_INT</TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationReturnable_INT</TypeName>
-					<Name>result</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>ClrType</Type>
-					<TypeName>System.Exception</TypeName>
-					<Name>innerException</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 	</Methods>
 </z:anyType>

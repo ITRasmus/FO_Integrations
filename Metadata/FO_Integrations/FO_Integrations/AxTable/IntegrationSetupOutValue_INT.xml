@@ -53,7 +53,7 @@ public class IntegrationSetupOutValue_INT extends common
             int methodCount = theClass.objectMethodCnt();
             
             int counter = 1;
-            while(counter < methodCount)
+            while(counter <= methodCount)
             {
                 theMethod = theClass.objectMethodObject(counter);
                 IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
@@ -104,7 +104,32 @@ public class IntegrationSetupOutValue_INT extends common
         
         theClass = new DictClass(_classId);
         contract = theClass.makeObject();
+
+         
+        IntegrationSetupOutValue_INT::populateObject(contract,theClass,_integrationName);
+        
+        
+        return contract;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>populateObject</Name>
+				<Source><![CDATA[
+    /*
+    public static Object createContractWithValues(int _classId, IntegrationName_INT _integrationName)
+    {
+        
+        DictClass theClass;
+        DictMethod theMethod;
+        IntegrationSetupOutValue_INT value;
+        Object contract;
+        
+        theClass = new DictClass(_classId);
+        contract = theClass.makeObject();
         int methodCount = theClass.objectMethodCnt();
+        theClass.
         int counter = 1;
         while(counter <= methodCount)
         {
@@ -131,6 +156,45 @@ public class IntegrationSetupOutValue_INT extends common
             counter ++;
         }
         return contract;
+    }
+    */
+    private static void populateObject(Object _contract,DictClass _dictObject,str _integrationName)
+    {
+         
+        DictMethod theMethod;
+        IntegrationSetupOutValue_INT value;
+
+        int methodCount = _dictObject.objectMethodCnt();
+        int counter = 1;
+        while(counter <= methodCount)
+        {
+            theMethod = _dictObject.objectMethodObject(counter);
+            IntegrationOutboundSetupAttribute_INT integrationAttribute = theMethod.getAttribute(#IntegrationAttributeName);
+                
+            if(integrationAttribute)
+            {
+                select firstonly value
+                    where value.IntegrationName == _integrationName
+                    && value.Id == integrationAttribute.Name();
+                if(value)
+                {
+                    if(theMethod.parameterCnt() == 1)
+                    {
+                        if(theMethod.parameterType(1) == Types::String)
+                        {
+                            _dictObject.callObject(theMethod.name(),_contract,value.Value);
+                        }
+                    }
+                }
+                    
+            }
+            counter ++;
+        }
+        if(_dictObject.extend() != 0)
+        {
+            IntegrationSetupOutValue_INT::populateObject(_contract,new DictClass(_dictObject.extend()),_integrationName);
+        }
+
     }
 
 ]]></Source>
@@ -176,6 +240,9 @@ public class IntegrationSetupOutValue_INT extends common
 			<Fields>
 				<AxTableFieldGroupField>
 					<DataField>Id</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>IntegrationName</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -240,6 +307,9 @@ public class IntegrationSetupOutValue_INT extends common
 			<Fields>
 				<AxTableIndexField>
 					<DataField>Id</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>IntegrationName</DataField>
 				</AxTableIndexField>
 			</Fields>
 		</AxTableIndex>

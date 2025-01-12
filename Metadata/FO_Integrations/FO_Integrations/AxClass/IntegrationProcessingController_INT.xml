@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationProcessingController_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Service class for processing a Async integration job
+/// </summary>
+public class IntegrationProcessingController_INT extends SysOperationServiceController
+{
+    
+ 
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    protected void new()
+    {
+        super(classStr(IntegrationProcessingService_INT), methodStr(IntegrationProcessingService_INT, process), SysOperationExecutionMode::Synchronous);
+       
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>defaultCaption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default caption
+    /// </summary>
+    /// <returns>The caption</returns>
+    public ClassDescription defaultCaption()
+    {
+        return "@Integrations_INT:AsyncJobDescription";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default implementation of a constructor for a service controller
+    /// </summary>
+    /// <param name = "_executionMode">The exectionMode</param>
+    /// <returns>The service controller</returns>
+    public static IntegrationProcessingController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::Synchronous)
+    {
+        IntegrationProcessingController_INT controller;
+        controller = new IntegrationProcessingController_INT();
+        controller.parmExecutionMode(_executionMode);
+        
+        return controller;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Main for menu item
+    /// </summary>
+    /// <param name = "_args">The args from the menuitem</param>
+    public static void main(Args _args)
+    {
+        IntegrationProcessingController_INT controller;
+        controller = IntegrationProcessingController_INT::construct();
+        controller.parmArgs(_args);
+        controller.parmLoadFromSysLastValue(false);
+      
+        controller.startOperation();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Helper method for scheduling an async batch job
+    /// </summary>
+    /// <param name = "_identifier">The integrationRequest to process </param>
+    /// <param name = "_runIdentifier">The acutal data to process</param>
+    static IntegrationReturnable_INT processRequest(guid _identifier,guid _runIdentifier,SysOperationExecutionMode _executionMode  = SysOperationExecutionMode::ScheduledBatch )
+    {
+        IntegrationProcessingController_INT controller;
+        IntegrationProcessingContract_INT datacontract;
+        
+        controller = new IntegrationProcessingController_INT();
+        controller.parmExecutionMode(_executionMode);
+        
+        
+        controller.parmLoadFromSysLastValue(false);
+    //    controller.batchInfo().parmBatchHeader().parmStartDateTime(DateTimeUtil::addDays(DateTimeUtil::utcNow(),10));
+        
+        dataContract = controller.getDataContractObject('_contract');
+        dataContract.parmIdentifier(_identifier);
+        datacontract.parmRunIdentifier(_runIdentifier);
+        
+        controller.runOperation();
+        return new IntegrationReturnable_INT();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRequestSync</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Helper method for scheduling an async batch job
+    /// </summary>
+    /// <param name = "_identifier">The integrationRequest to process </param>
+    /// <param name = "_runIdentifier">The acutal data to process</param>
+    static IntegrationReturnable_INT processRequestSync(Integration_INT _integration, guid _runIdentifier)
+    {
+        IntegrationProcessingService_INT service = new IntegrationProcessingService_INT();
+
+        return service.procesSync(_integration,_runIdentifier);
+        
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

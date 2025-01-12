@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationInsightsStatus_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class IntegrationInsightsStatus_INT extends SysApplicationInsightsProperty
+{
+
+
+    
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>newFromValue</Name>
+				<Source><![CDATA[
+    public static IntegrationInsightsStatus_INT newFromValue(str _value)
+    {
+        return new IntegrationInsightsStatus_INT(_value);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initialize</Name>
+				<Source><![CDATA[
+    protected container initialize()
+    {
+        return ['Status',             SysApplicationInsightsComplianceDataType::CustomerContent];
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

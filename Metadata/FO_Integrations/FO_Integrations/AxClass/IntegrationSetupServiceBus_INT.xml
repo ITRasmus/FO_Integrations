@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetupServiceBus_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class IntegrationSetupServiceBus_INT extends IntegrationSetupRestOAuth_INT
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>TransportIdentifier</Name>
+				<Source><![CDATA[
+    public ClassId TransportIdentifier()
+    {
+        return className2Id(classStr(IntegrationTransportServiceBus_INT));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getSetupName</Name>
+				<Source><![CDATA[
+    public Name getSetupName()
+    {
+        return 'Servicebus with OAUth';
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

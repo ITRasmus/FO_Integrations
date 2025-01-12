@@ -10,14 +10,12 @@
 			<Visibility>Public</Visibility>
 			<Parameters>
 				<AxMethodParameter>
-					<Tags></Tags>
 					<Type>Class</Type>
 					<TypeName>IntegrationParseable_INT</TypeName>
 					<Name>_input</Name>
 				</AxMethodParameter>
 			</Parameters>
 			<ReturnType>
-				<Tags></Tags>
 				<Type>Class</Type>
 				<TypeName>IntegrationReturnable_INT</TypeName>
 			</ReturnType>
@@ -26,7 +24,6 @@
 			<Name>DataContractIdentifier</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
-				<Tags></Tags>
 				<Type>ExtendedDataType</Type>
 				<TypeName>ClassId</TypeName>
 			</ReturnType>
@@ -35,7 +32,6 @@
 			<Name>DefaultName</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
-				<Tags></Tags>
 				<Type>String</Type>
 				<TypeName></TypeName>
 			</ReturnType>

@@ -12,6 +12,7 @@ public class IntegrationReturnable_INT
     private str exception;
     private str stacktrace;
     protected guid identifier;
+    protected boolean success;
 
 }
 ]]></Declaration>
@@ -63,6 +64,23 @@ public class IntegrationReturnable_INT
     {
         identifier = _identifier;
         return identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSuccess</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Identifies whether the operation was successful
+    /// </summary>
+    /// <param name = "_success">Success state</param>
+    /// <returns>Success state</returns>
+    [DataMember('Success')]
+    public boolean parmSuccess(boolean _success = success)
+    {
+        success = _success;
+        return success;
     }
 
 ]]></Source>
@@ -133,6 +151,8 @@ public class IntegrationReturnable_INT
         }
         
         result.parmIndentifier(_identifier);
+        result.parmSuccess(false);
+
         return result;
     }
 

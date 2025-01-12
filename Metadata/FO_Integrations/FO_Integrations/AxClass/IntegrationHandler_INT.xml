@@ -51,22 +51,6 @@ public class IntegrationHandler_INT
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>HandleAsyncEvent</Name>
-				<Source><![CDATA[
-    /// <summary>
-    /// Method to used when async integration is processed with the batchjob
-    /// </summary>
-    /// <param name = "_integration">The integration to process</param>
-    /// <returns>The result</returns>
-    public static IntegrationReturnable_INT HandleAsyncEvent(Integration_INT _integration)
-    {
-        IntegrationHandler_INT handler = new IntegrationHandler_INT(_integration);
-        return handler.processRequest();
-    }
-
-]]></Source>
-			</Method>
-			<Method>
 				<Name>HandleEventInternal</Name>
 				<Source><![CDATA[
     /// <summary>
@@ -85,10 +69,14 @@ public class IntegrationHandler_INT
                 switch(outSetup.IntegrationOutType)
                 {
                     case IntegrationTypeOut_INT::Sync:
-                        result = this.processRequest();
+                        result = IntegrationProcessingController_INT::processRequestSync(this.integration,this.runIdentifier);
+                        
                         break;
                     default:
-                        result = this.scheduleAsync();
+                        logging.logAsyncSchedule();
+                        IntegrationProcessingController_INT::processRequest(this.integration.parmIdentifier(),runIdentifier,SysOperationExecutionMode::ReliableAsynchronous);
+                        result = new IntegrationReturnable_INT();
+                        result.parmIndentifier(this.integration.parmIdentifier());
                         break;
                 }
                 break;
@@ -98,74 +86,47 @@ public class IntegrationHandler_INT
                 switch(inSetup.IntegrationInType)
                 {
                     case IntegrationTypeIn_INT::Sync:
-                        result = this.processRequest();
+                        result = IntegrationProcessingController_INT::processRequestSync(this.integration,this.runIdentifier);
+                        
                         break;
+
                     default:
-                        result = this.scheduleAsync();
+                        logging.logAsyncSchedule();
+                        SysOperationExecutionMode executionMode;
+                        if(inSetup.AsyncBatchExecution)
+                        {
+                            executionMode = SysOperationExecutionMode::ScheduledBatch;
+                        }
+                        else
+                        {
+                            executionMode = SysOperationExecutionMode::ReliableAsynchronous;
+                        }
+                        IntegrationProcessingController_INT::processRequest(this.integration.parmIdentifier(),runIdentifier,executionMode);
+                        result = new IntegrationReturnable_INT();
+                        result.parmIndentifier(this.integration.parmIdentifier());
+                        
                         break;
                 }
                 break;
+            case tableStr(IntegrationSetupClaimCheck_INT):
+
+                logging.logAsyncSchedule();
+
+      
+                IntegrationClaimCheckDC_INT dc = FormJsonSerializer::deserializeObject(classNum(IntegrationClaimCheckDC_INT),this.integration.parmPayload());
+                logging.logKeywords(dc.parmTopic(),'','');
+                IntegrationClaimCheckController_INT::processRequest(this.integration.parmIdentifier(),this.runIdentifier,this.integration.parmCompany(),dc.parmTopic());
+
+                result = new IntegrationReturnable_INT();
+                result.parmIndentifier(this.integration.parmIdentifier());
+
+                logging.LogComplete(result);
+                        
+                break;
+
         }
 
         return result;
-    }
-
-]]></Source>
-			</Method>
-			<Method>
-				<Name>processRequest</Name>
-				<Source><![CDATA[
-    /// <summary>
-    /// Processes an integration Async
-    /// </summary>
-    /// <returns>The result</returns>
-    private IntegrationReturnable_INT processRequest()
-    {
-        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
-        Object result;
-        try
-        {
-            logging.logProcessing();
-            ttsbegin;
-            IntegrationParseable_INT input = IntegrationParseable_INT::Construct(integration);
-
-            logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
-
-            result = integration.process(input);
-
-            logging.LogComplete(result);
-            ttscommit;
-        }
-        catch (xppEx)
-        {
-            
-            logging.logError(xppEx);
-            result = IntegrationReturnable_INT::createFromException(xppEx,integration.parmIdentifier());
-        }
-        catch (Exception::CLRError)
-        {
-            System.Exception ex = CLRInterop::getLastException();
-            logging.logError(ex);
-            result = IntegrationReturnable_INT::createFromException(ex,integration.parmIdentifier());
-
-        }
-        return result;
-    }
-
-]]></Source>
-			</Method>
-			<Method>
-				<Name>scheduleAsync</Name>
-				<Source><![CDATA[
-    /// <summary>
-    /// Used for scheduling an async integration
-    /// </summary>
-    /// <returns>the async scheduled result</returns>
-    private IntegrationReturnable_INT scheduleAsync()
-    {
-        IntegrationAsyncServiceController_INT::scheduleJob(integration.parmIdentifier(),this.runIdentifier);
-        logging.logAsyncSchedule();
-        return IntegrationAsyncScheduletDC_INT::construct(integration.parmIdentifier(),integrationSetup.IntegrationName);
     }
 
 ]]></Source>

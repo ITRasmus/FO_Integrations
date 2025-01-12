@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationOutboundSetupRestBasic_INT</Name>
+	<Name>IntegrationSetupRestBasic_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
 /// <summary>
 /// Contract for using basic Auth
 /// </summary>
 [DataContract('Outbound_RestBasicAuth')]
-public class IntegrationOutboundSetupRestBasic_INT extends IntegrationOutBoundSetupRest_INT
+public class IntegrationSetupRestBasic_INT extends IntegrationSetupRest_INT
 {
     private str user;
     private str password;
 }
+
 ]]></Declaration>
 		<Methods>
 			<Method>

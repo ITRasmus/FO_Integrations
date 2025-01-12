@@ -7,5 +7,5 @@
 	<ArrayElements />
 	<Relations />
 	<TableReferences />
-	<StringSize>250</StringSize>
+	<StringSize>-1</StringSize>
 </AxEdt>

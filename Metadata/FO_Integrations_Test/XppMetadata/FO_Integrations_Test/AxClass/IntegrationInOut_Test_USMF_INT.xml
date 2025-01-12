@@ -35,84 +35,23 @@
 			<Name>TestOAuth</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationOutBoundSetupRestOAuth_INT</TypeName>
-					<Name>setupRest</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>String</Type>
-					<TypeName></TypeName>
-					<Name>payload</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationOutBoundRest_INT</TypeName>
-					<Name>outboundRest</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>String</Type>
-					<TypeName></TypeName>
-					<Name>response</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationEndpointSampleOut_INT</TypeName>
-					<Name>responseDc</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>TestFailure</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
-			<Variables>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationOutBoundSetupRestOAuth_INT</TypeName>
-					<Name>setupRest</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>String</Type>
-					<TypeName></TypeName>
-					<Name>payload</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationOutBoundRest_INT</TypeName>
-					<Name>outboundRest</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>String</Type>
-					<TypeName></TypeName>
-					<Name>response</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Class</Type>
-					<TypeName>IntegrationReturnable_INT</TypeName>
-					<Name>responseDc</Name>
-				</AxMethodVariable>
-				<AxMethodVariable>
-					<Type>Record</Type>
-					<TypeName>IntegrationRequest_INT</TypeName>
-					<Name>request</Name>
-				</AxMethodVariable>
-			</Variables>
 		</Method>
 		<Method>
 			<Name>setupTestCase</Name>
 			<Visibility>Public</Visibility>
 			<ReturnType>
+				<Tags></Tags>
 				<TypeName></TypeName>
 			</ReturnType>
 		</Method>

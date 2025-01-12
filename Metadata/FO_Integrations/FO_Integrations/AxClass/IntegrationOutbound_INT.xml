@@ -8,9 +8,41 @@
 /// </summary>
 public abstract class IntegrationOutbound_INT extends Integration_INT
 {
+
+
+    
+
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>TransportPayload</Name>
+				<Source><![CDATA[
+    public void TransportPayload(Object _input)
+    {
+        IntegrationEndpoint_INT e = new IntegrationEndpoint_INT();
+
+
+        str _payload = FormJsonSerializer::serializeClass(_input);
+
+
+        e.GenericEndpoint(this.DefaultName(),curExt(),_payload);
+    
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public IntegrationReturnable_INT process(IntegrationParseable_INT _input)
+    {
+        this.parmPayload(_input.parmPayload());
+        return new IntegrationReturnable_INT();
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>Direction</Name>
 				<Source><![CDATA[
@@ -21,6 +53,26 @@ public abstract class IntegrationOutbound_INT extends Integration_INT
     public IntegrationDirection_INT Direction()
     {
         return IntegrationDirection_INT::Out;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processOutboundTransport</Name>
+				<Source><![CDATA[
+    public IntegrationReturnable_INT processOutboundTransport()
+    {
+
+
+        IntegrationSetupOut_INT outboundSetup = this.parmIntegrationSetup();
+
+
+        IntegrationTransport_INT transport = outboundSetup.getTransportObject();
+        transport.parmCorrelationId(this.parmIdentifier());
+
+
+
+        return transport.process(this.parmPayload());
     }
 
 ]]></Source>

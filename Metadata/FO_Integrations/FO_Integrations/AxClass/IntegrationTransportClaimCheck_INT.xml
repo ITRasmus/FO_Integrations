@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationTransportClaimCheck_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class IntegrationTransportClaimCheck_INT extends IntegrationTransport_INT
+{
+    protected IntegrationSetupClaimCheckBase_INT  claimCheckSetup;
+    protected SysApplicationInsightsTelemetryLogger telemtryLogger;
+    protected IntegrationSetupClaimCheck_INT claimCheckIntegration;
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>New</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Default new
+    /// </summary>
+    /// <param name = "_setup">The setup to use in the request</param>
+    public void New(IntegrationSetupClaimCheckBase_INT  _setup,IntegrationSetupClaimCheck_INT _integration)
+    {
+        super(_setup,_integration);
+        claimCheckSetup = _setup;
+        telemtryLogger = SysApplicationInsightsTelemetryLogger::instance();
+        claimCheckIntegration = _integration as IntegrationSetupClaimCheck_INT;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public IntegrationReturnable_INT process(str _payload= '')
+    {
+
+        IntegrationSetupOutTopics_INT topic;
+
+
+
+        select firstonly topic
+            where topic.IntegrationName == this.integration.IntegrationName
+            && Topic.Topic == _payload;
+
+        if(!topic)
+        {
+            throw Error("Topic not found '%1'",_payload);
+        }
+        return this.ProcessTopic(topic);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>ProcessTopic</Name>
+				<Source><![CDATA[
+    private IntegrationReturnable_INT ProcessTopic(IntegrationSetupOutTopics_INT _topic)
+    {
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+        IntegrationTransport_INT transport;
+        IntegrationTransportRest_INT blobTransport;
+        IntegrationTransportServiceBus_INT servicebusTransport;
+        IntegrationReturnable_INT result;
+        try
+        {
+            
+            transport = IntegrationSetupOut_INT::find(claimCheckIntegration.IntegrationBlob).getTransportObject();
+
+            if(transport is IntegrationTransportRest_INT)
+            {
+                blobTransport = transport as IntegrationTransportRest_INT;
+            }
+            else
+            {
+                throw Error("TODO claimcheck must use rest transport");
+            }
+
+            transport = IntegrationSetupOut_INT::find(claimCheckIntegration.IntegrationServiceBus).getTransportObject();
+            
+            if(transport is IntegrationTransportServiceBus_INT)
+            {
+                servicebusTransport = transport as IntegrationTransportRest_INT;
+            }
+            else
+            {
+                throw Error("TODO claimcheck must use servicebus transport");
+            }
+
+            servicebusTransport.parmAllowTokenReuse(true);
+            blobTransport.parmAllowTokenReuse(true);
+
+            servicebusTransport.setServiceBus(_topic.Topic,claimCheckSetup.parmSubscription());
+
+            IntegrationRestResponse_INT fileToFetch = servicebusTransport.process();
+
+
+            if(fileToFetch.parmStatusCode()  == 204) //NoContent
+            {
+                return fileToFetch;
+            }
+
+            if(fileToFetch.parmResponse() == '')
+            {
+                result = new IntegrationReturnable_INT();
+                result.parmException(FormJsonSerializer::serializeClass(fileToFetch));
+                result.parmSuccess(false);
+                return result;
+            }
+
+            IntegrationBrokerPropertiesDC_INT brokerProperties  = fileToFetch.parmBrokerProperties();
+
+            if(brokerProperties == null)
+            {
+                result = new IntegrationReturnable_INT();
+                result.parmException(FormJsonSerializer::serializeClass(fileToFetch));
+                result.parmSuccess(false);
+                return result;
+            
+            }
+       
+            int numOfMessages = brokerProperties.parmDeliveryCount();
+            this.logTelemetry(numOfMessages,_topic.Topic);
+            do
+            {
+                str file;
+                try
+                {
+                    file = fileToFetch.parmResponse();
+
+                    if(file != '' && brokerProperties != null)
+                    {
+                        blobTransport.parmRestSetup().parmUrl(file);
+                        IntegrationRestResponse_INT blobContent =  blobTransport.process() as IntegrationRestResponse_INT;
+
+                
+                        this.scheduleInbound(fileToFetch.parmCorrelationId(),blobContent.parmResponse(),_topic.IntegrationNameIn);
+
+                        servicebusTransport.parmCommand(IntegrationServiceBusCommand_INT::Delete);
+
+                        servicebusTransport.setServiceBus(_topic.Topic,claimCheckSetup.parmSubscription(),brokerProperties.parmMessageId(),brokerProperties.parmLockToken());
+
+                        servicebusTransport.process();
+
+                        servicebusTransport.parmCommand(IntegrationServiceBusCommand_INT::Peek);
+
+                        fileToFetch = servicebusTransport.process();
+                        brokerProperties = fileToFetch.parmBrokerProperties();
+
+                        if(brokerProperties != null)
+                        {
+                            numOfMessages = brokerProperties.parmDeliveryCount();
+                        }
+                    }
+
+                }
+                catch (xppEx)
+                {
+                    IntegrationHandler_INT::handleEarlyException(xppEx,_topic.IntegrationNameIn,curExt(),file);
+                }
+                catch (Exception::CLRError)
+                {
+                    IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_topic.IntegrationNameIn,curExt(),file);
+                }
+
+                numOfMessages --;
+            }  while(numOfMessages > -1);
+            
+        }
+        catch (xppEx)
+        {
+            result = IntegrationReturnable_INT::createFromException(xppEx,newGuid());
+        }
+        catch (Exception::CLRError)
+        {
+            result = IntegrationReturnable_INT::createFromException(CLRInterop::getLastException(),newGuid());
+        }
+        return result;
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>scheduleInbound</Name>
+				<Source><![CDATA[
+    private void scheduleInbound(guid _guid,str _payload,str _integrationName)
+    {
+
+        IntegrationSetup_Int integrationSetup;
+        
+        IntegrationReturnable_INT result;
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+
+        integrationSetup = IntegrationSetup_Int::find(_integrationName);
+
+
+        integrationSetup.AsyncBatchExecution = NoYes::Yes;
+
+        if(integrationSetup is IntegrationSetupIn_INT)
+        {
+            IntegrationSetupIn_INT inbound = integrationSetup as IntegrationSetupIn_INT;
+            inbound.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
+        }
+        try
+        {
+            if(!integrationSetup)
+            {
+                Throw  Global::error(strFmt("@Integrations_INT:IntegrationNotFound",_integrationName));
+            }
+            Integration_INT inte = integrationSetup.createIntegration(curExt(),_payload);
+            inte.parmIdentifier(_guid);
+            IntegrationHandler_INT::HandleEvent(inte);
+        }
+        catch (xppEx)
+        {
+            IntegrationHandler_INT::handleEarlyException(xppEx,_integrationName,curExt(),_payload);
+        }
+        catch (Exception::CLRError)
+        {
+            IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_integrationName,curExt(),_payload);
+        }
+
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logTelemetry</Name>
+				<Source><![CDATA[
+    private void logTelemetry(int _numOfMessages, str _topic)
+    {
+        
+        IntegrationInsightsIntegration_INT integrationTele = IntegrationInsightsIntegration_INT::newFromValue(integration.IntegrationName);
+        IntegrationInsightsMessages_INT mssages = IntegrationInsightsMessages_INT::newFromValue(int2Str(_numOfMessages));
+        IntegrationInsightsTopic_INT topic = IntegrationInsightsTopic_INT::newFromValue(_topic);
+        
+        
+        SysApplicationInsightsEventTelemetry event = SysApplicationInsightsEventTelemetry::newFromEventIdName('ATP-Integration','ATP-Integration');
+        event.addProperty(integrationTele);
+        event.addProperty(mssages);
+        event.addProperty(topic);
+
+        telemtryLogger.trackEvent(event);
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

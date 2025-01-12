@@ -110,6 +110,9 @@ public class IntegrationSetupIn_INT extends FormRun
 			<Table>IntegrationSetupIn_INT</Table>
 			<Fields>
 				<AxFormDataSourceField>
+					<DataField>AsyncExecution</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>ClassName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
@@ -119,13 +122,13 @@ public class IntegrationSetupIn_INT extends FormRun
 					<DataField>InstanceRelationType</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>IntegrationInType</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>IntegrationName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>IntegrationType</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>OutBoundIntegrationName</DataField>
+					<DataField>OutBoundIntegration</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Partition</DataField>
@@ -372,6 +375,16 @@ public class IntegrationSetupIn_INT extends FormRun
 									i:nil="true" />
 								<DataField>OutBoundIntegration</DataField>
 								<DataSource>IntegrationSetupIn_INT</DataSource>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormComboBoxControl">
+								<Name>IntegrationSetupIn_INT_AsyncExecution</Name>
+								<Type>ComboBox</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>AsyncBatchExecution</DataField>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
+								<Items />
 							</AxFormControl>
 						</Controls>
 						<ColumnsMode>Fill</ColumnsMode>

@@ -14,7 +14,11 @@ public class IntegrationLogging_INT
     protected IntegrationName_INT integrationName;
     protected DataAreaId company;
     protected utcdatetime beginDatetime;
+    protected SysApplicationInsightsTelemetryLogger telemtryLogger;
     
+    
+   
+  
 }
 ]]></Declaration>
 		<Methods>
@@ -37,7 +41,8 @@ public class IntegrationLogging_INT
         integrationName = _integrationName;
         company = _company;
         runIdentifier = _runIdentifier;
-        
+        telemtryLogger = SysApplicationInsightsTelemetryLogger::instance();
+    
         
     }
 
@@ -52,6 +57,8 @@ public class IntegrationLogging_INT
     /// <param name = "_response">The response to log</param>
     public void LogComplete(IntegrationReturnable_INT _response)
     {
+
+        this.logTelemetry('Complete');
         UserConnection userCon = new UserConnection();
         IntegrationRequestData_INT requestData;
         IntegrationRequest_INT request;
@@ -69,6 +76,43 @@ public class IntegrationLogging_INT
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>LogErrorFromResponse</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Registeres a complete event
+    /// </summary>
+    /// <param name = "_response">The response to log</param>
+    public void LogErrorFromResponse(IntegrationReturnable_INT _response)
+    {
+
+        this.logTelemetry('Error');
+        UserConnection userCon = new UserConnection();
+        IntegrationRequestException_INT requestException;
+        IntegrationRequest_INT request;
+        IntegrationRequestData_INT requestData;
+        requestException.setConnection(userCon);
+        request.setConnection(userCon);
+        requestData.setConnection(userCon);
+                
+        requestException.DateTimeStamp = DateTimeUtil::utcNow();
+        requestException.Identifier = identifier;
+        requestException.RunIdentifier = runIdentifier;
+        requestException.Exception = _response.parmException();
+        requestException.Stacktrace = _response.parmStacktrace();
+        requestException.insert();
+
+
+        update_recordset requestData
+            setting Output = _response.Serialize(), Ended = DateTimeUtil::utcNow(), State = IntegrationState_INT::Failed
+            where requestData.RunIdentifier == RunIdentifier;
+        update_recordset request
+            setting State = IntegrationState_INT::Failed
+            where request.Identifier == identifier;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>logError</Name>
 				<Source><![CDATA[
     /// <summary>
@@ -77,6 +121,7 @@ public class IntegrationLogging_INT
     /// <param name = "_ex">The exception to reqister</param>
     public void logError(System.Exception _ex)
     {
+        this.logTelemetry('Error');
         UserConnection userCon = new UserConnection();
         IntegrationRequestException_INT requestException;
         IntegrationRequest_INT request;
@@ -111,6 +156,7 @@ public class IntegrationLogging_INT
     /// <param name = "_payload">The payload to register</param>
     public void initLog(str _payload)
     {       
+        this.logTelemetry('Begin');
         beginDatetime = DateTimeUtil::utcNow();
        
         IntegrationRequest_INT request;
@@ -157,6 +203,7 @@ public class IntegrationLogging_INT
     /// </summary>
     public void logAsyncSchedule()
     {
+        this.logTelemetry('AsyncSchedule');
         UserConnection userCon = new UserConnection();
  
         IntegrationRequest_INT request;
@@ -185,6 +232,7 @@ public class IntegrationLogging_INT
     /// </summary>
     public void logProcessing()
     {
+        this.logTelemetry('Processing');
         UserConnection userCon = new UserConnection();
  
         IntegrationRequest_INT request;
@@ -239,7 +287,7 @@ public class IntegrationLogging_INT
     /// <returns>The logging instance</returns>
     public static IntegrationLogging_INT construct(Integration_INT _integration, guid _runIdentifier)
     {
-        return new IntegrationLogging_INT(_integration.parmIntegrationSetup().IntegrationName,_integration.parmIdentifier(),_runIdentifier,_integration.parmCompany(),_integration.getRelatedRequest());
+        return new IntegrationLogging_INT(_integration.parmIntegrationSetup().IntegrationName,_integration.parmIdentifier(),_runIdentifier,_integration.parmCompany(),_integration.parmRelatedRequest());
     }
 
 ]]></Source>
@@ -260,6 +308,26 @@ public class IntegrationLogging_INT
     public static IntegrationLogging_INT constructFromValues(IntegrationName_INT _integrationName,guid _identifier, guid _runIdentifier,dataareaId _company, guid _relatedIdentifier = emptyGuid())
     {
         return new IntegrationLogging_INT(_integrationName,_identifier,_runIdentifier,_company,_relatedIdentifier);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logTelemetry</Name>
+				<Source><![CDATA[
+    private void logTelemetry(str _status)
+    {
+        IntegrationInsightsCorrelationId_INT id = IntegrationInsightsCorrelationId_INT::newFromValue(guid2Str(this.identifier));
+        IntegrationInsightsIntegration_INT integration = IntegrationInsightsIntegration_INT::newFromValue(this.integrationName);
+        IntegrationInsightsStatus_INT status = IntegrationInsightsStatus_INT::newFromValue(_status);
+        
+        SysApplicationInsightsEventTelemetry event = SysApplicationInsightsEventTelemetry::newFromEventIdName('ATP-Integration','ATP-Integration');
+        event.addProperty(id);
+        event.addProperty(integration);
+        event.addProperty(status);
+
+        telemtryLogger.trackEvent(event);
+
     }
 
 ]]></Source>

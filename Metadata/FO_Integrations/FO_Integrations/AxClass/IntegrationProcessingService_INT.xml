@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationProcessingService_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Service class for async processing
+/// </summary>
+public class IntegrationProcessingService_INT extends SysOperationServiceBase
+{
+    private IntegrationRequest_INT request;
+    private IntegrationRequestData_INT requestData;
+    private IntegrationSetup_INT setup;
+    private IntegrationLogging_INT logging;
+
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for processing an async integration
+    /// </summary>
+    /// <param name = "_contract">the parameters for the processing</param>
+    public void process(IntegrationProcessingContract_INT _contract)
+    {
+        Integration_INT  integration;
+
+        if(_contract.parmIdentifier() == emptyGuid())
+        {
+            while select request
+            join setup
+                where setup.IntegrationName == request.IntegrationName
+                && setup.Direction == _contract.parmDirection()
+            join requestData
+                where requestData.Identifier == request.Identifier
+                    && requestData.State == IntegrationState_INT::AwaitingAsyncProcessing
+            {
+                integration = setup.createIntegration(request.company,requestData.Input);
+                integration.parmIdentifier(request.Identifier);
+                this.processRequest(integration);
+            }
+
+
+        }
+        else
+        {
+
+            select firstonly request
+            where request.Identifier == _contract.parmIdentifier()
+                join setup
+            where setup.IntegrationName == request.IntegrationName
+                join requestData
+            where requestData.Identifier == _contract.parmIdentifier()
+                && requestData.RunIdentifier == _contract.parmRunIdentifier();
+            if(request)
+            {
+
+                integration = setup.createIntegration(request.company,requestData.Input);
+                integration.parmIdentifier(request.Identifier);
+                logging = IntegrationLogging_INT::construct(integration,requestData.RunIdentifier);
+
+                this.processRequest(integration);
+            }
+
+        }
+    
+
+        
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>procesSync</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Method for processing an async integration
+    /// </summary>
+    /// <param name = "_contract">the parameters for the processing</param>
+    public IntegrationReturnable_INT procesSync(Integration_INT _integration, guid _runIdentifier)
+    {
+        logging = IntegrationLogging_INT::construct(_integration,_runIdentifier);
+
+        return this.processRequest(_integration);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>processRequest</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Processes an integration Async
+    /// </summary>
+    /// <returns>The result</returns>
+    private IntegrationReturnable_INT processRequest(Integration_INT _integration)
+    {
+        Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
+        IntegrationReturnable_INT result;
+        try
+        {
+            logging.logProcessing();
+        
+            IntegrationParseable_INT input = IntegrationParseable_INT::Construct(_integration);
+
+            logging.logKeywords(input.getKeyword1(),input.getKeyword2(),input.getKeyword3());
+
+            result = _integration.process(input);
+
+
+            if(_integration.Direction() == IntegrationDirection_INT::Out && result)
+            {
+                IntegrationOutbound_INT out = _integration as IntegrationOutbound_INT;
+                result = out.processOutboundTransport();
+            }
+            
+
+            if(!result)
+            {
+                IntegrationReturnable_INT dummyResponse =  new IntegrationReturnable_INT();
+                dummyResponse.parmSuccess(true);
+                dummyResponse.parmIndentifier(_integration.parmIdentifier());
+                result = dummyResponse;
+            }
+
+            if(result.parmSuccess())
+            {
+                logging.LogComplete(result);
+            }
+            else
+            {
+                logging.LogErrorFromResponse(result);
+            }
+            
+        }
+        catch (xppEx)
+        {
+            
+            logging.logError(xppEx);
+            result = IntegrationReturnable_INT::createFromException(xppEx,_integration.parmIdentifier());
+        }
+        catch (Exception::CLRError)
+        {
+            System.Exception ex = CLRInterop::getLastException();
+            logging.logError(ex);
+            result = IntegrationReturnable_INT::createFromException(ex,_integration.parmIdentifier());
+
+        }
+        return result;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

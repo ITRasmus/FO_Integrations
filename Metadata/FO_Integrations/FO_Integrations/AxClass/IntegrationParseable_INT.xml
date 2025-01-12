@@ -7,7 +7,7 @@
 /// Default type used for a datacontract, to support keyword 1 ,2 and 3.
 /// </summary>
 [DataContract]
-public abstract class IntegrationParseable_INT
+public class IntegrationParseable_INT
 {
     #Define.IntegrationKeywordAttribute('IntegrationKeywordAttribute_INT')
     private str keyword1;
