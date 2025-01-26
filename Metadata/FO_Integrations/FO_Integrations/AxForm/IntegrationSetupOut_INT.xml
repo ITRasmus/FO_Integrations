@@ -24,7 +24,7 @@ public class IntegrationSetupOut_INT extends FormRun
     {
         super();
         IntegrationSetupOutValue_INT_ds.allowEdit(true);
- 
+        IntegrationSetupOut_INT_ds.queryBuildDataSource().addOrderByField(fieldNum(IntegrationSetupOut_INT,IntegrationName),SortOrder::Ascending);
     }
 
 ]]></Source>

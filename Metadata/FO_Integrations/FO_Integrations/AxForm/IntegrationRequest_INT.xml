@@ -58,6 +58,114 @@ public class IntegrationRequest_INT extends FormRun
 		</DataSources>
 		<DataControls xmlns="">
 			<Control>
+				<Name>DeleteCompleted</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            IntegrationRequest_INT requests;
+            delete_from requests
+                where requests.State == IntegrationState_INT::Completed;
+            IntegrationRequest_INT_ds.research(false);
+
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>DeleteFailed</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+    
+            IntegrationRequest_INT requests;
+            delete_from requests
+                where requests.State == IntegrationState_INT::Failed;
+            IntegrationRequest_INT_ds.research(false);
+    
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>RerunFailed</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            IntegrationRequest_INT requests;
+
+            while select requests
+                where requests.State == IntegrationState_INT::Failed
+            
+            {
+
+                ttsbegin;
+                IntegrationRequestData_INT data;
+                update_recordset data
+                        setting State = IntegrationState_INT::Obsolete
+                    where data.Identifier == requests.Identifier;
+
+                select firstonly data
+                    order by data.Begin desc
+                    where data.Identifier == requests.Identifier;
+
+
+                IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
+
+                Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input);
+                integration.parmIdentifier(requests.identifier);
+
+                
+                switch (integration.parmIntegrationSetup().getInstanceRelationType())
+                {
+                    case tableStr(IntegrationSetupOut_INT):
+                        IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
+                        outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
+                        break;
+                    case tableStr(IntegrationSetupIn_INT):
+                        IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
+                        inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
+                        break;
+                }
+                IntegrationHandler_INT::HandleEvent(integration);
+                ttscommit;
+            }
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
 				<Name>Rerun</Name>
 				<Type>Button</Type>
 				<Methods>
@@ -285,7 +393,42 @@ public class IntegrationRequest_INT extends FormRun
 				<Type>ActionPane</Type>
 				<FormControlExtension
 					i:nil="true" />
-				<Controls />
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormButtonGroupControl">
+						<Name>FormButtonGroupControl3</Name>
+						<Type>ButtonGroup</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>DeleteCompleted</Name>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@Integrations_INT:RemoveProcessed</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>DeleteFailed</Name>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@Integrations_INT:Removefailed</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>RerunFailed</Name>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>@Integrations_INT:RerunFailed</Text>
+							</AxFormControl>
+						</Controls>
+						<DataSource>IntegrationRequest_INT</DataSource>
+					</AxFormControl>
+				</Controls>
 			</AxFormControl>
 			<AxFormControl xmlns=""
 				i:type="AxFormGroupControl">

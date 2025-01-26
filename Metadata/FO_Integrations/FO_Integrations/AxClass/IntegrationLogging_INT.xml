@@ -58,7 +58,7 @@ public class IntegrationLogging_INT
     public void LogComplete(IntegrationReturnable_INT _response)
     {
 
-        this.logTelemetry('Complete');
+ //       this.logTelemetry('Complete');
         UserConnection userCon = new UserConnection();
         IntegrationRequestData_INT requestData;
         IntegrationRequest_INT request;
@@ -85,7 +85,7 @@ public class IntegrationLogging_INT
     public void LogErrorFromResponse(IntegrationReturnable_INT _response)
     {
 
-        this.logTelemetry('Error');
+//        this.logTelemetry('Error');
         UserConnection userCon = new UserConnection();
         IntegrationRequestException_INT requestException;
         IntegrationRequest_INT request;
@@ -121,7 +121,7 @@ public class IntegrationLogging_INT
     /// <param name = "_ex">The exception to reqister</param>
     public void logError(System.Exception _ex)
     {
-        this.logTelemetry('Error');
+   //     this.logTelemetry('Error');
         UserConnection userCon = new UserConnection();
         IntegrationRequestException_INT requestException;
         IntegrationRequest_INT request;
@@ -156,7 +156,7 @@ public class IntegrationLogging_INT
     /// <param name = "_payload">The payload to register</param>
     public void initLog(str _payload)
     {       
-        this.logTelemetry('Begin');
+//        this.logTelemetry('Begin');
         beginDatetime = DateTimeUtil::utcNow();
        
         IntegrationRequest_INT request;
@@ -203,7 +203,7 @@ public class IntegrationLogging_INT
     /// </summary>
     public void logAsyncSchedule()
     {
-        this.logTelemetry('AsyncSchedule');
+   //     this.logTelemetry('AsyncSchedule');
         UserConnection userCon = new UserConnection();
  
         IntegrationRequest_INT request;
@@ -232,7 +232,7 @@ public class IntegrationLogging_INT
     /// </summary>
     public void logProcessing()
     {
-        this.logTelemetry('Processing');
+  //      this.logTelemetry('Processing');
         UserConnection userCon = new UserConnection();
  
         IntegrationRequest_INT request;
@@ -310,12 +310,7 @@ public class IntegrationLogging_INT
         return new IntegrationLogging_INT(_integrationName,_identifier,_runIdentifier,_company,_relatedIdentifier);
     }
 
-]]></Source>
-			</Method>
-			<Method>
-				<Name>logTelemetry</Name>
-				<Source><![CDATA[
-    private void logTelemetry(str _status)
+   /* private void logTelemetry(str _status)
     {
         IntegrationInsightsCorrelationId_INT id = IntegrationInsightsCorrelationId_INT::newFromValue(guid2Str(this.identifier));
         IntegrationInsightsIntegration_INT integration = IntegrationInsightsIntegration_INT::newFromValue(this.integrationName);
@@ -329,6 +324,7 @@ public class IntegrationLogging_INT
         telemtryLogger.trackEvent(event);
 
     }
+    */
 
 ]]></Source>
 			</Method>

@@ -114,8 +114,8 @@ public class IntegrationHandler_INT
 
       
                 IntegrationClaimCheckDC_INT dc = FormJsonSerializer::deserializeObject(classNum(IntegrationClaimCheckDC_INT),this.integration.parmPayload());
-                logging.logKeywords(dc.parmTopic(),'','');
-                IntegrationClaimCheckController_INT::processRequest(this.integration.parmIdentifier(),this.runIdentifier,this.integration.parmCompany(),dc.parmTopic());
+                logging.logKeywords(dc.parmServiceBusQueueTopic(),'','');
+                IntegrationClaimCheckController_INT::processRequest(this.integration.parmIdentifier(),this.runIdentifier,this.integration.parmCompany(),dc.parmServiceBusQueueTopic());
 
                 result = new IntegrationReturnable_INT();
                 result.parmIndentifier(this.integration.parmIdentifier());

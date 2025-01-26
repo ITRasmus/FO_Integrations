@@ -24,7 +24,7 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
     {
         super();
         IntegrationSetupOutValue_INT_ds.allowEdit(true);
-        IntegrationSetupOutTopics_INT_ds.allowEdit(true);
+        IntegrationSetupOutQueueTopics_INT_ds.allowEdit(true);
     }
 
 ]]></Source>
@@ -48,7 +48,7 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
             ret = super();
 
             IntegrationSetupOutValue_INT_ds.allowEdit(true);
-            IntegrationSetupOutTopics_INT_ds.allowEdit(true);
+            IntegrationSetupOutQueueTopics_INT_ds.allowEdit(true);
     
             return ret;
         }
@@ -117,8 +117,8 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
         public void clicked()
         {
             super();
-            IntegrationSetupOutTopics_INT.IntegrationName = IntegrationSetupClaimCheck_INT.IntegrationName;
-            IntegrationSetupOutTopics_INT_ds.create(true);
+            IntegrationSetupOutQueueTopics_INT.IntegrationName = IntegrationSetupClaimCheck_INT.IntegrationName;
+            IntegrationSetupOutQueueTopics_INT_ds.create(true);
         }
 
 ]]></Source>
@@ -138,7 +138,7 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
         public void clicked()
         {
             super();
-            IntegrationSetupOutTopics_INT_ds.delete();
+            IntegrationSetupOutQueueTopics_INT_ds.delete();
         }
 
 ]]></Source>
@@ -283,11 +283,14 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
 			<DerivedDataSources />
 		</AxFormDataSource>
 		<AxFormDataSource xmlns="">
-			<Name>IntegrationSetupOutTopics_INT</Name>
-			<Table>IntegrationSetupOutTopics_INT</Table>
+			<Name>IntegrationSetupOutQueueTopics_INT</Name>
+			<Table>IntegrationSetupOutQueueTopics_INT</Table>
 			<Fields>
 				<AxFormDataSourceField>
 					<DataField>DataAreaId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>IntegrationClaimCheckType</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>IntegrationName</DataField>
@@ -299,13 +302,13 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
 					<DataField>Partition</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>QueueTopic</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>RecId</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>TableId</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
-					<DataField>Topic</DataField>
 				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
@@ -764,34 +767,44 @@ public class IntegrationSetupClaimCheck_INT extends FormRun
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormGridControl">
-								<Name>FormGridControl2</Name>
+								<Name>TopicGrid</Name>
 								<Type>Grid</Type>
 								<FormControlExtension
 									i:nil="true" />
 								<Controls>
 									<AxFormControl xmlns=""
 										i:type="AxFormStringControl">
-										<Name>IntegrationSetupOutTopics_INT_Topic</Name>
+										<Name>IntegrationSetupOutQueueTopics_INT_QueueTopic</Name>
 										<Type>String</Type>
 										<FormControlExtension
 											i:nil="true" />
-										<DataField>Topic</DataField>
-										<DataSource>IntegrationSetupOutTopics_INT</DataSource>
+										<DataField>QueueTopic</DataField>
+										<DataSource>IntegrationSetupOutQueueTopics_INT</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""
 										i:type="AxFormStringControl">
-										<Name>IntegrationSetupOutTopics_INT_IntegrationNameIn</Name>
+										<Name>IntegrationSetupOutQueueTopics_INT_IntegrationNameIn</Name>
 										<Type>String</Type>
 										<FormControlExtension
 											i:nil="true" />
 										<DataField>IntegrationNameIn</DataField>
-										<DataSource>IntegrationSetupOutTopics_INT</DataSource>
+										<DataSource>IntegrationSetupOutQueueTopics_INT</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormComboBoxControl">
+										<Name>IntegrationSetupOutQueueTopics_INT_IntegrationClaimCheckType</Name>
+										<Type>ComboBox</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>IntegrationClaimCheckType</DataField>
+										<DataSource>IntegrationSetupOutQueueTopics_INT</DataSource>
+										<Items />
 									</AxFormControl>
 								</Controls>
-								<DataSource>IntegrationSetupOutTopics_INT</DataSource>
+								<DataSource>IntegrationSetupOutQueueTopics_INT</DataSource>
 							</AxFormControl>
 						</Controls>
-						<Caption>@Integrations_INT:Topics</Caption>
+						<Caption>@Integrations_INT:Topic</Caption>
 					</AxFormControl>
 				</Controls>
 				<Style>FastTabs</Style>

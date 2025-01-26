@@ -41,6 +41,11 @@
 			<Elements>
 				<AxMenuElement xmlns=""
 					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationParametersMenuItem_INT</Name>
+					<MenuItemName>IntegrationParametersMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
 					<Name>IntegrationSetupInMenuItem_INT</Name>
 					<MenuItemName>IntegrationSetupInMenuItem_INT</MenuItemName>
 				</AxMenuElement>

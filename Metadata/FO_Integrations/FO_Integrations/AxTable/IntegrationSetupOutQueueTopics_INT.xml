@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationSetupOutTopics_INT</Name>
+	<Name>IntegrationSetupOutQueueTopics_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
-public class IntegrationSetupOutTopics_INT extends common
+public class IntegrationSetupOutQueueTopics_INT extends common
 {
 }
 ]]></Declaration>
@@ -46,15 +46,21 @@ public class IntegrationSetupOutTopics_INT extends common
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
-			<Name>Topic</Name>
-			<ExtendedDataType>IntegrationTopic_INT</ExtendedDataType>
+			<Name>QueueTopic</Name>
+			<ExtendedDataType>IntegrationQueueTopic_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:QueueTopic</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>IntegrationNameIn</Name>
 			<ExtendedDataType>IntegrationName_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>IntegrationClaimCheckType</Name>
+			<EnumType>IntegrationClaimCheckType_INT</EnumType>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

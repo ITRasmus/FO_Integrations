@@ -20,14 +20,19 @@ public abstract class IntegrationOutbound_INT extends Integration_INT
 				<Source><![CDATA[
     public void TransportPayload(Object _input)
     {
-        IntegrationEndpoint_INT e = new IntegrationEndpoint_INT();
-
-
         str _payload = FormJsonSerializer::serializeClass(_input);
+        this.TransportPayloadStr(_payload);
+    }
 
-
+]]></Source>
+			</Method>
+			<Method>
+				<Name>TransportPayloadStr</Name>
+				<Source><![CDATA[
+    public void TransportPayloadStr(str _payload)
+    {
+        IntegrationEndpoint_INT e = new IntegrationEndpoint_INT();
         e.GenericEndpoint(this.DefaultName(),curExt(),_payload);
-    
     }
 
 ]]></Source>

@@ -41,7 +41,7 @@ internal final class IntegrationClaimCheckTask_INT	extends SysOperationServiceBa
 
                 IntegrationParseable_INT input = IntegrationParseable_INT::Construct(integration);
                 logging = IntegrationLogging_INT::construct(integration,_contract.parmRunIdentifier());
-                logging.logKeywords(_contract.parmTopic(),'','');
+                logging.logKeywords(_contract.parmServiceBusQueueTopic(),'','');
 
                 logging.logProcessing();
 
@@ -49,12 +49,11 @@ internal final class IntegrationClaimCheckTask_INT	extends SysOperationServiceBa
                 {
                     changecompany (_contract.parmCompany())
                     {
-                        IntegrationSetupClaimCheckBase_INT base = new IntegrationSetupClaimCheckBase_INT();
 
                         IntegrationSetupClaimCheck_INT test = setup as IntegrationSetupClaimCheck_INT;
                         IntegrationTransport_INT transport = test.getTransportObject();
 
-                        IntegrationReturnable_INT result = transport.process(_contract.parmTopic());
+                        IntegrationReturnable_INT result = transport.process(_contract.parmServiceBusQueueTopic());
                         if(result.parmSuccess())
                         {   
                             logging.LogComplete(result);
@@ -72,18 +71,27 @@ internal final class IntegrationClaimCheckTask_INT	extends SysOperationServiceBa
                 catch (xppEx)
                 {
                     logging.logError(xppEx);
-                    IntegrationReturnable_INT::createFromException(xppEx,integration.parmIdentifier());
+                    
                 }
                 catch (Exception::CLRError)
                 {
                     System.Exception ex = CLRInterop::getLastException();
                     logging.logError(ex);
-                    IntegrationReturnable_INT::createFromException(ex,integration.parmIdentifier());
+                    
+                }
+                catch
+                {
+           
+                    IntegrationReturnable_INT error;
+                    error = new IntegrationReturnable_INT();
+                    error.parmException(IntegrationProcessingService_INT::retrieveInfologMessages());
+                    error.parmSuccess(false);
+                    logging.LogErrorFromResponse(error);
+
+                    
+        
                 }
             }
-
-
-        
     }
 
 ]]></Source>

@@ -9,7 +9,24 @@
 [Form]
 public class IntegrationSetupIn_INT extends FormRun
 {
+
 }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public void init()
+    {
+        super();
+
+        IntegrationSetupIn_INT_ds.queryBuildDataSource().addOrderByField(fieldNum(IntegrationSetupIn_INT,IntegrationName),SortOrder::Ascending);
+
+    }
+
 ]]></Source>
 			</Method>
 		</Methods>
@@ -366,6 +383,15 @@ public class IntegrationSetupIn_INT extends FormRun
 								<DataField>IntegrationInType</DataField>
 								<DataSource>IntegrationSetupIn_INT</DataSource>
 								<Items />
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationSetup_INT_OutBoundIntegrationName</Name>
+								<Type>String</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>OutBoundIntegration</DataField>
+								<DataSource>IntegrationSetupIn_INT</DataSource>
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormComboBoxControl">
