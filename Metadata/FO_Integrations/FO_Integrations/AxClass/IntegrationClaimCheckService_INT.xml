@@ -42,12 +42,12 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
         if(request)
         {
             IntegrationClaimCheckTaskController_INT taskController;
-            IntegrationSetupOutTopics_INT topics;
+            IntegrationSetupOutQueueTopics_INT qt;
             IntegrationClaimCheckServiceDC_INT taskContract;
-            while select topics
-                where topics.IntegrationName == request.IntegrationName
-                && (_contract.parmTopic() == topics.Topic 
-                || _contract.parmTopic() == '')
+            while select qt
+                where qt.IntegrationName == request.IntegrationName
+                && (_contract.parmServiceBusQueueTopic() == qt.QueueTopic
+                || _contract.parmServiceBusQueueTopic() == '')
             {
 
                 guid runIdentifier = newGuid();
@@ -69,7 +69,7 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
                     taskContract = taskController.getDataContractObject('_contract');
                     taskContract.parmIdentifier(integration.parmIdentifier());
                     taskContract.parmRunIdentifier(runIdentifier);
-                    taskContract.parmTopic(topics.Topic);
+                    taskContract.parmServiceBusQueueTopic(qt.QueueTopic);
                     taskContract.parmIntegrationName(request.IntegrationName);
                     taskContract.parmCompany(_contract.parmCompany());
                     logging.initLog(FormJsonSerializer::serializeClass(taskContract));
@@ -86,7 +86,7 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
                     taskContract = new IntegrationClaimCheckServiceDC_INT();
                     taskContract.parmIdentifier(integration.parmIdentifier());
                     taskContract.parmRunIdentifier(runIdentifier);
-                    taskContract.parmTopic(_contract.parmTopic());
+                    taskContract.parmServiceBusQueueTopic(qt.QueueTopic);
                     taskContract.parmIntegrationName(request.IntegrationName);
                     taskContract.parmCompany(_contract.parmCompany());
                     logging.initLog(FormJsonSerializer::serializeClass(taskContract));
@@ -103,13 +103,13 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
             }
 
         }
-        logging = IntegrationLogging_INT::construct(integration,requestData.RunIdentifier);
+       /* logging = IntegrationLogging_INT::construct(integration,requestData.RunIdentifier);
 
         IntegrationReturnable_INT result =  new IntegrationReturnable_INT();
 
         result.parmSuccess(true);
         logging.LogComplete(result);
-
+         */
         
     }
 /*

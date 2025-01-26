@@ -8,8 +8,6 @@
 /// </summary>
 public abstract class IntegrationSetupBase_INT
 {
-
-    private boolean correlationId;
 }
 ]]></Declaration>
 		<Methods>
@@ -19,18 +17,6 @@ public abstract class IntegrationSetupBase_INT
     public Name getSetupName()
     {
         return classId2Name(classIdGet(this));
-    }
-
-]]></Source>
-			</Method>
-			<Method>
-				<Name>parmCorrelationId</Name>
-				<Source><![CDATA[
-    [IntegrationOutboundSetupAttribute_INT('useCorrelationId')]
-    public boolean parmCorrelationId(boolean _correlationId = correlationId)
-    {
-        correlationId = _correlationId;
-        return correlationId;
     }
 
 ]]></Source>

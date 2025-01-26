@@ -147,8 +147,60 @@ public class IntegrationProcessingService_INT extends SysOperationServiceBase
             System.Exception ex = CLRInterop::getLastException();
             logging.logError(ex);
             result = IntegrationReturnable_INT::createFromException(ex,_integration.parmIdentifier());
-
         }
+        catch
+        {
+           
+            IntegrationReturnable_INT returnError;
+            returnError = new IntegrationReturnable_INT();
+            returnError.parmException(IntegrationProcessingService_INT::retrieveInfologMessages());
+            returnError.parmSuccess(false);
+            logging.LogErrorFromResponse(returnError);
+
+            result = returnError;
+        
+        }
+        return result;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>retrieveInfologMessages</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// https://d365ffo.com/2024/12/15/extracting-infolog-messages-in-d365fo-batch-jobs/
+    /// </summary>
+    /// <returns></returns>
+    public static str retrieveInfologMessages()
+    {
+        str         result = "";
+        container   infologContainer, infologMessage;
+        int         i, messageCount;
+        int         lastLine = infolog.line();
+        str         msgText;
+        int         messageType;
+ 
+        if (lastLine == 0)
+        {
+            return "No infolog messages.";
+        }
+ 
+        // Copy all messages from line 1 to the last line
+        infologContainer = infolog.copy(1, lastLine);
+        messageCount = conlen(infologContainer);
+ 
+        for (i = 1; i <= messageCount; i++)
+        {
+            infologMessage = conpeek(infologContainer, i);
+            messageType = conpeek(infologMessage, 1); // The first element is message type
+            msgText = conpeek(infologMessage, 2);     // The second element is the message text
+ 
+            // Append each message followed by a newline
+            // If you plan to send via email or store in a table, this formatting can be adjusted
+            result += msgText + "\r\n";
+        }
+ 
         return result;
     }
 

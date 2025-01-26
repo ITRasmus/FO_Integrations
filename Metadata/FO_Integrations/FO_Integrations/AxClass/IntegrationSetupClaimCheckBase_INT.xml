@@ -14,13 +14,25 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
     private str audience;
     private guid lockToken;
     private guid messageId;
-    private str topic;
+    private str queueTopic;
+    private boolean isTopic;
+    
+       
 
-
- 
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmIsTopic</Name>
+				<Source><![CDATA[
+    public boolean parmIsTopic(boolean _isTopic = isTopic)
+    {
+        isTopic = _isTopic;
+        return isTopic;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>parmLockToken</Name>
 				<Source><![CDATA[
@@ -46,10 +58,10 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
 			<Method>
 				<Name>parmTopic</Name>
 				<Source><![CDATA[
-    public str parmTopic(str _topic = topic)
+    public str parmTopic(str _queueTopic = queueTopic)
     {
-        topic = _topic;
-        return topic;
+        queueTopic = _queueTopic;
+        return queueTopic;
     }
 
 ]]></Source>
@@ -62,7 +74,7 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
     /// </summary>
     /// <param name = "_resource">The resource</param>
     /// <returns>The resource</returns>
-    [IntegrationOutboundSetupAttribute_INT('subscription','To-Atp')]
+    [IntegrationOutboundSetupAttribute_INT('subscription','')]
     public str parmSubscription(str _subscription = subscription)
     {
         subscription = _subscription;
@@ -82,39 +94,12 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
 ]]></Source>
 			</Method>
 			<Method>
-				<Name>parmAudience</Name>
-				<Source><![CDATA[
-    [IntegrationOutboundSetupAttribute_INT('Audience','api://')]
-    public str parmAudience(str _audience = audience)
-    {
-        audience = audience;
-        return audience;
-    }
-
-]]></Source>
-			</Method>
-			<Method>
 				<Name>TransportIdentifier</Name>
 				<Source><![CDATA[
     public ClassId TransportIdentifier()
     {
         return className2Id(classStr(IntegrationTransportClaimCheck_INT));
     }
-/*                                               
-    public IntegrationOutBoundSetupRestOAuth_INT CreateParametersForBlob()
-    {
-        IntegrationOutBoundSetupRestOAuth_INT blobSetup = new IntegrationOutBoundSetupRestOAuth_INT();
-
-        blobSetup.parmAuthUrl(this.parmAuthUrl());
-        blobSetup.parmClientId(this.parmClientId());
-        blobSetup.parmMethod('GET');
-        blobSetup.parmScope('https://storage.azure.com/.default');
-        blobSetup.parmSecret(this.parmSecret());
-        blobSetup.parmXmSVersion(this.parmXmSVersion());
-
-        return blobSetup;
-    }
-  */
 
 ]]></Source>
 			</Method>

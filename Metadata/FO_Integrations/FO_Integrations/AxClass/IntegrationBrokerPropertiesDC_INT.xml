@@ -9,7 +9,7 @@ public class IntegrationBrokerPropertiesDC_INT
     private int deliverycount;
     private int enqueuedSequenceNumber;
     private int sequenceNumber;
-    private int timeToLive;
+    private str timeToLive;
     private guid lockToken;
     private guid messageId;
     private str state;
@@ -129,7 +129,7 @@ public class IntegrationBrokerPropertiesDC_INT
 				<Name>parmTimeToLive</Name>
 				<Source><![CDATA[
     [DataMember('TimeToLive')]
-    public int parmTimeToLive(int _timeToLive = timeToLive)
+    public str parmTimeToLive(str _timeToLive = timeToLive)
     {
         timeToLive = _timeToLive;
         return timeToLive;

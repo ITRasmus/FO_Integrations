@@ -36,19 +36,19 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
     public IntegrationReturnable_INT process(str _payload= '')
     {
 
-        IntegrationSetupOutTopics_INT topic;
+        IntegrationSetupOutQueueTopics_INT qt;
 
 
 
-        select firstonly topic
-            where topic.IntegrationName == this.integration.IntegrationName
-            && Topic.Topic == _payload;
+        select firstonly qt
+            where qt.IntegrationName == this.integration.IntegrationName
+            && qt.QueueTopic == _payload;
 
-        if(!topic)
+        if(!qt)
         {
-            throw Error("Topic not found '%1'",_payload);
+            throw Error("@Integrations_INT:TopicNotFound",_payload);
         }
-        return this.ProcessTopic(topic);
+        return this.ProcessTopic(qt);
     }
 
 ]]></Source>
@@ -56,7 +56,7 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
 			<Method>
 				<Name>ProcessTopic</Name>
 				<Source><![CDATA[
-    private IntegrationReturnable_INT ProcessTopic(IntegrationSetupOutTopics_INT _topic)
+    private IntegrationReturnable_INT ProcessTopic(IntegrationSetupOutQueueTopics_INT _qt)
     {
         Microsoft.Dynamics.Ax.Xpp.ErrorException xppEx;
         IntegrationTransport_INT transport;
@@ -74,7 +74,7 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
             }
             else
             {
-                throw Error("TODO claimcheck must use rest transport");
+                throw Error("@Integrations_INT:ClaimCheckRest");
             }
 
             transport = IntegrationSetupOut_INT::find(claimCheckIntegration.IntegrationServiceBus).getTransportObject();
@@ -85,13 +85,13 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
             }
             else
             {
-                throw Error("TODO claimcheck must use servicebus transport");
+                throw Error("@Integrations_INT:ClaimCheckServicebus");
             }
 
             servicebusTransport.parmAllowTokenReuse(true);
             blobTransport.parmAllowTokenReuse(true);
 
-            servicebusTransport.setServiceBus(_topic.Topic,claimCheckSetup.parmSubscription());
+            servicebusTransport.setServiceBus(_qt.QueueTopic,_qt.IntegrationClaimCheckType,claimCheckSetup.parmSubscription());
 
             IntegrationRestResponse_INT fileToFetch = servicebusTransport.process();
 
@@ -121,7 +121,7 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
             }
        
             int numOfMessages = brokerProperties.parmDeliveryCount();
-            this.logTelemetry(numOfMessages,_topic.Topic);
+            this.logTelemetry(numOfMessages,_qt.QueueTopic);
             do
             {
                 str file;
@@ -135,11 +135,11 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
                         IntegrationRestResponse_INT blobContent =  blobTransport.process() as IntegrationRestResponse_INT;
 
                 
-                        this.scheduleInbound(fileToFetch.parmCorrelationId(),blobContent.parmResponse(),_topic.IntegrationNameIn);
+                        this.scheduleInbound(fileToFetch.parmCorrelationId(),blobContent.parmResponse(),_qt.IntegrationNameIn);
 
                         servicebusTransport.parmCommand(IntegrationServiceBusCommand_INT::Delete);
 
-                        servicebusTransport.setServiceBus(_topic.Topic,claimCheckSetup.parmSubscription(),brokerProperties.parmMessageId(),brokerProperties.parmLockToken());
+                        servicebusTransport.setServiceBus(_qt.QueueTopic,_qt.IntegrationClaimCheckType,claimCheckSetup.parmSubscription(),brokerProperties.parmMessageId(),brokerProperties.parmLockToken());
 
                         servicebusTransport.process();
 
@@ -157,15 +157,18 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
                 }
                 catch (xppEx)
                 {
-                    IntegrationHandler_INT::handleEarlyException(xppEx,_topic.IntegrationNameIn,curExt(),file);
+                    IntegrationHandler_INT::handleEarlyException(xppEx,_qt.IntegrationNameIn,curExt(),file);
                 }
                 catch (Exception::CLRError)
                 {
-                    IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_topic.IntegrationNameIn,curExt(),file);
+                    IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_qt.IntegrationNameIn,curExt(),file);
                 }
 
                 numOfMessages --;
             }  while(numOfMessages > -1);
+
+            result = new IntegrationReturnable_INT();
+            result.parmSuccess(true);
             
         }
         catch (xppEx)

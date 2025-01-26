@@ -13,7 +13,7 @@ public class IntegrationTransportServiceBus_INT extends IntegrationTransportRest
   
     protected System.Uri peekUri;
     protected System.Uri deleteUri;
-    protected str topic;
+
     protected IntegrationServiceBusCommand_INT command; 
 
  
@@ -34,11 +34,20 @@ public class IntegrationTransportServiceBus_INT extends IntegrationTransportRest
 			<Method>
 				<Name>setServiceBus</Name>
 				<Source><![CDATA[
-    public void setServiceBus(str _topic,str _subscription,guid _messageId = emptyGuid(),guid _lockToken = emptyGuid())
+    public void setServiceBus(str _queueTopic,IntegrationClaimCheckType_INT _claimCheckType,str _subscription,guid _messageId = emptyGuid(),guid _lockToken = emptyGuid())
     {
-        topic = _topic;
-        peekUri  = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/head",restSetup.parmUrl(),_topic,_subscription));
-        deleteUri = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/%4/%5",restSetup.parmUrl(),topic,_subscription,guid2StrWithoutBraces(_messageId),guid2StrWithoutBraces(_lockToken)));
+        if(_claimCheckType == IntegrationClaimCheckType_INT::Topics)
+        {
+            peekUri  = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/head",restSetup.parmUrl(),_queueTopic,_subscription));
+            deleteUri = new System.Uri(strFmt("%1/%2/subscriptions/%3/messages/%4/%5",restSetup.parmUrl(),_queueTopic,_subscription,guid2StrWithoutBraces(_messageId),guid2StrWithoutBraces(_lockToken)));
+        }
+        else
+        {
+            peekUri  = new System.Uri(strFmt("%1/%2/messages/head",restSetup.parmUrl(),_queueTopic,_subscription));
+            deleteUri = new System.Uri(strFmt("%1/%2/messages/%4/%5",restSetup.parmUrl(),_queueTopic,_subscription,guid2StrWithoutBraces(_messageId),guid2StrWithoutBraces(_lockToken)));
+        
+        }
+
         
     }
 
@@ -63,7 +72,7 @@ public class IntegrationTransportServiceBus_INT extends IntegrationTransportRest
                 requestMethod = 'DELETE';
                 break;
             default:
-                throw Error("Unsupported");
+                throw Error("@Integrations_INT:Unsupported");
                 break;
         }
         webRequest =  System.Net.WebRequest::Create(requestUri);

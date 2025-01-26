@@ -89,7 +89,7 @@ public class IntegrationClaimCheckController_INT extends SysOperationServiceCont
     /// </summary>
     /// <param name = "_identifier">The integrationRequest to process </param>
     /// <param name = "_runIdentifier">The acutal data to process</param>
-    static void processRequest(guid _identifier,guid _runIdentifier,dataAreaId _company,str _topic, SysOperationExecutionMode _executionMode  = SysOperationExecutionMode::ScheduledBatch )
+    static void processRequest(guid _identifier,guid _runIdentifier,dataAreaId _company,str _queueTopic, SysOperationExecutionMode _executionMode  = SysOperationExecutionMode::ScheduledBatch )
     {
         IntegrationClaimCheckController_INT controller;
         IntegrationClaimCheckServiceDC_INT datacontract;
@@ -105,7 +105,7 @@ public class IntegrationClaimCheckController_INT extends SysOperationServiceCont
         dataContract = controller.getDataContractObject('_contract');
         dataContract.parmIdentifier(_identifier);
         datacontract.parmCompany(_company);
-        datacontract.parmTopic(_topic);
+        datacontract.parmServiceBusQueueTopic(_queueTopic);
         dataContract.parmRunIdentifier(_runIdentifier);
         controller.runOperation();
         
