@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxLabelFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>Integrations_INT_da</Name>
+	<LabelContentFileName>Integrations_INT.da.label.txt</LabelContentFileName>
+	<LabelFileId>Integrations_INT</LabelFileId>
+	<Language>da</Language>
+	<RelativeUriInModelStore>FO_Integrations\FO_Integrations\AxLabelFile\LabelResources\da\Integrations_INT.da.label.txt</RelativeUriInModelStore>
+</AxLabelFile>
