@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxSecurityDuty xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationRequestMaintain_INT</Name>
+	<Description>@Integrations_INT:IntegrationRequestMaintainHelp</Description>
+	<Label>@Integrations_INT:IntegrationRequestMaintainLabel</Label>
+	<Privileges>
+		<AxSecurityPrivilegeReference>
+			<Name>IntegrationRequestMaintain_INT</Name>
+		</AxSecurityPrivilegeReference>
+	</Privileges>
+</AxSecurityDuty>

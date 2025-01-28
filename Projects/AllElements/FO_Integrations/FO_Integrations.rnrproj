@@ -42,6 +42,9 @@
     <Folder Include="Label Files\" />
     <Folder Include="Menu Extensions\" />
     <Folder Include="Menus\" />
+    <Folder Include="Security Duties\" />
+    <Folder Include="Security Privileges\" />
+    <Folder Include="Security Roles\" />
     <Folder Include="Service Groups\" />
     <Folder Include="Services\" />
     <Folder Include="Tables\" />
@@ -421,6 +424,56 @@
       <SubType>Content</SubType>
       <Name>IntegrationsMenu_INT</Name>
       <Link>Menus\IntegrationsMenu_INT</Link>
+    </Content>
+    <Content Include="AxSecurityDuty\IntegrationRequestMaintain_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestMaintain_INT</Name>
+      <Link>Security Duties\IntegrationRequestMaintain_INT</Link>
+    </Content>
+    <Content Include="AxSecurityDuty\IntegrationServiceWorker_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceWorker_INT</Name>
+      <Link>Security Duties\IntegrationServiceWorker_INT</Link>
+    </Content>
+    <Content Include="AxSecurityDuty\IntegrationSetupMaintain_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupMaintain_INT</Name>
+      <Link>Security Duties\IntegrationSetupMaintain_INT</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\IntegrationRequestMaintain_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestMaintain_INT</Name>
+      <Link>Security Privileges\IntegrationRequestMaintain_INT</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\IntegrationServiceAsyncInvoke_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceAsyncInvoke_INT</Name>
+      <Link>Security Privileges\IntegrationServiceAsyncInvoke_INT</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\IntegrationServiceProcess_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceProcess_INT</Name>
+      <Link>Security Privileges\IntegrationServiceProcess_INT</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\IntegrationSetupMaintain_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupMaintain_INT</Name>
+      <Link>Security Privileges\IntegrationSetupMaintain_INT</Link>
+    </Content>
+    <Content Include="AxSecurityRole\IntegrationRequestMaintain_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationRequestMaintain_INT</Name>
+      <Link>Security Roles\IntegrationRequestMaintain_INT</Link>
+    </Content>
+    <Content Include="AxSecurityRole\IntegrationServiceWorker_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationServiceWorker_INT</Name>
+      <Link>Security Roles\IntegrationServiceWorker_INT</Link>
+    </Content>
+    <Content Include="AxSecurityRole\IntegrationSetupAdministrator_INT">
+      <SubType>Content</SubType>
+      <Name>IntegrationSetupAdministrator_INT</Name>
+      <Link>Security Roles\IntegrationSetupAdministrator_INT</Link>
     </Content>
     <Content Include="AxServiceGroup\IntegrationServiceGroup_INT">
       <SubType>Content</SubType>

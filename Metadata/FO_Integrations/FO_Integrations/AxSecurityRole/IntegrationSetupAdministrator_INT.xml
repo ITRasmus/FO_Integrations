@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxSecurityRole xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationSetupAdministrator_INT</Name>
+	<Description>@Integrations_INT:IntegrationAdministratorHelp</Description>
+	<Label>@Integrations_INT:IntegrationAdministratorLabel</Label>
+	<DirectAccessPermissions />
+	<Duties>
+		<AxSecurityDutyReference>
+			<Name>IntegrationRequestMaintain_INT</Name>
+		</AxSecurityDutyReference>
+		<AxSecurityDutyReference>
+			<Name>IntegrationServiceWorker_INT</Name>
+		</AxSecurityDutyReference>
+		<AxSecurityDutyReference>
+			<Name>IntegrationSetupMaintain_INT</Name>
+		</AxSecurityDutyReference>
+	</Duties>
+	<Privileges />
+	<SubRoles />
+</AxSecurityRole>
