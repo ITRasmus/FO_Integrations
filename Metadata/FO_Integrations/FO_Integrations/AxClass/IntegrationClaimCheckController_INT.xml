@@ -38,7 +38,7 @@ public class IntegrationClaimCheckController_INT extends SysOperationServiceCont
     /// <returns>The caption</returns>
     public ClassDescription defaultCaption()
     {
-        return "@Integrations_INT:ClaimCheckDescription";
+        return "@Integrations_INT:ClaimCheckTask";
     }
 
 ]]></Source>

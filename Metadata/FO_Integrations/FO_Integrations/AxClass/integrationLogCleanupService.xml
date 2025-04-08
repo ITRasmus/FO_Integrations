@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>integrationLogCleanupService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+class integrationLogCleanupService extends SysOperationServiceBase
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public void process()
+    {
+        IntegrationParameters_INT parm = IntegrationParameters_INT::find();
+        
+        //Transaction cleanup
+
+        IntegrationRequest_INT request;
+        if (parm.DaysToKeepCompletedTransactions != 0)
+        {
+            IntegrationDateTimeStamp_INT completedCutoff = DateTimeUtil::addDays(today(), -parm.DaysToKeepCompletedTransactions);
+            delete_from request
+                where request.State == IntegrationState_INT::Completed && request.DateTimeStamp < completedCutoff;
+        }
+
+        if (parm.DaysToKeepFailedTransactions != 0)
+        {
+            IntegrationDateTimeStamp_INT failedCutoff = DateTimeUtil::addDays(today(), -parm.DaysToKeepFailedTransactions);
+            delete_from request
+            where request.State == IntegrationState_INT::Failed && request.DateTimeStamp < failedCutoff;
+        }
+
+        //This should not be needed
+        //Batch batch;
+        //BatchHistory history;
+        //ttsbegin;
+        //while select history where history.ClassNumber == classNum(IntegrationProcessingService_INT)
+        //{
+        //    batch = batch::findRecId(history.BatchId, true);
+        //    if (batch)
+        //    {
+        //        batch.delete();
+        //    }
+        //}
+        //ttscommit;
+
+        //delete_from history
+        //    where history.ClassNumber == classNum(IntegrationProcessingService_INT);
+
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

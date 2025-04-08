@@ -18,6 +18,7 @@ public class IntegrationRequestException_INT extends common
         this.Exception = localException.GetType().Name;
         this.Stacktrace = localException.StackTrace;
         this.Error = localException.ToString();
+        this.Infolog = IntegrationLogging_INT::retrieveInfologMessages();
         
         while (localException.InnerException)
         {
@@ -25,7 +26,6 @@ public class IntegrationRequestException_INT extends common
             this.Exception += 'Inner : ' + localException.GetType().Name;
             this.Stacktrace += 'Inner : ' + localException.StackTrace;
             this.Error += 'Inner : ' + localException.ToString();
-            
         }
     }
 
@@ -139,6 +139,12 @@ public class IntegrationRequestException_INT extends common
 			i:type="AxTableFieldUtcDateTime">
 			<Name>DateTimeStamp</Name>
 			<ExtendedDataType>IntegrationDateTimeStamp_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Infolog</Name>
+			<ExtendedDataType>IntegrationInfolog_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
 		</AxTableField>
 	</Fields>

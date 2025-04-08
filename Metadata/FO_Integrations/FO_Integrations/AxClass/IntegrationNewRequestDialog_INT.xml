@@ -11,6 +11,9 @@ internal class IntegrationNewRequestDialog_INT
     private DialogField integrationCompany;
     private DialogField integrationIdentifier;
     private DialogField integrationInput;
+    private DialogField parsedInput;
+
+    private Integration_INT inte;
     private guid identifier;
 
 
@@ -32,6 +35,43 @@ internal class IntegrationNewRequestDialog_INT
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>buildExample</Name>
+				<Source><![CDATA[
+    public void buildExample()
+    {
+             
+        DictClass dataContract = new DictClass(inte.DataContractIdentifier());
+        IntegrationParseable_INT dataContractObject =  dataContract.makeObject();
+
+        int methodCount = dataContract.objectMethodCnt();
+        int numMethod = 1;
+        while(numMethod <= methodCount)
+        {
+            DictMethod method = dataContract.objectMethodObject(numMethod);
+            if(method.parameterCnt() == 1 && method.returnType() == Types::Class )
+            {
+                Object attribute = method.getAttribute('DataMemberAttribute');
+ 
+                if(attribute)
+                {
+                    int classId =  ClassName2Id(method.returnTypeName());
+                    if(ClassId > 0)
+                    {
+                        DictClass innerObject =  new DictClass(classId);
+                        Object o = innerObject.makeObject();
+                        dataContract.callObject(method.name(),dataContractObject,o);
+                    }
+                }
+            }
+            numMethod++;
+        }
+        integrationInput.value(FormJsonSerializer::serializeClass(dataContractObject));
+    
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>integration_modified</Name>
 				<Source><![CDATA[
     public boolean integration_modified(FormStringControl _integrationName)
@@ -41,39 +81,29 @@ internal class IntegrationNewRequestDialog_INT
 
         if(integration)
         {
+            parsedInput.value(false);
+            parsedInput.allowEdit(false);
 
-            Integration_INT inte = IntegrationSetup_INT::createInstanceOfIntegrationClass(integration);
-            
+            inte = IntegrationSetup_INT::createInstanceOfIntegrationClass(integration);
 
 
-            DictClass dataContract = new DictClass(inte.DataContractIdentifier());
-            IntegrationParseable_INT dataContractObject =  dataContract.makeObject();
-
-            int methodCount = dataContract.objectMethodCnt();
-            int numMethod = 1;
-            while(numMethod <= methodCount)
+            if(inte is IntegrationInbound_INT )
             {
-                DictMethod method = dataContract.objectMethodObject(numMethod);
-                if(method.parameterCnt() == 1 && method.returnType() == Types::Class )
+                IntegrationInbound_INT inteInbound = inte as IntegrationInbound_INT;
+                if(inteInbound.supportsParsed())
                 {
-                    Object attribute = method.getAttribute('DataMemberAttribute');
- 
-                    if(attribute)
-                    {
-                        int classId =  ClassName2Id(method.returnTypeName());
-                        if(ClassId > 0)
-                        {
-                            DictClass innerObject =  new DictClass(classId);
-                            Object o = innerObject.makeObject();
-                            dataContract.callObject(method.name(),dataContractObject,o);
-                        }
-                    }
+                    parsedInput.allowEdit(true);
+                    parsedInput.value(true);
                 }
-                numMethod++;
+                
             }
-            
-            integrationInput.value(FormJsonSerializer::serializeClass(dataContractObject));
+            this.buildExample();
         }
+        else
+        {
+            integrationInput.value('');
+        }
+
         return true;
     }
 
@@ -89,7 +119,6 @@ internal class IntegrationNewRequestDialog_INT
 
         if(integration)
         {
-
             return true;
         }
         return false;
@@ -115,10 +144,12 @@ internal class IntegrationNewRequestDialog_INT
                                 IntegrationCompany_INT _company, 
                                 boolean _allowEditCompany,
                                 IntegrationInput_INT _input,
+                                IntegrationParsed_INT _parsed,
                                 guid _identifier = newGuid())
     {
         identifier = _identifier;
         DialogGroup requestGroup = dialog.addGroup("@Integrations_INT:RequestInfo");
+        str inputData;
         
         integrationName =  dialog.addField(extendedTypeStr(IntegrationName_INT));
         integrationName.value(_name);
@@ -128,9 +159,23 @@ internal class IntegrationNewRequestDialog_INT
         integrationName.registerOverrideMethod(methodStr(FormStringControl, modified), methodStr(IntegrationNewRequestDialog_INT, integration_modified), this);
         integrationName.registerOverrideMethod(methodStr(FormStringControl, validate), methodStr(IntegrationNewRequestDialog_INT, integration_validate), this);
 
-        
-        
+        parsedInput =  dialog.addField(extendedTypeStr(NoYesId),'Is parsed Input');
 
+        parsedInput.allowEdit(false);
+
+        if(_parsed != '')
+        {
+            parsedInput.value(true);
+            inputData = _parsed;
+        }
+        else
+        {
+            parsedInput.value(false);
+            inputData = _input;
+        }
+
+
+  
         integrationCompany =  dialog.addField(extendedTypeStr(IntegrationCompany_INT));
         integrationCompany.value(_company);
         integrationCompany.allowEdit(_allowEditCompany);
@@ -142,14 +187,13 @@ internal class IntegrationNewRequestDialog_INT
         requestGroup.addFieldname(integrationName.name());
         requestGroup.addFieldname(integrationCompany.name());
         requestGroup.addFieldname(integrationIdentifier.name());
-        
-
+        requestGroup.addFieldname(parsedInput.name());
         
 
         DialogGroup requestData = dialog.addGroup("@Integrations_INT:RequestData");
         
         integrationInput =  dialog.addField(extendedTypeStr(IntegrationInput_INT));
-        integrationInput.value(_input);
+        integrationInput.value(inputData);
         integrationInput.displayHeight(50);
         integrationInput.displayLength(50);
         integrationInput.multiLine(true);
@@ -183,7 +227,16 @@ internal class IntegrationNewRequestDialog_INT
 
                 IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(integrationName.value());
 
-                Integration_INT integration = integrationSetup.createIntegration(integrationCompany.value(),integrationInput.value());
+                Integration_INT integration;
+                if(parsedInput.value())
+                {
+                    integration = integrationSetup.createIntegration(integrationCompany.value(),'',integrationInput.value());
+                }
+                else
+                {
+                    integration = integrationSetup.createIntegration(integrationCompany.value(),integrationInput.value(),'');
+                }
+                
                 integration.parmIdentifier(identifier);
                 IntegrationHandler_INT::HandleEvent(integration);
             }
@@ -204,7 +257,7 @@ internal class IntegrationNewRequestDialog_INT
     {
         IntegrationNewRequestDialog_INT diag = new IntegrationNewRequestDialog_INT();
 
-        diag.BuildDialog(_request.IntegrationName,false,_request.Company,false,_requestData.Input,_request.Identifier);
+        diag.BuildDialog(_request.IntegrationName,false,_request.Company,false,_requestData.Input,_requestData.Parsed,_request.Identifier);
         diag.showDialog();
  
     }
@@ -222,7 +275,7 @@ internal class IntegrationNewRequestDialog_INT
     {
         IntegrationNewRequestDialog_INT diag = new IntegrationNewRequestDialog_INT();
 
-        diag.BuildDialog('',true,curExt(),true,'');
+        diag.BuildDialog('',true,curExt(),true,'','');
         diag.showDialog();
     }
 

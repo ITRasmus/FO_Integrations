@@ -36,8 +36,8 @@ public class IntegrationEndpoint_INT
             if(!integrationSetup)
             {
                 Throw  Global::error(strFmt("@Integrations_INT:IntegrationNotFound",_integrationName));
-            }
-            Integration_INT integration = integrationSetup.createIntegration(_company,_payload);
+            }                                                                                
+            Integration_INT integration = integrationSetup.createIntegration(_company,_payload,'');
             changecompany(_company)
             {
                 result = IntegrationHandler_INT::HandleEvent(integration);

@@ -25,6 +25,31 @@ public abstract class IntegrationInbound_INT  extends Integration_INT
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>supportsParsed</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Does integration supports transfer from RAW to Proceseed 
+    /// </summary>
+    /// <returns></returns>
+    public IntegrationSupportsParsed_INT supportsParsed()
+    {
+        return false;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createdParsedPayload</Name>
+				<Source><![CDATA[
+    public str createdParsedPayload(str _payload)
+    {
+        return _payload;
+    
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
 </AxClass>

@@ -61,6 +61,7 @@ public class IntegrationHandler_INT
     {
         IntegrationReturnable_INT result;
         logging.initLog(integration.parmPayload());
+        IntegrationParameters_INT parm = IntegrationParameters_INT::find();
 
         switch (integrationSetup.getInstanceRelationType())
         {
@@ -120,8 +121,15 @@ public class IntegrationHandler_INT
                 result = new IntegrationReturnable_INT();
                 result.parmIndentifier(this.integration.parmIdentifier());
 
-                logging.LogComplete(result);
-                        
+                if (parm.AutoCleanCompletedClaimCheck)
+                {
+                    logging.LogDelete(result);
+                }
+                else
+                {
+                    logging.LogComplete(result);
+                }
+
                 break;
 
         }
@@ -148,9 +156,9 @@ public class IntegrationHandler_INT
         IntegrationSetup_INT unknownIntegration;
         unknownIntegration.IntegrationName = _integrationName;
         guid identifier = newGuid();
-        IntegrationLogging_INT logging =  IntegrationLogging_INT::constructFromValues(unknownIntegration.IntegrationName,identifier,identifier,_company);
-        logging.initLog(_payload);
-        logging.logError(_ex);
+      //  IntegrationLogging_INT logging =  IntegrationLogging_INT::constructFromValues(unknownIntegration.IntegrationName,identifier,identifier,_company);
+        //logging.initLog(_payload);
+        //logging.logError(_ex);
         result = IntegrationReturnable_INT::createFromException(_ex,identifier);
         return result;
     }

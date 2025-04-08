@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>IntegrationClaimCheckTaskController_INT</Name>
+	<Name>IntegrationClaimCheckScheduleController_INT</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
-internal final class IntegrationClaimCheckTaskController_INT extends SysOperationServiceController
+internal final class IntegrationClaimCheckScheduleController_INT extends SysOperationServiceController
 {
-    
- 
 
+ 
+ 
 }
 ]]></Declaration>
 		<Methods>
@@ -19,7 +19,7 @@ internal final class IntegrationClaimCheckTaskController_INT extends SysOperatio
     /// </summary>
     protected void new()
     {
-        super(classStr(IntegrationClaimCheckTask_INT), methodStr(IntegrationClaimCheckTask_INT, process), SysOperationExecutionMode::ScheduledBatch);
+        super(classStr(IntegrationClaimCheckScheduleService_INT), methodStr(IntegrationClaimCheckScheduleService_INT, process), SysOperationExecutionMode::ScheduledBatch);
        
     }
 
@@ -34,7 +34,7 @@ internal final class IntegrationClaimCheckTaskController_INT extends SysOperatio
     /// <returns>The caption</returns>
     public ClassDescription defaultCaption()
     {
-        return "@Integrations_INT:ClaimCheckTask";
+        return "@Integrations_INT:ClaimCheckSchedule";
     }
 
 ]]></Source>
@@ -47,10 +47,10 @@ internal final class IntegrationClaimCheckTaskController_INT extends SysOperatio
     /// </summary>
     /// <param name = "_executionMode">The exectionMode</param>
     /// <returns>The service controller</returns>
-    public static IntegrationClaimCheckTaskController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::ScheduledBatch)
+    public static IntegrationClaimCheckScheduleController_INT construct(SysOperationExecutionMode _executionMode = SysOperationExecutionMode::ScheduledBatch)
     {
-        IntegrationClaimCheckTaskController_INT controller;
-        controller = new IntegrationClaimCheckTaskController_INT();
+        IntegrationClaimCheckScheduleController_INT controller;
+        controller = new IntegrationClaimCheckScheduleController_INT();
         controller.parmExecutionMode(_executionMode);
         
         return controller;
@@ -67,10 +67,9 @@ internal final class IntegrationClaimCheckTaskController_INT extends SysOperatio
     /// <param name = "_args">The args from the menuitem</param>
     public static void main(Args _args)
     {
-        IntegrationClaimCheckTaskController_INT controller;
-        controller = IntegrationClaimCheckTaskController_INT::construct();
+        IntegrationClaimCheckScheduleController_INT controller;
+        controller = IntegrationClaimCheckScheduleController_INT::construct();
         controller.parmArgs(_args);
-        controller.parmLoadFromSysLastValue(false);
       
         controller.startOperation();
     }

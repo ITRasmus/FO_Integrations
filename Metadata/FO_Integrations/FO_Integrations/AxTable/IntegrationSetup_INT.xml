@@ -52,12 +52,13 @@ public class IntegrationSetup_INT extends common
     /// <param name = "_company">The company to pass along</param>
     /// <param name = "_payload">The payload to pass along</param>
     /// <returns>An integration class</returns>
-    public Integration_INT createIntegration(str _company, str _payload)
+    public Integration_INT createIntegration(str _company, str _payload, str _parsed)
     {
         Integration_INT o = IntegrationSetup_INT::createInstanceOfIntegrationClass(this);
         
         o.parmCompany(_company);
         o.parmPayload(_payload);
+        o.parmParsedPayload(_parsed);
         o.parmIntegrationSetup(this);
         return o;
     }

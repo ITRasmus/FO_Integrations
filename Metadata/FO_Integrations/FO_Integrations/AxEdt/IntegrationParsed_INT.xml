@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
 	i:type="AxEdtString">
-	<Name>IntegrationTopic_INT</Name>
-	<Label>@Integrations_INT:Topic</Label>
+	<Name>IntegrationParsed_INT</Name>
+	<Extends>Notes</Extends>
+	<HelpText>@Integrations_INT:InputHelp</HelpText>
+	<Label>@Integrations_INT:Input</Label>
 	<ArrayElements />
 	<Relations />
 	<TableReferences />
-	<StringSize>60</StringSize>
 </AxEdt>

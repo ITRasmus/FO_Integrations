@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckScheduleService_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class IntegrationClaimCheckScheduleService_INT extends SysOperationServiceBase
+{
+
+		
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>process</Name>
+				<Source><![CDATA[
+    public void process(IntegrationClaimCheckScheduleDC_INT _contract)
+    {
+    
+        Integration_INT integration;
+        Query q = _contract.getQuery();
+
+        QueryRun qr = new QueryRun(q);
+        
+
+        while(qr.next())
+        {
+
+            IntegrationSetupOutQueueTopics_INT topicToProcess = qr.get(tableNum(IntegrationSetupOutQueueTopics_INT));
+
+            IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(topicToProcess.IntegrationName);
+
+            if (integrationSetup)
+            {
+                integration = IntegrationSetup_INT::createInstanceOfIntegrationClass(integrationSetup);
+                
+                DictClass dataContract = new DictClass(integration.DataContractIdentifier());
+
+                IntegrationClaimCheckDC_INT claimCheck =  dataContract.makeObject();
+
+                claimCheck.parmServiceBusQueueTopic(topicToProcess.QueueTopic);
+
+                str payload = FormJsonSerializer::serializeClass(claimCheck);
+
+                integration = integrationSetup.createIntegration(curExt(),payload,'');
+
+                IntegrationHandler_INT::HandleEvent(integration);
+            
+            }
+            
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

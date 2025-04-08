@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>IntegrationClaimCheckScheduleDC_INT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+[DataContract]
+internal final class IntegrationClaimCheckScheduleDC_INT 
+{
+    private str packedQuery;
+
+}
+
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmPackedQuery</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute,AifQueryTypeAttribute('_packedQuery', queryStr(IntegrationClaimCheckScheduleQuery_INT))]
+    public str parmPackedQuery(str _packedQuery = packedQuery)
+    {
+        packedQuery = _packedQuery;
+
+        return packedQuery;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>setQuery</Name>
+				<Source><![CDATA[
+    public void setQuery(Query _query)
+    {
+        packedQuery = SysOperationHelper::base64Encode(_query.pack());
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>initQuery</Name>
+				<Source><![CDATA[
+    public void initQuery()
+    {
+        // Use this method to add ranges etc. for example:
+        Query   newQuery;
+        // init Query
+        newQuery = new Query(queryStr(IntegrationClaimCheckScheduleQuery_INT));
+        // add range
+        // ...
+        // set Query
+        this.setQuery(newQuery);
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>getQuery</Name>
+				<Source><![CDATA[
+    // This method unpacks the query and returns it as query object.
+    public Query getQuery()
+    {
+        return new Query(SysOperationHelper::base64Decode(packedQuery));
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

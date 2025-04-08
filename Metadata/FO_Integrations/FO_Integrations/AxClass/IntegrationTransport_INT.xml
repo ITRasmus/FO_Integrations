@@ -10,10 +10,20 @@ public abstract class IntegrationTransport_INT
 
     private guid correlationId;
 
-
 }
 ]]></Declaration>
 		<Methods>
+			<Method>
+				<Name>parmSetup</Name>
+				<Source><![CDATA[
+    public IntegrationSetupBase_INT parmSetup(IntegrationSetupBase_INT _setup = setup)
+    {
+        setup = _setup;
+        return setup;
+    }
+
+]]></Source>
+			</Method>
 			<Method>
 				<Name>parmCorrelationId</Name>
 				<Source><![CDATA[

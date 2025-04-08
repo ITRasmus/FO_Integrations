@@ -25,6 +25,7 @@ public class IntegrationSetupOut_INT extends FormRun
         super();
         IntegrationSetupOutValue_INT_ds.allowEdit(true);
         IntegrationSetupOut_INT_ds.queryBuildDataSource().addOrderByField(fieldNum(IntegrationSetupOut_INT,IntegrationName),SortOrder::Ascending);
+        IntegrationRequest_INT_ds.queryBuildDataSource().addOrderByField(fieldNum(IntegrationRequest_INT, DateTimeStamp),SortOrder::Descending);
     }
 
 ]]></Source>
@@ -61,20 +62,66 @@ public class IntegrationSetupOut_INT extends FormRun
 		</DataSources>
 		<DataControls xmlns="">
 			<Control>
-				<Name>InitIntegrations</Name>
+				<Name>DeleteCompleted</Name>
 				<Type>Button</Type>
 				<Methods>
 					<Method>
 						<Name>clicked</Name>
 						<Source><![CDATA[
         /// <summary>
-        /// Creates the integrations in the setup form
+        ///
         /// </summary>
         public void clicked()
         {
             super();
-            IntegrationSetup_INT::createSetup();
-            IntegrationSetupOut_INT_ds.research();
+
+            IntegrationRequest_INT request;
+            delete_from request
+                where request.Direction == IntegrationDirection_INT::Out && request.State == IntegrationState_INT::Completed;
+
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>DeleteFailed</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+
+            IntegrationRequest_INT request;
+            delete_from request
+                where request.Direction == IntegrationDirection_INT::Out && request.State == IntegrationState_INT::Failed;
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>RerunFailed</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void clicked()
+        {
+            super();
+            IntegrationRequest_INT::RerunFailed(IntegrationDirection_INT::Out);
         }
 
 ]]></Source>
@@ -257,8 +304,8 @@ public class IntegrationSetupOut_INT extends FormRun
 	</DataSources>
 	<Design>
 		<Caption xmlns="">@Integrations_INT:Setup</Caption>
-		<Pattern xmlns="">SimpleListDetails</Pattern>
-		<PatternVersion xmlns="">1.3</PatternVersion>
+		<Pattern xmlns="">SimpleListDetails-Grid</Pattern>
+		<PatternVersion xmlns="">1.4</PatternVersion>
 		<Style xmlns="">SimpleListDetails</Style>
 		<Controls xmlns="">
 			<AxFormControl xmlns=""
@@ -277,21 +324,46 @@ public class IntegrationSetupOut_INT extends FormRun
 						<Controls>
 							<AxFormControl xmlns=""
 								i:type="AxFormButtonGroupControl">
-								<Name>BtnGroupSetup</Name>
+								<Name>FormButtonGroupControl1</Name>
 								<Type>ButtonGroup</Type>
 								<FormControlExtension
 									i:nil="true" />
 								<Controls>
 									<AxFormControl xmlns=""
+										i:type="AxFormMenuFunctionButtonControl">
+										<Name>IntegrationRequestMenuItem_INT</Name>
+										<Type>MenuFunctionButton</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataSource>IntegrationSetupOut_INT</DataSource>
+										<MenuItemName>IntegrationRequestMenuItem_INT</MenuItemName>
+									</AxFormControl>
+									<AxFormControl xmlns=""
 										i:type="AxFormButtonControl">
-										<Name>InitIntegrations</Name>
+										<Name>DeleteCompleted</Name>
 										<Type>Button</Type>
 										<FormControlExtension
 											i:nil="true" />
-										<Text>@Integrations_INT:InitIntegrations</Text>
+										<Text>@Integrations_INT:RemoveProcessed</Text>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormButtonControl">
+										<Name>DeleteFailed</Name>
+										<Type>Button</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<Text>@Integrations_INT:Removefailed</Text>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormButtonControl">
+										<Name>RerunFailed</Name>
+										<Type>Button</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<Text>@Integrations_INT:ReRun</Text>
 									</AxFormControl>
 								</Controls>
-								<Caption>@Integrations_INT:Setup</Caption>
+								<Caption>@Integrations_INT:Requests</Caption>
 							</AxFormControl>
 						</Controls>
 						<Caption>@Integrations_INT:Setup</Caption>
@@ -303,6 +375,8 @@ public class IntegrationSetupOut_INT extends FormRun
 				<Name>FormGroupControlSetup</Name>
 				<HeightMode>SizeToAvailable</HeightMode>
 				<Type>Group</Type>
+				<Width>300</Width>
+				<WidthMode>Manual</WidthMode>
 				<FormControlExtension
 					i:nil="true" />
 				<Controls>
@@ -335,7 +409,6 @@ public class IntegrationSetupOut_INT extends FormRun
 						<Name>FormGridControlSetup</Name>
 						<AllowEdit>No</AllowEdit>
 						<Type>Grid</Type>
-						<WidthMode>SizeToContent</WidthMode>
 						<FormControlExtension
 							i:nil="true" />
 						<Controls>
@@ -348,11 +421,20 @@ public class IntegrationSetupOut_INT extends FormRun
 								<DataField>IntegrationName</DataField>
 								<DataSource>IntegrationSetupOut_INT</DataSource>
 							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationSetupOut_INT_ClassName</Name>
+								<Type>String</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>ClassName</DataField>
+								<DataSource>IntegrationSetupOut_INT</DataSource>
+							</AxFormControl>
 						</Controls>
 						<DataSource>IntegrationSetupOut_INT</DataSource>
 						<MultiSelect>No</MultiSelect>
 						<ShowRowLabels>No</ShowRowLabels>
-						<Style>List</Style>
+						<Style>Tabular</Style>
 					</AxFormControl>
 				</Controls>
 				<FrameType>None</FrameType>
@@ -360,9 +442,18 @@ public class IntegrationSetupOut_INT extends FormRun
 			</AxFormControl>
 			<AxFormControl xmlns=""
 				i:type="AxFormGroupControl">
+				<Name>FormGroupControlSplitter</Name>
+				<Type>Group</Type>
+				<WidthMode>SizeToAvailable</WidthMode>
+				<FormControlExtension
+					i:nil="true" />
+				<Controls />
+				<FrameType>None</FrameType>
+				<Style>SplitterVerticalContainer</Style>
+			</AxFormControl>
+			<AxFormControl xmlns=""
+				i:type="AxFormGroupControl">
 				<Name>FormGroupControlSetupInfo</Name>
-				<Pattern>FieldsFieldGroups</Pattern>
-				<PatternVersion>1.1</PatternVersion>
 				<Type>Group</Type>
 				<WidthMode>SizeToAvailable</WidthMode>
 				<FormControlExtension
@@ -370,6 +461,7 @@ public class IntegrationSetupOut_INT extends FormRun
 				<Controls />
 				<ColumnsMode>Fill</ColumnsMode>
 				<FrameType>None</FrameType>
+				<Style>SplitterVerticalContainer</Style>
 			</AxFormControl>
 			<AxFormControl xmlns=""
 				i:type="AxFormTabControl">
@@ -554,6 +646,15 @@ public class IntegrationSetupOut_INT extends FormRun
 												<FormControlExtension
 													i:nil="true" />
 												<Controls>
+													<AxFormControl xmlns=""
+														i:type="AxFormDateTimeControl">
+														<Name>IntegrationRequest_INT_DateTimeStamp</Name>
+														<Type>DateTime</Type>
+														<FormControlExtension
+															i:nil="true" />
+														<DataField>DateTimeStamp</DataField>
+														<DataSource>IntegrationRequest_INT</DataSource>
+													</AxFormControl>
 													<AxFormControl xmlns=""
 														i:type="AxFormGuidControl">
 														<Name>IntegrationRequest_INT_Identifier</Name>

@@ -125,6 +125,12 @@ public class IntegrationRequestData_INT extends common
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
+			<Name>Parsed</Name>
+			<ExtendedDataType>IntegrationParsed_INT</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
 			<Name>Input</Name>
 			<ExtendedDataType>IntegrationInput_INT</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
