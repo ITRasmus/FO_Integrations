@@ -2,7 +2,8 @@
 <AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<Name>IntegrationSetupClaimCheckBase_INT</Name>
 	<SourceCode>
-		<Declaration><![CDATA[
+		<Declaration>
+      <![CDATA[
 /// <summary>
 /// Datacontract for creating a ClamCheck
 /// </summary>
@@ -16,23 +17,25 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
     private guid messageId;
     private str queueTopic;
     private boolean isTopic;
-    
-       
 
+
+ 
 }
 ]]></Declaration>
 		<Methods>
-			<Method>
-				<Name>parmIsTopic</Name>
-				<Source><![CDATA[
+      <Method>
+        <Name>parmIsTopic</Name>
+        <Source>
+          <![CDATA[
     public boolean parmIsTopic(boolean _isTopic = isTopic)
     {
         isTopic = _isTopic;
         return isTopic;
     }
 
-]]></Source>
-			</Method>
+]]>
+        </Source>
+      </Method>
 			<Method>
 				<Name>parmLockToken</Name>
 				<Source><![CDATA[
@@ -94,12 +97,39 @@ public class IntegrationSetupClaimCheckBase_INT extends IntegrationSetupBase_INT
 ]]></Source>
 			</Method>
 			<Method>
+				<Name>parmAudience</Name>
+				<Source><![CDATA[
+    [IntegrationOutboundSetupAttribute_INT('Audience','api://')]
+    public str parmAudience(str _audience = audience)
+    {
+        audience = audience;
+        return audience;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
 				<Name>TransportIdentifier</Name>
 				<Source><![CDATA[
     public ClassId TransportIdentifier()
     {
         return className2Id(classStr(IntegrationTransportClaimCheck_INT));
     }
+/*                                               
+    public IntegrationOutBoundSetupRestOAuth_INT CreateParametersForBlob()
+    {
+        IntegrationOutBoundSetupRestOAuth_INT blobSetup = new IntegrationOutBoundSetupRestOAuth_INT();
+
+        blobSetup.parmAuthUrl(this.parmAuthUrl());
+        blobSetup.parmClientId(this.parmClientId());
+        blobSetup.parmMethod('GET');
+        blobSetup.parmScope('https://storage.azure.com/.default');
+        blobSetup.parmSecret(this.parmSecret());
+        blobSetup.parmXmSVersion(this.parmXmSVersion());
+
+        return blobSetup;
+    }
+  */
 
 ]]></Source>
 			</Method>

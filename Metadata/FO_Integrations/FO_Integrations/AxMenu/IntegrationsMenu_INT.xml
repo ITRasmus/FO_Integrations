@@ -13,6 +13,26 @@
 					<Name>IntegrationRequestMenuItem_INT</Name>
 					<MenuItemName>IntegrationRequestMenuItem_INT</MenuItemName>
 				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationRequestErrorMenuItem_INT</Name>
+					<MenuItemName>IntegrationRequestErrorMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationRequestInMenuItem_INT</Name>
+					<MenuItemName>IntegrationRequestInMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationRequestOutMenuItem_INT</Name>
+					<MenuItemName>IntegrationRequestOutMenuItem_INT</MenuItemName>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationRequestClaimCheckMenuItem_INT</Name>
+					<MenuItemName>IntegrationRequestClaimCheckMenuItem_INT</MenuItemName>
+				</AxMenuElement>
 			</Elements>
 		</AxMenuElement>
 		<AxMenuElement xmlns=""
@@ -22,14 +42,20 @@
 			<Elements>
 				<AxMenuElement xmlns=""
 					i:type="AxMenuElementMenuItem">
-					<Name>IntegrationAsyncProcessing_INT</Name>
-					<MenuItemName>IntegrationAsyncProcessing_INT</MenuItemName>
+					<Name>IntegrationNewRequestMenuItem_INT</Name>
+					<MenuItemName>IntegrationNewRequestMenuItem_INT</MenuItemName>
 					<MenuItemType>Action</MenuItemType>
 				</AxMenuElement>
 				<AxMenuElement xmlns=""
 					i:type="AxMenuElementMenuItem">
-					<Name>IntegrationNewRequestMenuItem_INT</Name>
-					<MenuItemName>IntegrationNewRequestMenuItem_INT</MenuItemName>
+					<Name>IntegrationClaimCheckScheduleMenuItem_INT</Name>
+					<MenuItemName>IntegrationClaimCheckScheduleMenuItem_INT</MenuItemName>
+					<MenuItemType>Action</MenuItemType>
+				</AxMenuElement>
+				<AxMenuElement xmlns=""
+					i:type="AxMenuElementMenuItem">
+					<Name>IntegrationLogCleanupMenuItem_INT</Name>
+					<MenuItemName>IntegrationLogCleanupMenuItem_INT</MenuItemName>
 					<MenuItemType>Action</MenuItemType>
 				</AxMenuElement>
 			</Elements>

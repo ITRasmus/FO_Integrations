@@ -275,6 +275,9 @@ public class IntegrationTransportRest_INT extends IntegrationTransport_INT
         }
         catch(ex)
         {
+
+            info(this.payload);
+
             if(ex is System.Net.WebException)
             {
                 WebException webException = ex as WebException;

@@ -15,6 +15,7 @@ public class IntegrationParseable_INT
     private str keyword3;
     private str payload;
 
+
 }
 ]]></Declaration>
 		<Methods>
@@ -23,10 +24,45 @@ public class IntegrationParseable_INT
 				<Source><![CDATA[
     public IntegrationParseable_INT parse(Integration_INT _integration)
     {
-        IntegrationParseable_INT input = FormJsonSerializer::deserializeObject(_integration.DataContractIdentifier(),_integration.parmPayload());
-        input.parmPayload(_integration.parmPayload());
-        input.setKeywords();
-        return input;
+        IntegrationParseable_INT parsableObject;
+
+        IntegrationInbound_INT inbound;
+
+        str json = _integration.parmPayload();
+
+        if(_integration is IntegrationInbound_INT)
+        {
+            inbound = _integration as IntegrationInbound_INT;
+
+            if(inbound.supportsParsed())
+            {
+                if(inbound.parmParsedPayload() == '')
+                {
+                    json = inbound.createdParsedPayload(json);
+                    inbound.parmParsedPayload(json);
+                    _integration.parmParsedPayload(json);
+                }
+                json = _integration.parmParsedPayload();
+            }
+
+            
+        }
+
+        parsableObject  = this.deserializePayload(_integration,json);
+        parsableObject.parmPayload(json);
+        
+        parsableObject.setKeywords();
+        return parsableObject;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>deserializePayload</Name>
+				<Source><![CDATA[
+    public IntegrationParseable_INT deserializePayload(Integration_INT _integration, str _json)
+    {
+        return FormJsonSerializer::deserializeObject(_integration.DataContractIdentifier(),_json);
     }
 
 ]]></Source>
@@ -40,7 +76,6 @@ public class IntegrationParseable_INT
         DictClass dclass = new DictClass(_integration.DataContractIdentifier());
         IntegrationParseable_INT  integration = dclass.makeObject();
         integration = integration.parse(_integration);
-        
         return integration;
     }
 

@@ -5,9 +5,154 @@
 		<Declaration><![CDATA[
 public class IntegrationRequest_INT extends common
 {
+
 }
 ]]></Declaration>
-		<Methods />
+		<Methods>
+			<Method>
+				<Name>deleteFailedAll</Name>
+				<Source><![CDATA[
+    public static void deleteFailedAll()
+    {
+        IntegrationRequest_INT requests;
+
+
+        delete_from requests
+            where requests.State == IntegrationState_INT::Failed;
+
+        ttsbegin;
+
+        while select requests
+            where requests.State == IntegrationState_INT::AwaitingAsyncProcessing
+        {
+
+            IntegrationRequestData_INT data;
+
+            select firstonly data
+                order by data.Begin desc
+                where data.State == IntegrationState_INT::AwaitingAsyncProcessing;
+
+            if(DateTimeUtil::addDays(DateTimeUtil::utcNow(),-1) > data.Begin)
+            {
+                requests.delete();
+            }
+        }
+
+        ttscommit;
+    
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>RerunFailedAll</Name>
+				<Source><![CDATA[
+    public static void RerunFailedAll()
+    {
+        IntegrationRequest_INT requests;
+
+        while select requests
+                where requests.State == IntegrationState_INT::Failed
+            || requests.State == IntegrationState_INT::AwaitingAsyncProcessing
+            
+        {
+            ttsbegin;
+
+            IntegrationRequestData_INT data;
+
+
+            if(requests.State == IntegrationState_INT::AwaitingAsyncProcessing)
+            {
+                select firstonly data
+                    order by data.Begin desc
+                    where data.State == IntegrationState_INT::AwaitingAsyncProcessing;
+
+                if(DateTimeUtil::addDays(DateTimeUtil::utcNow(),-1) < data.Begin)
+                {
+                    continue;
+                }
+            }
+
+
+            update_recordset data
+                        setting State = IntegrationState_INT::Obsolete
+                    where data.Identifier == requests.Identifier;
+
+            select firstonly data
+                    order by data.Begin desc
+                    where data.Identifier == requests.Identifier;
+
+
+            IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
+
+            Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input,data.parsed);
+            integration.parmIdentifier(requests.identifier);
+
+                
+            switch (integration.parmIntegrationSetup().getInstanceRelationType())
+            {
+                case tableStr(IntegrationSetupOut_INT):
+                    IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
+                    outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
+                    break;
+                case tableStr(IntegrationSetupIn_INT):
+                    IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
+                    inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
+                    break;
+            }
+            IntegrationHandler_INT::HandleEvent(integration);
+            ttscommit;
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>RerunFailed</Name>
+				<Source><![CDATA[
+    public static void RerunFailed(IntegrationDirection_INT direction)
+    {
+        IntegrationRequest_INT requests;
+
+        while select requests
+                where requests.State == IntegrationState_INT::Failed && requests.Direction == direction
+        {
+            ttsbegin;
+            IntegrationRequestData_INT data;
+            update_recordset data
+                        setting State = IntegrationState_INT::Obsolete
+                    where data.Identifier == requests.Identifier;
+
+            select firstonly data
+                    order by data.Begin desc
+                    where data.Identifier == requests.Identifier;
+
+
+            IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
+
+            Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input,data.parsed);
+            integration.parmIdentifier(requests.identifier);
+
+                
+            switch (integration.parmIntegrationSetup().getInstanceRelationType())
+            {
+                case tableStr(IntegrationSetupOut_INT):
+                    IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
+                    outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
+                    break;
+                case tableStr(IntegrationSetupIn_INT):
+                    IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
+                    inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
+                    break;
+            }
+            IntegrationHandler_INT::HandleEvent(integration);
+            ttscommit;
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
 	</SourceCode>
 	<DeveloperDocumentation>@Integrations_INT:IntegrationRequestDevDoc</DeveloperDocumentation>
 	<Label>@Integrations_INT:IntegrationRequest</Label>

@@ -62,6 +62,15 @@ public class IntegrationSetupOutQueueTopics_INT extends common
 			<Name>IntegrationClaimCheckType</Name>
 			<EnumType>IntegrationClaimCheckType_INT</EnumType>
 		</AxTableField>
+    <AxTableField xmlns=""
+    i:type="AxTableFieldInt">
+      <Name>CompletedCount</Name>
+      <Label>@Integrations_INT:CompletedCount</Label>
+    </AxTableField>
+    <AxTableField xmlns=""
+			i:type="AxTableFieldUtcDateTime">
+      <Name>LastCompleted</Name>
+    </AxTableField>
 	</Fields>
 	<FullTextIndexes />
 	<Indexes />

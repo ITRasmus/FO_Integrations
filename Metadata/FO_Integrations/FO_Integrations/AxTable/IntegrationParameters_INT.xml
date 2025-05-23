@@ -7,7 +7,31 @@ public class IntegrationParameters_INT extends common
 {
 }
 ]]></Declaration>
-		<Methods />
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    public static IntegrationParameters_INT find(boolean update = false)
+    {
+        IntegrationParameters_INT parameter;
+
+        parameter.selectForUpdate(update);
+
+        select firstonly parameter
+            index KeyIdx
+            where parameter.Key == 0;
+
+        if (!parameter && !parameter.isTmp())
+        {
+            Company::createParameter(parameter);
+        }
+
+        return parameter;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
 	</SourceCode>
 	<DeveloperDocumentation>@Integrations_INT:IntegrationParametersDevDoc</DeveloperDocumentation>
 	<Label>@Integrations_INT:Parameteres</Label>
@@ -16,6 +40,8 @@ public class IntegrationParameters_INT extends common
 	</SubscriberAccessLevel>
 	<TitleField1>TableId</TitleField1>
 	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<ClusteredIndex>KeyIdx</ClusteredIndex>
+	<ReplacementKey>KeyIdx</ReplacementKey>
 	<SaveDataPerCompany>No</SaveDataPerCompany>
 	<DeleteActions />
 	<FieldGroups>
@@ -30,7 +56,11 @@ public class IntegrationParameters_INT extends common
 		<AxTableFieldGroup>
 			<Name>AutoIdentification</Name>
 			<AutoPopulate>Yes</AutoPopulate>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Key</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoSummary</Name>
@@ -40,10 +70,75 @@ public class IntegrationParameters_INT extends common
 			<Name>AutoBrowse</Name>
 			<Fields />
 		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Telemetry</Name>
+			<Label>@MonitoringAndTelemetry:Telemetry</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TelemetryDisable</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TelemetryUseReflection</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
 	</FieldGroups>
-	<Fields />
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>TelemetryDisable</Name>
+			<ExtendedDataType>NoYesId</ExtendedDataType>
+			<HelpText>@Integrations_INT:DisableTelemetryHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:DisableTelemetryLabel</Label>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>TelemetryUseReflection</Name>
+			<ExtendedDataType>NoYesId</ExtendedDataType>
+			<HelpText>@Integrations_INT:WorkaroundTelemetryUseReflectionHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@Integrations_INT:WorkaroundTelemetryUseReflectionLabel</Label>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+    <AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+      <Name>DaysToKeepCompletedTransactions</Name>
+      <HelpText>@Integrations_INT:HelpTextZeroIsUnlimited</HelpText>
+      <Label>@Integrations_INT:DaysToKeepCompletedTransactions</Label>
+    </AxTableField>
+    <AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+      <Name>DaysToKeepFailedTransactions</Name>
+      <HelpText>@Integrations_INT:HelpTextZeroIsUnlimited</HelpText>
+      <Label>@Integrations_INT:DaysToKeepFailedTransactions</Label>
+    </AxTableField>
+    <AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+      <Name>Key</Name>
+      <ExtendedDataType>ParametersKey</ExtendedDataType>
+      <IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+    </AxTableField>
+    <AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+      <Name>AutoCleanCompletedClaimCheck</Name>
+      <Label>@Integrations_INT:AutoCleanCompletedClaimCheck</Label>
+      <EnumType>NoYes</EnumType>
+    </AxTableField>
+	</Fields>
 	<FullTextIndexes />
-	<Indexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>KeyIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>Key</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
 	<Mappings />
 	<Relations />
 	<StateMachines />

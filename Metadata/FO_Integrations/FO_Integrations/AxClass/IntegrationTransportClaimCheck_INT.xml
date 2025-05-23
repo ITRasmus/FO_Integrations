@@ -9,6 +9,8 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
     protected SysApplicationInsightsTelemetryLogger telemtryLogger;
     protected IntegrationSetupClaimCheck_INT claimCheckIntegration;
 
+ 
+
 }
 ]]></Declaration>
 		<Methods>
@@ -121,7 +123,6 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
             }
        
             int numOfMessages = brokerProperties.parmDeliveryCount();
-            this.logTelemetry(numOfMessages,_qt.QueueTopic);
             do
             {
                 str file;
@@ -212,7 +213,7 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
             {
                 Throw  Global::error(strFmt("@Integrations_INT:IntegrationNotFound",_integrationName));
             }
-            Integration_INT inte = integrationSetup.createIntegration(curExt(),_payload);
+            Integration_INT inte = integrationSetup.createIntegration(curExt(),_payload,'');
             inte.parmIdentifier(_guid);
             IntegrationHandler_INT::HandleEvent(inte);
         }
@@ -224,28 +225,6 @@ internal final class IntegrationTransportClaimCheck_INT extends IntegrationTrans
         {
             IntegrationHandler_INT::handleEarlyException(CLRInterop::getLastException(),_integrationName,curExt(),_payload);
         }
-
-    }
-
-]]></Source>
-			</Method>
-			<Method>
-				<Name>logTelemetry</Name>
-				<Source><![CDATA[
-    private void logTelemetry(int _numOfMessages, str _topic)
-    {
-        
-        IntegrationInsightsIntegration_INT integrationTele = IntegrationInsightsIntegration_INT::newFromValue(integration.IntegrationName);
-        IntegrationInsightsMessages_INT mssages = IntegrationInsightsMessages_INT::newFromValue(int2Str(_numOfMessages));
-        IntegrationInsightsTopic_INT topic = IntegrationInsightsTopic_INT::newFromValue(_topic);
-        
-        
-        SysApplicationInsightsEventTelemetry event = SysApplicationInsightsEventTelemetry::newFromEventIdName('ATP-Integration','ATP-Integration');
-        event.addProperty(integrationTele);
-        event.addProperty(mssages);
-        event.addProperty(topic);
-
-        telemtryLogger.trackEvent(event);
 
     }
 

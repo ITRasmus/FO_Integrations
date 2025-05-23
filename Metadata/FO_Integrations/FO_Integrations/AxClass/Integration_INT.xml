@@ -11,6 +11,7 @@ public abstract class Integration_INT
 {
     private DataAreaId company;
     private str payload;
+    private str parsedPayload;
     private guid identifier;
     private IntegrationSetup_INT integrationSetup;
     private guid relatedRequest;
@@ -78,6 +79,22 @@ public abstract class Integration_INT
         integrationSetup = _integrationSetup;
         return integrationSetup;
 
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmParsedPayload</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// The raw payload there was recieved for the execution
+    /// </summary>
+    /// <param name = "_payload">The payload</param>
+    /// <returns>The payload</returns>
+    public str parmParsedPayload(str _parsedPayload = parsedPayload)
+    {
+        parsedPayload = _parsedPayload;
+        return parsedPayload;
     }
 
 ]]></Source>

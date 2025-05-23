@@ -51,7 +51,7 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
             {
 
                 guid runIdentifier = newGuid();
-                integration = setup.createIntegration(request.company,requestData.Input);
+                integration = setup.createIntegration(request.company,requestData.Input,requestData.Parsed);
                 integration.parmRelatedRequest(request.Identifier);
 
                 logging = IntegrationLogging_INT::construct(integration,runIdentifier);
@@ -86,7 +86,7 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
                     taskContract = new IntegrationClaimCheckServiceDC_INT();
                     taskContract.parmIdentifier(integration.parmIdentifier());
                     taskContract.parmRunIdentifier(runIdentifier);
-                    taskContract.parmServiceBusQueueTopic(qt.QueueTopic);
+                    taskContract.parmServiceBusQueueTopic(_contract.parmServiceBusQueueTopic());
                     taskContract.parmIntegrationName(request.IntegrationName);
                     taskContract.parmCompany(_contract.parmCompany());
                     logging.initLog(FormJsonSerializer::serializeClass(taskContract));
@@ -103,13 +103,9 @@ public class IntegrationClaimCheckService_INT extends SysOperationServiceBase
             }
 
         }
-       /* logging = IntegrationLogging_INT::construct(integration,requestData.RunIdentifier);
 
         IntegrationReturnable_INT result =  new IntegrationReturnable_INT();
-
-        result.parmSuccess(true);
-        logging.LogComplete(result);
-         */
+       result.parmSuccess(true);
         
     }
 /*

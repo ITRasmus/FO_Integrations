@@ -9,8 +9,30 @@
 [Form]
 public class IntegrationRequest_INT extends FormRun
 {
-
+    private int enumType;
+    private anytype enum;
+    private Common callerRecord;
 }
+]]></Source>
+			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public void init()
+    {
+        enumType = this.args().parmEnumType();
+        enum = this.args().parmEnum();
+
+        callerRecord = this.args().record();
+
+        super();
+      
+ 
+    }
+
 ]]></Source>
 			</Method>
 		</Methods>
@@ -27,7 +49,40 @@ public class IntegrationRequest_INT extends FormRun
         public void init()
         {
             super();
-            this.queryBuildDataSource().addSortField(fieldNum(IntegrationRequest_INT,DateTimeStamp),SortOrder::Descending);
+
+            QueryBuildDataSource qbds = this.queryBuildDataSource();
+
+            qbds.addSortField(fieldNum(IntegrationRequest_INT,DateTimeStamp),SortOrder::Descending);
+ 
+
+            if(callerRecord)
+            {
+                if(callerRecord is IntegrationSetup_INT)
+                {
+                    IntegrationSetup_INT setup = callerRecord as IntegrationSetup_INT;
+                
+                    qbds.addRange(fieldNum(IntegrationRequest_INT,IntegrationName)).value(setup.IntegrationName);
+                }
+            }
+            if(enumType == enumNum(IntegrationFilter_INT))
+            {
+                
+                switch (enum)
+                {
+                    case (IntegrationFilter_INT::Error):
+                        qbds.addRange(fieldNum(IntegrationRequest_INT,State)).value(queryValue(IntegrationState_INT::Failed));
+                        break;
+                    case (IntegrationFilter_INT::Ingoing):
+                        qbds.addRange(fieldNum(IntegrationRequest_INT,Direction)).value(queryValue(IntegrationDirection_INT::In));
+                        break;
+                    case (IntegrationFilter_INT::Outgoing):
+                        qbds.addRange(fieldNum(IntegrationRequest_INT,Direction)).value(queryValue(IntegrationDirection_INT::Out));
+                        break;
+            
+                }
+
+            }
+
         }
 
 ]]></Source>
@@ -48,6 +103,42 @@ public class IntegrationRequest_INT extends FormRun
         {
             super();
             this.queryBuildDataSource().addSortField(fieldNum(IntegrationRequestData_INT,Begin),SortOrder::Descending);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+			<DataSource>
+				<Name>IntegrationSetup_INT</Name>
+				<Methods>
+					<Method>
+						<Name>init</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void init()
+        {
+            super();
+
+            if(enumType == enumNum(IntegrationFilter_INT))
+            {
+                
+                switch (enum)
+                {
+                    case (IntegrationFilter_INT::Error):
+                        break;
+                    case (IntegrationFilter_INT::ClaimCheck):
+                        this.queryBuildDataSource().addRange(fieldNum(IntegrationSetup_INT,InstanceRelationType)).value(SysQuery::value(TableNum(IntegrationSetupClaimCheck_INT)));
+                        break;
+                    default:
+                        this.queryBuildDataSource().addRange(fieldNum(IntegrationSetup_INT,InstanceRelationType)).value(SysQuery::valueNot(TableNum(IntegrationSetupClaimCheck_INT)));
+                        break;
+                }
+            }
+
         }
 
 ]]></Source>
@@ -96,11 +187,8 @@ public class IntegrationRequest_INT extends FormRun
         {
             super();
     
-            IntegrationRequest_INT requests;
-            delete_from requests
-                where requests.State == IntegrationState_INT::Failed;
+            IntegrationRequest_INT::deleteFailedAll();
             IntegrationRequest_INT_ds.research(false);
-    
         }
 
 ]]></Source>
@@ -121,44 +209,7 @@ public class IntegrationRequest_INT extends FormRun
         {
             super();
 
-            IntegrationRequest_INT requests;
-
-            while select requests
-                where requests.State == IntegrationState_INT::Failed
-            
-            {
-
-                ttsbegin;
-                IntegrationRequestData_INT data;
-                update_recordset data
-                        setting State = IntegrationState_INT::Obsolete
-                    where data.Identifier == requests.Identifier;
-
-                select firstonly data
-                    order by data.Begin desc
-                    where data.Identifier == requests.Identifier;
-
-
-                IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
-
-                Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input);
-                integration.parmIdentifier(requests.identifier);
-
-                
-                switch (integration.parmIntegrationSetup().getInstanceRelationType())
-                {
-                    case tableStr(IntegrationSetupOut_INT):
-                        IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
-                        outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
-                        break;
-                    case tableStr(IntegrationSetupIn_INT):
-                        IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
-                        inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
-                        break;
-                }
-                IntegrationHandler_INT::HandleEvent(integration);
-                ttscommit;
-            }
+            IntegrationRequest_INT::RerunFailedAll();
         }
 
 ]]></Source>
@@ -208,16 +259,25 @@ public class IntegrationRequest_INT extends FormRun
 					<DataField>Company</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>CorrelationId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>CreatedDateTime</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>DateTimeStamp</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>Direction</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>ExecutionCount</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Identifier</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>IntegrationName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Keyword1</DataField>
@@ -232,13 +292,13 @@ public class IntegrationRequest_INT extends FormRun
 					<DataField>ModifiedDateTime</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
-					<DataField>Name</DataField>
-				</AxFormDataSourceField>
-				<AxFormDataSourceField>
 					<DataField>Partition</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RelatedRequest</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>State</DataField>
@@ -269,6 +329,9 @@ public class IntegrationRequest_INT extends FormRun
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Input</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>InputRaw</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>ModifiedDateTime</DataField>
@@ -324,6 +387,9 @@ public class IntegrationRequest_INT extends FormRun
 					<DataField>Identifier</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>Infolog</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>Partition</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
@@ -372,6 +438,7 @@ public class IntegrationRequest_INT extends FormRun
 			</Fields>
 			<ReferencedDataSources />
 			<JoinSource>IntegrationRequest_INT</JoinSource>
+			<LinkType>InnerJoin</LinkType>
 			<AllowCreate>No</AllowCreate>
 			<AllowDelete>No</AllowDelete>
 			<AllowEdit>No</AllowEdit>
@@ -535,6 +602,16 @@ public class IntegrationRequest_INT extends FormRun
 									i:nil="true" />
 								<DataField>Identifier</DataField>
 								<DataSource>IntegrationRequest_INT</DataSource>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormComboBoxControl">
+								<Name>IntegrationRequest_INT_Direction</Name>
+								<Type>ComboBox</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Direction</DataField>
+								<DataSource>IntegrationRequest_INT</DataSource>
+								<Items />
 							</AxFormControl>
 						</Controls>
 						<DataSource>IntegrationRequest_INT</DataSource>
@@ -708,51 +785,11 @@ public class IntegrationRequest_INT extends FormRun
 											<AxFormControl xmlns=""
 												i:type="AxFormGroupControl">
 												<Name>DataDetails</Name>
-												<Pattern>FieldsFieldGroups</Pattern>
-												<PatternVersion>1.1</PatternVersion>
 												<Type>Group</Type>
 												<WidthMode>SizeToAvailable</WidthMode>
 												<FormControlExtension
 													i:nil="true" />
 												<Controls>
-													<AxFormControl xmlns=""
-														i:type="AxFormGroupControl">
-														<Name>GroupInput</Name>
-														<Type>Group</Type>
-														<FormControlExtension
-															i:nil="true" />
-														<Controls>
-															<AxFormControl xmlns=""
-																i:type="AxFormStringControl">
-																<Name>IntegrationRequestData_INT_Input</Name>
-																<Type>String</Type>
-																<FormControlExtension
-																	i:nil="true" />
-																<DataField>Input</DataField>
-																<DataSource>IntegrationRequestData_INT</DataSource>
-															</AxFormControl>
-														</Controls>
-														<FrameType>None</FrameType>
-													</AxFormControl>
-													<AxFormControl xmlns=""
-														i:type="AxFormGroupControl">
-														<Name>GroupOutPut</Name>
-														<Type>Group</Type>
-														<FormControlExtension
-															i:nil="true" />
-														<Controls>
-															<AxFormControl xmlns=""
-																i:type="AxFormStringControl">
-																<Name>IntegrationRequestData_INT_Output</Name>
-																<Type>String</Type>
-																<FormControlExtension
-																	i:nil="true" />
-																<DataField>Output</DataField>
-																<DataSource>IntegrationRequestData_INT</DataSource>
-															</AxFormControl>
-														</Controls>
-														<FrameType>None</FrameType>
-													</AxFormControl>
 													<AxFormControl xmlns=""
 														i:type="AxFormGroupControl">
 														<Name>Time</Name>
@@ -800,7 +837,18 @@ public class IntegrationRequest_INT extends FormRun
 														<DataGroup>Time</DataGroup>
 														<DataSource>IntegrationRequestData_INT</DataSource>
 													</AxFormControl>
+													<AxFormControl xmlns=""
+														i:type="AxFormDateTimeControl">
+														<Name>IntegrationRequestException_INT_DateTimeStamp</Name>
+														<AllowEdit>No</AllowEdit>
+														<Type>DateTime</Type>
+														<FormControlExtension
+															i:nil="true" />
+														<DataField>DateTimeStamp</DataField>
+														<DataSource>IntegrationRequestException_INT</DataSource>
+													</AxFormControl>
 												</Controls>
+												<ArrangeMethod>HorizontalLeft</ArrangeMethod>
 												<ColumnsMode>Fill</ColumnsMode>
 												<FrameType>None</FrameType>
 											</AxFormControl>
@@ -816,64 +864,190 @@ public class IntegrationRequest_INT extends FormRun
 					</AxFormControl>
 					<AxFormControl xmlns=""
 						i:type="AxFormTabPageControl">
-						<Name>TabExceptions</Name>
-						<Pattern>FieldsFieldGroups</Pattern>
-						<PatternVersion>1.1</PatternVersion>
+						<Name>Input</Name>
 						<Type>TabPage</Type>
 						<FormControlExtension
 							i:nil="true" />
 						<Controls>
 							<AxFormControl xmlns=""
-								i:type="AxFormGroupControl">
-								<Name>FormGroupControl8</Name>
-								<Type>Group</Type>
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestData_INT_Input</Name>
+								<AllowEdit>No</AllowEdit>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
 								<FormControlExtension
 									i:nil="true" />
-								<Controls>
-									<AxFormControl xmlns=""
-										i:type="AxFormDateTimeControl">
-										<Name>IntegrationRequestException_INT_DateTimeStamp</Name>
-										<Type>DateTime</Type>
-										<FormControlExtension
-											i:nil="true" />
-										<DataField>DateTimeStamp</DataField>
-										<DataSource>IntegrationRequestException_INT</DataSource>
-									</AxFormControl>
-									<AxFormControl xmlns=""
-										i:type="AxFormStringControl">
-										<Name>IntegrationRequestException_INT_Exception</Name>
-										<Type>String</Type>
-										<FormControlExtension
-											i:nil="true" />
-										<DataField>Exception</DataField>
-										<DataSource>IntegrationRequestException_INT</DataSource>
-										<MultiLine>Yes</MultiLine>
-									</AxFormControl>
-									<AxFormControl xmlns=""
-										i:type="AxFormStringControl">
-										<Name>IntegrationRequestException_INT_Stacktrace</Name>
-										<Type>String</Type>
-										<FormControlExtension
-											i:nil="true" />
-										<DataField>Stacktrace</DataField>
-										<DataSource>IntegrationRequestException_INT</DataSource>
-										<MultiLine>Yes</MultiLine>
-									</AxFormControl>
-									<AxFormControl xmlns=""
-										i:type="AxFormStringControl">
-										<Name>IntegrationRequestException_INT_Error</Name>
-										<Type>String</Type>
-										<FormControlExtension
-											i:nil="true" />
-										<DataField>Error</DataField>
-										<DataSource>IntegrationRequestException_INT</DataSource>
-										<MultiLine>Yes</MultiLine>
-									</AxFormControl>
-								</Controls>
+								<DataField>Input</DataField>
+								<DataSource>IntegrationRequestData_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
 							</AxFormControl>
 						</Controls>
-						<ColumnsMode>Fill</ColumnsMode>
-						<Caption>@Integrations_INT:Exception</Caption>
+						<Caption>@Integrations_INT:Input</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Output</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestData_INT_Output</Name>
+								<AllowEdit>No</AllowEdit>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Output</DataField>
+								<DataSource>IntegrationRequestData_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Integrations_INT:Output</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Parsed</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestData_INT_Parsed</Name>
+								<AllowEdit>No</AllowEdit>
+								<AutoDeclaration>Yes</AutoDeclaration>
+								<Height>500</Height>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<Width>500</Width>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Parsed</DataField>
+								<DataSource>IntegrationRequestData_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>Parsed</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Exceptions</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestException_INT_Exception</Name>
+								<AllowEdit>No</AllowEdit>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Exception</DataField>
+								<DataSource>IntegrationRequestException_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Proj:Exceptions</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Stacktrace</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestException_INT_Stacktrace</Name>
+								<AllowEdit>No</AllowEdit>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Stacktrace</DataField>
+								<DataSource>IntegrationRequestException_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Integrations_INT:StackTrace</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Error</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestException_INT_Error</Name>
+								<AllowEdit>No</AllowEdit>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Error</DataField>
+								<DataSource>IntegrationRequestException_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Integrations_INT:Error</Caption>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormTabPageControl">
+						<Name>Infolog</Name>
+						<Type>TabPage</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormStringControl">
+								<Name>IntegrationRequestException_INT_Infolog</Name>
+								<AllowEdit>No</AllowEdit>
+								<HeightMode>SizeToAvailable</HeightMode>
+								<Type>String</Type>
+								<WidthMode>SizeToAvailable</WidthMode>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Infolog</DataField>
+								<DataSource>IntegrationRequestException_INT</DataSource>
+								<DisplayHeight>15</DisplayHeight>
+								<DisplayHeightMode>Fixed</DisplayHeightMode>
+								<MultiLine>Yes</MultiLine>
+								<ShowLabel>No</ShowLabel>
+							</AxFormControl>
+						</Controls>
+						<Caption>@SYS25246</Caption>
 					</AxFormControl>
 				</Controls>
 				<Style>FastTabs</Style>
