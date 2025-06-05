@@ -56,10 +56,9 @@ public class IntegrationRequest_INT extends common
             || requests.State == IntegrationState_INT::AwaitingAsyncProcessing
             
         {
-            ttsbegin;
 
             IntegrationRequestData_INT data;
-
+            boolean update = true;
 
             if(requests.State == IntegrationState_INT::AwaitingAsyncProcessing)
             {
@@ -69,39 +68,46 @@ public class IntegrationRequest_INT extends common
 
                 if(DateTimeUtil::addDays(DateTimeUtil::utcNow(),-1) < data.Begin)
                 {
-                    continue;
+                    update = false;
                 }
             }
+            
+            if(update)
+            {
+                ttsbegin;
+
+                update_recordset data
+                            setting State = IntegrationState_INT::Obsolete
+                        where data.Identifier == requests.Identifier;
+
+                select firstonly data
+                        order by data.Begin desc
+                        where data.Identifier == requests.Identifier;
 
 
-            update_recordset data
-                        setting State = IntegrationState_INT::Obsolete
-                    where data.Identifier == requests.Identifier;
+                IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
 
-            select firstonly data
-                    order by data.Begin desc
-                    where data.Identifier == requests.Identifier;
-
-
-            IntegrationSetup_Int integrationSetup = IntegrationSetup_Int::find(requests.IntegrationName);
-
-            Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input,data.parsed);
-            integration.parmIdentifier(requests.identifier);
+                Integration_INT integration = integrationSetup.createIntegration(requests.Company,data.Input,data.parsed);
+                integration.parmIdentifier(requests.identifier);
 
                 
-            switch (integration.parmIntegrationSetup().getInstanceRelationType())
-            {
-                case tableStr(IntegrationSetupOut_INT):
-                    IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
-                    outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
-                    break;
-                case tableStr(IntegrationSetupIn_INT):
-                    IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
-                    inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
-                    break;
+                switch (integration.parmIntegrationSetup().getInstanceRelationType())
+                {
+                    case tableStr(IntegrationSetupOut_INT):
+                        IntegrationSetupOut_INT outSetup = integration.parmIntegrationSetup();
+                        outSetup.IntegrationOutType = IntegrationTypeOut_INT::Async;
+                        break;
+                    case tableStr(IntegrationSetupIn_INT):
+                        IntegrationSetupIn_INT inSetup = integration.parmIntegrationSetup();
+                        inSetup.IntegrationInType = IntegrationTypeIn_INT::AsyncPull;
+                        break;
+                }
+                IntegrationHandler_INT::HandleEvent(integration);
+                ttscommit;
+
             }
-            IntegrationHandler_INT::HandleEvent(integration);
-            ttscommit;
+            
+            
         }
     }
 
